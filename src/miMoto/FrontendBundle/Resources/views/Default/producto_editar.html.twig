@@ -1,0 +1,220 @@
+{% extends '::frontend.html.twig' %}
+
+{#% block head %} 
+    <style> 
+        /*td {margin:0;padding:0;} 
+        table {border-collapse:collapse;border-spacing:0;} */
+    </style> 
+{% endblock %#}
+{#/*.sf-reset td{margin:0;padding:0;}.*//*sf-reset table{border-collapse:collapse;border-spacing:0;}.*/#}
+
+{% block id 'producto' %}
+{% block title %}Edita el Regístro de tu moto{% endblock %}
+
+
+{% block article %}
+<a href="{{ path('usuario_hello') }}">Volver inicio</a> | 
+<a href="{{ path('usuario_producto_ver') }}">Cancelar</a> | 
+<h1>{{ block('title') }}</h1>
+
+<form action="{{ path('producto_editar', { 'id': productoId }) }}" method="post" {{ form_enctype(formulario) }}>
+
+    
+    {% set producto = formulario %}                
+    
+    {% include 'FrontendBundle:Default:datosRegistroProducto.html.twig' %}    
+    
+    {{ form_rest(formulario) }}
+    
+{#    
+
+    
+    
+    <fieldset style="margin: 20px">
+        <legend><font color="green">Datos del producto</font></legend>
+        <table style="margin: 10px">
+            <tr>
+                <td>
+                    {{ form_label(formulario.productsModel, 'Modelo*') }}            
+                </td>
+                <td>
+                    <div>                                
+                    <span>{{ form_widget(formulario.productsModel) }}</span>
+            <div class="error">{{ form_errors(formulario.productsModel) }}</div>
+            </div>
+                </td>
+            <td>
+                    {{ form_label(formulario.productsQuantity, 'Kilometraje*') }}            
+                </td>
+                <td>
+                    <span> {{ form_widget(formulario.productsQuantity) }} </span>
+            <div class="error">{{ form_errors(formulario.productsQuantity) }}</div>
+                </td>
+                
+            </tr>
+            <tr>
+                <td>
+                    {{ form_label(formulario.productsPrice, 'Precio*') }}            
+                </td>
+                <td>
+                    <span> {{ form_widget(formulario.productsPrice) }} </span>
+            <div class="error">{{ form_errors(formulario.productsPrice) }}</div>
+                </td>
+                
+                <td>
+                    {{ form_label(formulario.negociable, 'Negociable*') }}            
+                </td>
+                <td>
+                    <span> {{ form_widget(formulario.negociable) }} </span>
+                    <div class="error">{{ form_errors(formulario.negociable) }}</div>
+                </td>                            
+            </tr>            
+            <tr>                
+            
+                <td>
+                    {{ form_label(formulario.placa, 'Placa*') }}            
+                </td>
+                <td>
+                    <span> {{ form_widget(formulario.placa) }} </span>
+                    <div class="error">{{ form_errors(formulario.placa) }}</div>
+                </td>
+                
+                <td>
+                    {{ form_label(formulario.productsFileImage, 'Imagen principal') }}            
+                </td>
+                <td>
+                    <span> {{ form_widget(formulario.productsFileImage) }} </span>
+                    <div class="error">{{ form_errors(formulario.productsFileImage) }}</div>
+                </td>
+                
+            </tr>    
+            <tr>
+                <td>
+                    {{ form_label(formulario.manufacturersId, 'Fabricante*') }}            
+                </td>
+                <td>
+                    <span> {{ form_widget(formulario.manufacturersId) }} </span>
+            <div class="error">{{ form_errors(formulario.manufacturersId) }}</div>
+                </td>            
+                <td>
+                    {{ form_label(formulario.cilindrajeId, 'Cilindraje*') }}            
+                </td>
+                <td>
+                    <span> {{ form_widget(formulario.cilindrajeId) }} </span>
+            <div class="error">{{ form_errors(formulario.cilindrajeId) }}</div>
+                </td>
+            </tr>                                                           
+            <tr>                
+                <td>
+                    {{ form_label(formulario.colorId, 'Color') }}            
+                </td>
+                <td>
+                    <span> {{ form_widget(formulario.colorId) }} </span>
+            <div class="error">{{ form_errors(formulario.colorId) }}</div>
+                </td>
+                
+                <td>
+                    {{ form_label(formulario.observacion, 'Observacion') }}            
+                </td>
+                <td>
+                    <span> {{ form_widget(formulario.observacion) }} </span>
+                    <div class="error">{{ form_errors(formulario.observacion) }}</div>
+                </td>
+            </tr>                                   
+        </table>                                                       
+
+    </fieldset>
+    
+    {% set viejaCategoria = '' %}
+            
+            {% for productsAttributes in formulario.productsAttributesCollection %}                                                             
+            
+                <!-- Inicio dibujar encabezado de las opciones -->
+                {% set nuevaCategoria = productsAttributes.categoryLabel.vars.value %}
+                {% if(nuevaCategoria != viejaCategoria) %}
+                    {% if('' != viejaCategoria) %}
+                        </table>
+                            </fieldset>
+                    {% endif%}
+                        
+                    <fieldset style="margin: 20px">
+                        <legend><font color="green">{{  productsAttributes.categoryLabel.vars.value  }}</font></legend>
+                        <table style="margin: 10px">
+                
+                {% endif%}
+                {% set viejaCategoria = nuevaCategoria %}
+                <!-- Fin dibujar encabezado de las opciones -->
+            
+    
+                <tr>
+                    <td>                        
+                        
+                        <!--Recorrer y escribir el seleccionado y esconder el widged del combo de opciones -->
+                        {{ form_widget(productsAttributes.optionsLabel) }}                                                                       
+                        {{ form_widget(productsAttributes.categoryLabel) }}                                                                       
+                        <!--{ { form.vars.value.task }}
+                        { {  productsAttributes.optionsLabel.vars.id  }}            
+                        { {  productsAttributes.optionsLabel.vars.full_name  }}            -->
+                        {{  productsAttributes.optionsLabel.vars.value  }}            
+                    </td>
+                    <td>                     
+                        <span> {{ form_widget(productsAttributes.optionStatus) }} </span>
+                        <div class="error">{{ form_errors(productsAttributes.optionStatus) }}</div>
+                    </td>
+                </tr>    
+    
+    {% endfor %}
+                
+                </table>
+                            </fieldset>
+                            
+<!--
+**********************************************************************************************************
+**********************************************************************************************************
+******************************* INICIO DATOS DEL TIPO PUBLICACION ***************************************
+**********************************************************************************************************
+**********************************************************************************************************
+-->  
+    
+             
+
+            
+    {% for productsTipoPublicacion in formulario.productsTipoPublicacionCollection %}                
+                        
+        <fieldset style="margin: 20px">
+            <legend><font color="green">Tipo de publicación</font></legend>
+            <table style="margin: 10px">                            
+    
+                <tr>
+                    <td>                                                
+                        
+                    </td>
+                    <td>                        
+                        <span> {{ form_widget(productsTipoPublicacion.tipoPublicacionId) }} </span>
+                        <div class="error">{{ form_errors(productsTipoPublicacion.tipoPublicacionId) }}</div>
+                    </td>
+                </tr>                                   
+            </table>
+        </fieldset>
+    
+    {% endfor %}                
+  
+<!--
+**********************************************************************************************************
+**********************************************************************************************************
+******************************* FIN DATOS DEL TIPO PUBLICACION *******************************************
+**********************************************************************************************************
+**********************************************************************************************************
+-->                            
+    
+    
+    <input class="boton" type="submit" value="Guardar producto" />
+
+    {{ form_rest(formulario) }}#}
+        
+    
+</form>
+
+{% endblock %}
+
+{% block aside %}{% endblock %}

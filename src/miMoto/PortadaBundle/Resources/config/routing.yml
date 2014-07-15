@@ -1,0 +1,19 @@
+portada_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: PortadaBundle:Default:index }
+    
+#portada_producto_buscar:
+#    pattern: /portada_producto_buscar
+#    defaults: { _controller: PortadaBundle:Portada:buscar }
+
+portada_producto_listar:
+    pattern: /portada_producto_listar
+    defaults: { _controller: PortadaBundle:Portada:listar }
+
+portada_producto_ver:
+    pattern: /portada_producto_ver/{id}
+    defaults: { _controller: PortadaBundle:Portada:ver }
+
+portada_producto_inicio:
+    pattern: /portada_producto_inicio
+    defaults: { _controller: PortadaBundle:Portada:inicio }

@@ -1,0 +1,274 @@
+{% extends '::frontend.html.twig' %}
+
+{% block id 'usuarioProducto' %}
+{% block title %}Regístrate gratis{% endblock %}
+
+{% block article %}
+<a href="{{ path('usuario_hello') }}">Cancelar el registro - Volver al inicio</a>
+<h1>{{ block('title') }}</h1>
+
+<form action="{{ path('usuario_producto_nuevo') }}" method="post" {{ form_enctype(formulario) }}>
+    
+    {#<input class="boton" type="submit" value="Registrarme" />#}
+    <button class="btn btn-sm btn-primary" type="submit"  >Registrarme</button>
+
+    {{ form_errors(formulario) }}
+
+    
+    
+    <fieldset style="margin: 20px">
+        
+{#
+**********************************************************************************************************
+**********************************************************************************************************
+******************************* INICIO DATOS DEL USUARIO  ************************************************
+**********************************************************************************************************
+**********************************************************************************************************
+#}
+        <legend><font color="green">Datos personales</font></legend>
+        
+        
+        
+        
+        <div class="row">
+            <div class="col-md-3">
+                    {{ form_label(formulario.nombre, 'Nombres *') }}
+            </div>
+                <div class="col-md-3">
+                    <span>{{ form_widget(formulario.nombre) }}</span>
+                    <div class="error">{{ form_errors(formulario.nombre) }}</div>
+                    
+                </div>            
+                
+                <div class="col-md-3">
+                    {{ form_label(formulario.apellido, 'Apellidos *') }}
+                </div>
+                <div class="col-md-3">
+                    <span>{{ form_widget(formulario.apellido) }}</span>
+                    <div class="error">{{ form_errors(formulario.apellido) }}</div>
+                </div>
+            
+            
+            <div class="col-md-3">
+                    {{ form_label(formulario.tipoIdentificacion, 'Tipo identificacion') }}
+                </div>
+                <div class="col-md-3">      
+                    <span>{{ form_widget(formulario.tipoIdentificacion) }}</span>
+                    <div class="error">{{ form_errors(formulario.tipoIdentificacion) }}</div>
+                </div>                               
+                
+                <div class="col-md-3">
+                    {{ form_label(formulario.identificacion, 'Identificacion *') }}
+                </div>
+                <div class="col-md-3">
+                    <span>{{ form_widget(formulario.identificacion) }}</span>
+                    <div class="error">{{ form_errors(formulario.identificacion) }}</div>
+                </div>
+                           
+            
+            
+            <div class="col-md-3">
+                    {{ form_label(formulario.telefono, 'Telefono *') }}
+            </div>
+                <div class="col-md-3">
+                    <span>{{ form_widget(formulario.telefono) }}</span>
+                    <div class="error">{{ form_errors(formulario.telefono) }}</div>
+            </div>
+                
+                <div class="col-md-3">
+                    {{ form_label(formulario.telefonodos, 'Telefono 2') }}
+                </div>
+                <div class="col-md-3">
+                    <span>{{ form_widget(formulario.telefonodos) }}</span>
+                    <div class="error">{{ form_errors(formulario.telefonodos) }}</div>
+                </div>
+                           
+            
+            <div class="col-md-3">
+                    {{ form_label(formulario.correo, 'E-mail *') }}
+                </div>
+                <div class="col-md-3">
+                    <span> {{ form_widget(formulario.correo) }} </span>
+                    <div class="error">{{ form_errors(formulario.correo) }}</div>
+                </div>
+                
+                
+                <div class="col-md-3">
+                    {{ form_label(formulario.direccion, 'Direccion') }}
+                </div>
+                <div class="col-md-3">
+                    <span> {{ form_widget(formulario.direccion) }} </span>
+                    <div class="error">{{ form_errors(formulario.direccion) }}</div>
+                </div>
+                           
+            
+            <div class="col-md-3">
+                    {{ form_label(formulario.departamento, 'Departamento*') }}
+                </div>
+                <div class="col-md-3">
+                    <span> {{ form_widget(formulario.departamento) }} </span>
+                    <div class="error">{{ form_errors(formulario.departamento) }}</div>
+                </div>
+                
+                <div class="col-md-3">
+                    {{ form_label(formulario.ciudad, 'Ciudad*') }}
+                </div>
+                <div class="col-md-3">
+                    <span> {{ form_widget(formulario.ciudad) }} </span>
+                    <div class="error">{{ form_errors(formulario.ciudad) }}</div>
+                </div>                               
+                                           
+            <div class="col-md-3">
+                    {{ form_label(formulario.pais, 'Pais*') }}
+                </div>
+                <div class="col-md-3">
+                    <span> {{ form_widget(formulario.pais) }} </span>
+                    <div class="error">{{ form_errors(formulario.pais) }}</div>
+                </div>                
+                
+            
+        </div>
+        
+        
+        
+        
+        
+        {#<table style="margin: 10px">
+            <tr>
+                <td>
+                    {{ form_label(formulario.nombre, 'Nombres *') }}
+                </td>
+                <td>                    
+                    <span>{{ form_widget(formulario.nombre) }}</span>
+                    <div class="error">{{ form_errors(formulario.nombre) }}</div>
+                    
+                </td>            
+                
+                <td>
+                    {{ form_label(formulario.apellido, 'Apellidos *') }}
+                </td>
+                <td>
+                    <span>{{ form_widget(formulario.apellido) }}</span>
+                    <div class="error">{{ form_errors(formulario.apellido) }}</div>
+                </td>
+            </tr>
+            
+            <tr>                                
+                <td>
+                    {{ form_label(formulario.tipoIdentificacion, 'Tipo identificacion') }}
+                </td>
+                <td>                    
+                    <span>{{ form_widget(formulario.tipoIdentificacion) }}</span>
+                    <div class="error">{{ form_errors(formulario.tipoIdentificacion) }}</div>
+                </td>                                                
+                
+                <td>
+                    {{ form_label(formulario.identificacion, 'Identificacion *') }}
+                </td>
+                <td>
+                    <span>{{ form_widget(formulario.identificacion) }}</span>
+                    <div class="error">{{ form_errors(formulario.identificacion) }}</div>
+                </td>
+            </tr>                    
+            
+            
+            <tr>                                
+                <td>
+                    {{ form_label(formulario.telefono, 'Telefono *') }}
+                </td>
+                <td>
+                    <span>{{ form_widget(formulario.telefono) }}</span>
+                    <div class="error">{{ form_errors(formulario.telefono) }}</div>
+                </td>
+                
+                <td>
+                    {{ form_label(formulario.telefonodos, 'Telefono 2') }}
+                </td>
+                <td>
+                    <span>{{ form_widget(formulario.telefonodos) }}</span>
+                    <div class="error">{{ form_errors(formulario.telefonodos) }}</div>
+                </td>
+            </tr>                    
+            
+            <tr>                     
+                <td>
+                    {{ form_label(formulario.correo, 'E-mail *') }}
+                </td>
+                <td>
+                    <span> {{ form_widget(formulario.correo) }} </span>
+                    <div class="error">{{ form_errors(formulario.correo) }}</div>
+                </td>
+                
+                
+                <td>
+                    {{ form_label(formulario.direccion, 'Direccion') }}
+                </td>
+                <td>
+                    <span> {{ form_widget(formulario.direccion) }} </span>
+                    <div class="error">{{ form_errors(formulario.direccion) }}</div>
+                </td>
+            </tr>                    
+            
+            <tr>                                     
+                <td>
+                    {{ form_label(formulario.departamento, 'Departamento*') }}
+                </td>
+                <td>
+                    <span> {{ form_widget(formulario.departamento) }} </span>
+                    <div class="error">{{ form_errors(formulario.departamento) }}</div>
+                </td>
+                
+                <td>
+                    {{ form_label(formulario.ciudad, 'Ciudad*') }}
+                </td>
+                <td>
+                    <span> {{ form_widget(formulario.ciudad) }} </span>
+                    <div class="error">{{ form_errors(formulario.ciudad) }}</div>
+                </td>                                
+            </tr>                    
+            
+            <tr>                                     
+                <td>
+                    {{ form_label(formulario.pais, 'Pais*') }}
+                </td>
+                <td>
+                    <span> {{ form_widget(formulario.pais) }} </span>
+                    <div class="error">{{ form_errors(formulario.pais) }}</div>
+                </td>
+                
+                <td>
+                    
+                </td>
+                <td>                    
+                    
+                </td>                                
+            </tr>                    
+            
+        </table>    #}                                    
+
+    </fieldset>
+    
+    
+    
+    
+{#
+**********************************************************************************************************
+**********************************************************************************************************
+******************************* INICIO DATOS DEL PRODUCTO ASOCIADO ***************************************
+**********************************************************************************************************
+**********************************************************************************************************
+#}
+    
+    {% set producto = formulario.productsCollection[0] %}                
+    
+    
+     {% include 'FrontendBundle:Default:datosRegistroProducto.html.twig' %}
+        
+    {{ form_widget(formulario) }}
+    {{ form_rest(formulario) }}    
+    
+</form>
+
+{% endblock %}
+
+{% block aside %}{% endblock %}

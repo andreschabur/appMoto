@@ -1,0 +1,33 @@
+{% extends 'LoginBundle::layout.html.twig' %}
+
+{% block content %}
+    <h1 class="title">Login</h1>
+
+    <p>
+        Ingrese datos para iniciar sesion
+    </p>
+
+    {% if error %}
+        <div class="error">{{ error.message }}</div>
+    {% endif %}
+
+    <form action="{{ path("_security_check") }}" method="post" id="login">
+        <div>
+            <label for="username">Usuario</label>
+            <input type="text" id="username" name="_username" value="{{ last_username }}" />
+        </div>
+
+        <div>
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" name="_password" />
+        </div>
+
+        <button type="submit" class="sf-button">
+            <span class="border-l">
+                <span class="border-r">
+                    <span class="btn-bg">Iniciar</span>
+                </span>
+            </span>
+        </button>
+    </form>
+{% endblock %}

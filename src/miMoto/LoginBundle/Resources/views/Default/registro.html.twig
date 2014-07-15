@@ -1,0 +1,70 @@
+{% extends '::frontend.html.twig' %}
+
+{% block id 'usuario' %}
+{% block title %}Regístrate gratis como usuario{% endblock %}
+
+{% block article %}
+<h1>{{ block('title') }}</h1>
+
+<form action="{{ path('usuario_registro') }}" method="post" {{ form_enctype(formulario) }}>
+
+    {{ form_errors(formulario) }}
+
+    
+    
+    <fieldset style="margin: 20px">
+        <legend>Datos personales</legend>
+        <table style="margin: 10px">
+            <tr>
+                <td>
+                    <strong>{{ form_label(formulario.nombre, 'Nombres') }}</strong>            
+                </td>
+                <td>
+                    <div>                                
+                    <span>{{ form_widget(formulario.nombre) }}</span>
+            <div class="error">{{ form_errors(formulario.nombre) }}</div>
+            </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                <strong>{{ form_label(formulario.apellido, 'Apellidos') }}</strong>                
+                </td>
+                <td>
+                    <span>{{ form_widget(formulario.apellido) }}</span>
+            <div class="error">{{ form_errors(formulario.apellido) }}</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>{{ form_label(formulario.correo, 'E-mail') }}</strong>            
+                </td>
+                <td>
+                    <span> {{ form_widget(formulario.correo) }} </span>
+            <div class="error">{{ form_errors(formulario.correo) }}</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>{{ form_label(formulario.password, 'Contraseña') }}<br/>{{ form_label(formulario.password, 'Repetir') }}</strong>            
+                </td>
+                <td>
+                    <span>{{ form_widget(formulario.password) }}     </span>
+                        <div class="error">{{ form_errors(formulario.correo) }}</div>
+                </td>
+            </tr>            
+        </table>                        
+        
+        <input class="boton" type="submit" value="Registrarme" />
+
+    </fieldset>
+
+    {{ form_widget(formulario) }}
+    {{ form_rest(formulario) }}
+        
+    
+</form>
+
+{% endblock %}
+
+{% block aside %}{% endblock %}

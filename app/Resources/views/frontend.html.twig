@@ -1,0 +1,91 @@
+{#{% extends '::base.html.twig' %}#}
+{# ... #}
+{#
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{% block title %}{% endblock %} | Mi moto</title>
+{% block stylesheets %}#}
+{#<link href="{{ asset('bundles/oferta/css/normalizar.css') }}"
+rel="stylesheet" type="text/css" />
+<link href="{{ asset('bundles/oferta/css/comun.css') }}"
+rel="stylesheet" type="text/css" />
+<link href="{{ asset('bundles/oferta/css/frontend.css') }}"
+rel="stylesheet" type="text/css" />#}
+{#{% endblock %}
+
+
+{% block javascripts %}{% endblock %}
+</head>
+<body id="{% block id '' %}">
+    <div id="contenedor">
+
+{% block body %}
+        
+    <header>
+  
+    </header>
+
+        
+    <article>    
+        {% block article %}{% endblock %}
+    </article>
+        
+    <aside>
+        {% block aside %}
+            <section id="login">
+                {% render 'LoginBundle:Default:login' %}
+            </section>
+        {% endblock %}
+    </aside>
+
+    <footer>
+  
+    </footer>            
+
+{% endblock %}
+
+    </div>        
+    
+</body>
+</html>
+#}
+
+{% extends '::layout.html.twig' %}
+
+{% block content %}
+
+{% for type, flashMessages in app.session.flashbag.all() %}
+    {% for flashMessage in flashMessages %}
+        <div class="flash-{{ type }}">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
+<article>    
+        {% block article %}{% endblock %}
+    </article>
+<aside>
+        {% block aside %}
+            <section id="login">
+                {#% render 'LoginBundle:Default:login' %#}
+            </section>
+        {% endblock %}
+    </aside>
+
+    <footer>
+      <script type="text/javascript"  src="{{ asset('bundles/frontend/jquery/jquery.min.js') }}" ></script>    
+      <script type="text/javascript"  src="{{ asset('bundles/frontend/bootstrap-3.1.1/js/bootstrap.min.js') }}" ></script>
+      <script type="text/javascript"  src="{{ asset('bundles/frontend/otros/js/lazyload.js') }}" ></script>
+    
+    <script>        
+        $(function() {
+            $("img.lazy").lazyload({
+                event: "mouseover"                 
+            });            
+        });
+    </script>
+    </footer>            
+{% endblock %}

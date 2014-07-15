@@ -1,0 +1,23 @@
+#Incluir otros routing
+portada:
+    resource: "@PortadaBundle/Resources/config/routing.yml"
+    prefix:   /portada
+
+frontend:
+    resource: "@FrontendBundle/Resources/config/routing.yml"
+    prefix:   /producto
+
+entidades:
+    resource: "@EntidadesBundle/Resources/config/routing.yml"
+    prefix:   /sitio
+
+login:
+    resource: "@LoginBundle/Resources/config/routing.yml"
+    prefix:   /usuario
+    
+    
+#Pagina de inicio    
+inicio:
+    pattern:  /
+    defaults: { _controller: PortadaBundle:Portada:inicio }    
+

@@ -1,0 +1,12 @@
+# src/Acme/DemoBundle/Resources/config/validation.yml
+miMoto\EntidadesBundle\Entity\Products:
+    properties:
+        productsFileImage:
+            - File:
+                maxSize: 10000000
+
+miMoto\EntidadesBundle\Entity\ProductsImages:
+    properties:
+        fileImage:
+            - File:
+                maxSize: 10000000

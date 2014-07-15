@@ -1,0 +1,27 @@
+{#Hello {{ name }}!#}
+{% extends '::frontend.html.twig' %}
+
+{% block id 'usuario' %}
+
+{% block title %}Modificar mis datos{% endblock %}
+
+{% block article %}
+{% set usuario = app.user %}
+
+
+
+{% if is_granted('ROLE_USUARIO') %}
+<p>
+<a href="{{ path('usuario_perfil') }}">Ver mi perfil</a> | 
+<a href="{{ path('producto_nuevo') }}">Nuevo producto</a> | <br/>
+<a href="{{ path('usuario_producto_ver') }}">Ver mi perfil y mi producto</a> | 
+<a href="{{ path('cerrar_sesion') }}">Cerrar sesión</a> | 
+Bienvenido {{ usuario.nombre ~ ' ' ~ usuario.apellido }}
+
+</p>
+{# el usuario todavía no ha hecho login #}
+{% else %}
+<h2>No tiene role usuario</h2>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,7 @@
+parameters:
+#    entidades.example.class: miMoto\EntidadesBundle\Example
+
+services:
+#    entidades.example:
+#        class: %entidades.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

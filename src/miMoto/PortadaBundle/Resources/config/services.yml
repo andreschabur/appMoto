@@ -1,0 +1,7 @@
+parameters:
+#    portada.example.class: miMoto\PortadaBundle\Example
+
+services:
+#    portada.example:
+#        class: %portada.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

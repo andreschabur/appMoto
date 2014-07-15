@@ -1,0 +1,30 @@
+#backend_administrador:
+#    pattern:  /
+#    defaults: { _controller: "LoginBundle:Administrators:index" }
+#
+#backend_administrador_show:
+#    pattern:  /{id}/show
+#    defaults: { _controller: "LoginBundle:Administrators:show" }
+#
+#backend_administrador_new:
+#    pattern:  /new
+#    defaults: { _controller: "LoginBundle:Administrators:new" }
+#
+#backend_administrador_create:
+#    pattern:  /create
+#    defaults: { _controller: "LoginBundle:Administrators:create" }
+#    requirements: { _method: post }
+#
+#backend_administrador_edit:
+#    pattern:  /{id}/edit
+#    defaults: { _controller: "LoginBundle:Administrators:edit" }
+#
+#backend_administrador_update:
+#    pattern:  /{id}/update
+#    defaults: { _controller: "LoginBundle:Administrators:update" }
+#    requirements: { _method: post|put }
+#
+#backend_administrador_delete:
+#    pattern:  /{id}/delete
+#    defaults: { _controller: "LoginBundle:Administrators:delete" }
+#    requirements: { _method: post|delete }

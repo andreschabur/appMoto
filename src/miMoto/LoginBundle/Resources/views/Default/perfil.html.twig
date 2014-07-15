@@ -1,0 +1,27 @@
+{% extends '::frontend.html.twig' %}
+
+{% block id 'usuario' %}
+
+{% block title %}Mi perfil {% endblock %}
+
+{% block article %}
+
+<style>
+        td { margin-bottom: 20px; }
+</style>
+
+<a href="{{ path('usuario_perfilEditar') }}">Editar</a> | 
+<a href="{{ path('usuario_hello') }}">Volver inicio</a> | 
+<a href="{{ path('producto_nuevo') }}">Registrar producto</a>
+
+<h1>{{ block('title') }}</h1>
+
+<form action="{{ path('usuario_perfil') }}" method="post" >
+    
+    {#<input class="boton" type="submit" value="Editar" />#}    
+    
+    
+      {% include 'FrontendBundle:Default:datosVerUsuario.html.twig' %}                          
+    
+</form>
+{% endblock %}

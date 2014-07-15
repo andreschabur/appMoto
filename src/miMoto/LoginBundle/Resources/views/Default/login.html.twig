@@ -1,0 +1,105 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Vendiendo mi moto</h3>
+    </div>
+    <div class="panel-body">  
+        
+        
+        <div class="list-group">
+            <a class="list-group-item" href="{{ path('usuario_producto_nuevo') }}">Vender mi moto</a>
+            <a class="list-group-item" href="#">Tarifas*</a>
+            <a class="list-group-item" href="#">Modificar anuncio*</a>
+            <a class="list-group-item" href="#">Renovar anuncio*</a>
+            <a class="list-group-item" href="#">Notificar venta*</a>
+            <a class="list-group-item" href="{{ path('usuario_registro') }}">Regístrate como concesionario</a>
+        </div
+{#<li>
+    <ul><a href="{{ path('usuario_producto_nuevo') }}">Vender mi moto</a></ul>
+    <hr>
+    <ul><a>Tarifas*</a></ul>
+    <hr>    
+    <ul><a>Modificar anuncio*</a></ul>
+    <ul><a>Renovar anuncio*</a></ul>
+    <ul><a>Notificar venta*</a></ul>
+    <hr>
+    <ul><a href="{{ path('usuario_registro') }}">Regístrate como concesionario</a> </ul>
+    <!--<ul><a href="{ { path('producto_carrusel', { 'id': 1 }) }}">Carrusel</a> </ul>-->
+    <hr>
+    </li>#}
+    <p>
+        Ingrese datos para iniciar sesion
+    </p>    
+
+<form action="{{ path('usuario_login_check') }}" method="post">
+    {% if error is defined %}
+        {% if error.message is defined %}
+            <div>{{ error.message }}</div>
+        {% endif %}
+    {% endif %}
+
+    <label for="username">E-mail:</label><br/>
+    <input type="text" id="username" name="_username"
+    value="{%if(last_username is defined )%}{{ last_username }}{% endif %}{#hchabur@kpizk.com#}" /><br/>
+    <label for="password">Contraseña:</label><br/>
+    <!--<input type="text" id="contrasena" name="contrasena" />-->
+    <input type="password" id="password" name="_password" value="{#xxx123#}"/><br/>
+    <!--<input type="submit" name="login" value="Acceder" />-->
+    <button type="submit" class="sf-button" >
+        <span class="border-l">
+        <span class="border-r">
+            <span class="btn-bg">Acceder</span>
+            </span>
+        </span>
+    </button>
+    <!--<input type="hidden" name="_target_path" value="/solicitud/listar" />-->
+</form>
+    </div>
+</div>
+
+{#
+<div class="symfony-blocks-help">
+
+    <h2 class="title">Vendiendo mi moto</h2>
+    <li>
+    <ul><a href="{{ path('usuario_producto_nuevo') }}">Vender mi moto</a></ul>
+    <hr>
+    <ul><a>Tarifas*</a></ul>
+    <hr>    
+    <ul><a>Modificar anuncio*</a></ul>
+    <ul><a>Renovar anuncio*</a></ul>
+    <ul><a>Notificar venta*</a></ul>
+    <hr>
+    <ul><a href="{{ path('usuario_registro') }}">Regístrate como concesionario</a> </ul>
+    <!--<ul><a href="{{ path('producto_carrusel', { 'id': 1 }) }}">Carrusel</a> </ul>-->
+    <hr>
+    </li>
+    <p>
+        Ingrese datos para iniciar sesion
+    </p>    
+
+<form action="{{ path('usuario_login_check') }}" method="post">
+    {% if error is defined %}
+        {% if error.message is defined %}
+            <div>{{ error.message }}</div>
+        {% endif %}
+    {% endif %}
+
+    <label for="username">E-mail:</label><br/>
+    <input type="text" id="username" name="_username"
+    value="{%if(last_username is defined )%}{{ last_username }}{% endif %}hchabur@kpizk.com" /><br/>
+    <label for="password">Contraseña:</label><br/>
+    <!--<input type="text" id="contrasena" name="contrasena" />-->
+    <input type="password" id="password" name="_password" value="xxx123"/><br/>
+    <!--<input type="submit" name="login" value="Acceder" />-->
+    <button type="submit" class="sf-button" >
+        <span class="border-l">
+        <span class="border-r">
+            <span class="btn-bg">Acceder</span>
+            </span>
+        </span>
+    </button>
+    <!--<input type="hidden" name="_target_path" value="/solicitud/listar" />-->
+</form>
+    
+</div>    
+#}

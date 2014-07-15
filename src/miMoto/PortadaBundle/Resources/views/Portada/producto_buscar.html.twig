@@ -1,0 +1,204 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Buscando mi moto</h3>
+    </div>
+    <div class="panel-body">  
+        {#<form action="{{ path('portada_producto_listar') }}" method="post">#}
+        <form action="{{ path('portada_producto_inicio') }}" method="post">
+            
+<div class="row">    
+    <div class="col-md-4">
+        <div>{{ form_label(producto.manufacturersIdFilter, 'Fabricante') }}</div>
+        <span> {{ form_widget(producto.manufacturersIdFilter) }} </span>
+        <div class="error">{{ form_errors(producto.manufacturersIdFilter) }}</div>
+    </div>
+    <div class="col-md-4">
+        <div>{{ form_label(producto.cilindrajeIdFilter, 'Cilindraje') }}</div>
+        <span> {{ form_widget(producto.cilindrajeIdFilter) }} </span>
+        <div class="error">{{ form_errors(producto.cilindrajeIdFilter) }}</div>
+    </div>
+    <div class="col-md-4">
+        <div>{{ form_label(producto.tipoProductoId, 'Tipo') }}</div>
+        <span> {{ form_widget(producto.tipoProductoId) }} </span>
+        <div class="error">{{ form_errors(producto.tipoProductoId) }}</div>        
+    </div>
+</div>
+           
+<div class="row">    
+    <div class="col-md-4">
+        <div>{{ form_label(producto.productsPriceDesdeFilter, 'Precio') }}
+        {{ form_label(producto.productsPriceHastaFilter, ' ') }}</div>
+        <span> {{ form_widget(producto.productsPriceDesdeFilter) }} {{ form_widget(producto.productsPriceHastaFilter) }} </span>
+        <div class="error">{{ form_errors(producto.productsPriceDesdeFilter) }}</div>        
+        <div class="error">{{ form_errors(producto.productsPriceHastaFilter) }}</div>
+    </div>
+    <div class="col-md-4">
+        <div>{{ form_label(producto.productsAnioDesdeFilter, 'Año  ') }}
+        {{ form_label(producto.productsAnioHastaFilter, ' ') }}</div>
+        <span>{{ form_widget(producto.productsAnioDesdeFilter) }} - {{ form_widget(producto.productsAnioHastaFilter) }}</span>
+        <div class="error">{{ form_errors(producto.productsAnioDesdeFilter) }} {{ form_errors(producto.productsAnioHastaFilter) }}</div>
+    </div>
+    <div class="col-md-4">
+        <div>{{ form_label(producto.departamentoId, 'Departamento') }}</div>
+        <span> {{ form_widget(producto.departamentoId) }} </span>
+        <div class="error">{{ form_errors(producto.departamentoId) }}</div>
+            
+    </div>
+
+</div>
+
+            
+            
+       {#     
+<table>
+    <tr>        
+        <td>{{ form_label(producto.tipoProductoId, 'Tipo') }}            </td>
+        <td>{{ form_label(producto.manufacturersIdFilter, 'Fabricante') }}            </td>
+        <td>{{ form_label(producto.cilindrajeIdFilter, 'Cilindraje') }}</td>
+    </tr>
+    
+     <tr>         
+        <td>
+            <span> {{ form_widget(producto.tipoProductoId) }} </span>
+            <div class="error">{{ form_errors(producto.tipoProductoId) }}</div>
+        </td>            
+         <td>
+            <span> {{ form_widget(producto.manufacturersIdFilter) }} </span>
+            <div class="error">{{ form_errors(producto.manufacturersIdFilter) }}</div>
+        </td>            
+        <td>
+            <div>
+                <span> {{ form_widget(producto.cilindrajeIdFilter) }} </span>
+                <div class="error">{{ form_errors(producto.cilindrajeIdFilter) }}</div>
+            </div>
+        </td>
+    </tr>
+    
+    <tr>
+        <td>
+            {{ form_label(producto.productsAnioDesdeFilter, 'Año  ') }}
+            {{ form_label(producto.productsAnioHastaFilter, ' ') }}
+        </td>
+         <td>
+            {{ form_label(producto.productsPriceDesdeFilter, 'Precio') }}
+            {{ form_label(producto.productsPriceHastaFilter, ' ') }}
+         </td>                
+        <td>{{ form_label(producto.departamentoId, 'Departamento') }}</td>
+    </tr>
+    
+    <tr>
+        <td>
+            <div>                                
+                <span>{{ form_widget(producto.productsAnioDesdeFilter) }} - {{ form_widget(producto.productsAnioHastaFilter) }}</span>
+                <div class="error">{{ form_errors(producto.productsAnioDesdeFilter) }} {{ form_errors(producto.productsAnioHastaFilter) }}</div>
+            </div>
+        </td>
+        <td>
+            <div>
+                <span> {{ form_widget(producto.productsPriceDesdeFilter) }} {{ form_widget(producto.productsPriceHastaFilter) }} </span>
+                <div class="error">{{ form_errors(producto.productsPriceDesdeFilter) }}</div>
+                <span>  </span>
+                <div class="error">{{ form_errors(producto.productsPriceHastaFilter) }}</div>
+            </div>
+        </td>        
+        <td>
+            <div>
+                <span> {{ form_widget(producto.departamentoId) }} </span>
+                <div class="error">{{ form_errors(producto.departamentoId) }}</div>
+            </div>
+        </td>
+        
+    </tr>
+</table>        #}
+    
+<div class="row">    
+    <div class="col-md-8">            
+    </div>
+    <div class="col-md-4">            
+    
+        <button type="submit" class="sf-button" >
+            <span class="border-l">
+            <span class="border-r">
+                <span class="btn-bg">Buscar</span>
+                </span>
+            </span>
+        </button>
+        
+    </div>
+</div>
+        
+        
+        
+    <!--<input type="hidden" name="_target_path" value="/solicitud/listar" />-->
+</form>
+    </div>
+</div>
+            
+            
+{#
+<div class="symfony-blocks-help">
+
+
+    <h2 class="title">Buscando mi moto</h2>    
+       
+
+<form action="{{ path('portada_producto_listar') }}" method="post">
+<table>
+    <tr>
+        <td>Tipo</td>                
+        <td>{{ form_label(producto.manufacturersId, 'Fabricante') }}            </td>
+        <td>{{ form_label(producto.cilindrajeId, 'Cilindraje') }}</td>
+    </tr>
+    
+     <tr>   
+         <td>
+             xxx
+         </td>
+         <td>
+            <span> {{ form_widget(producto.manufacturersId) }} </span>
+            <div class="error">{{ form_errors(producto.manufacturersId) }}</div>
+        </td>            
+        <td>
+            <div>
+                <span> {{ form_widget(producto.cilindrajeId) }} </span>
+                <div class="error">{{ form_errors(producto.cilindrajeId) }}</div>
+            </div>
+        </td>
+    </tr>
+    
+    <tr>
+        <td>{{ form_label(producto.productsModel, 'Modelo') }}</td>
+         <td>{{ form_label(producto.productsPrice, 'Precio') }}</td>                
+        <td>Ubicación</td>
+    </tr>
+    
+    <tr>
+        <td>
+            <div>                                
+                <span>{{ form_widget(producto.productsModel) }}</span>
+                <div class="error">{{ form_errors(producto.productsModel) }}</div>
+            </div>
+        </td>
+        <td>
+            <div>
+                <span> {{ form_widget(producto.productsPrice) }} </span>
+                <div class="error">{{ form_errors(producto.productsPrice) }}</div>
+            </div>
+        </td>        
+        <td>
+            yyy
+        </td>
+        
+    </tr>
+</table>        
+    
+    <button type="submit" class="sf-button" >
+        <span class="border-l">
+        <span class="border-r">
+            <span class="btn-bg">Buscar</span>
+            </span>
+        </span>
+    </button>
+    <!--<input type="hidden" name="_target_path" value="/solicitud/listar" />-->
+</form>
+</div> #}   

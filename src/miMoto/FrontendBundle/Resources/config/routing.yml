@@ -1,0 +1,32 @@
+frontend_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: FrontendBundle:Default:index }
+    
+producto_ver:
+    pattern:  /ver/{id}
+    defaults: { _controller: FrontendBundle:Default:ver }  
+    
+producto_nuevo:
+    pattern: /nuevo
+    defaults: { _controller: FrontendBundle:Default:nuevo }    
+    
+producto_editar:
+    pattern: /editar/{id}
+    defaults: { _controller: FrontendBundle:Default:editar }    
+    
+producto_carrusel:
+    pattern: /carrusel/{id}
+    defaults: { _controller: FrontendBundle:Default:carrusel }    
+
+usuario_producto_nuevo:
+    pattern: /usuario_producto_nuevo
+    defaults: { _controller: FrontendBundle:UsuarioProducto:nuevo }   
+
+usuario_producto_editar:
+    pattern:  /usuario_producto_editar
+    defaults: { _controller: FrontendBundle:UsuarioProducto:editar }  
+
+usuario_producto_ver:
+    pattern:  /usuario_producto_ver
+    defaults: { _controller: FrontendBundle:UsuarioProducto:ver }  
+    

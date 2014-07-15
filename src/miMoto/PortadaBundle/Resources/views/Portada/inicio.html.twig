@@ -1,0 +1,38 @@
+{% extends '::frontend.html.twig' %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-8">
+        {% include 'PortadaBundle:Portada:producto_buscar.html.twig' %}
+        <br/>
+        Espacion publicitario, marcas, repuestos y accesorios, otras categorias y las mas buscadas
+    </div>
+    <div class="col-md-4">
+        {% include 'LoginBundle:Default:login.html.twig' %}
+            <br/>
+            Espacion publicitario anuncio calle 13
+    </div>
+</div>
+
+
+{#
+<table>
+    <tr valign="top">
+        <td valign="top">
+            {% include 'PortadaBundle:Portada:producto_buscar.html.twig' %}
+            <br/>
+            Espacion publicitario, marcas, repuestos y accesorios, otras categorias y las mas buscadas
+        </td>
+        <td valign="top">
+            {% include 'LoginBundle:Default:login.html.twig' %}
+            <br/>
+            Espacion publicitario anuncio calle 13
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+</table>        #}
+{% endblock %}

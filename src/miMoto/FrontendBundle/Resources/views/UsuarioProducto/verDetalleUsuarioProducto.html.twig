@@ -1,0 +1,452 @@
+
+<!--Inicio hacer que el estilo del carrusel aparezca como un slide de imagenes de album-->
+<style>
+.carousel-indicators li {
+    cursor: pointer;
+    text-indent: 0;
+    background-color: #C8C8C8;
+    border: 1px solid #EEEEEE;
+    border-radius: 10px; 
+    display: inline-block;
+    height: 10px;
+    margin: 50px; 
+    width: 10px;
+}
+
+.carousel-indicators {
+    bottom: 40px;
+    left: 50%;
+    list-style: none outside none;
+    margin-left: -40%;
+    padding-left: 0;
+    position: absolute;
+    text-align: center;
+    width: 70%;
+    z-index: 15;
+}
+.containerCarrusel {
+    width: 710px;
+}
+.carousel {
+    height: 700px;
+}
+.carousel .item {
+    height: 460px;
+}
+</style>
+{% set altoImagen = 450 %}
+{% set anchoImagen = 600 %}
+<!--Fin hacer que el estilo del carrusel aparezca como un slide de imagenes de album-->
+<fieldset style="margin: 20px">
+        <legend><font color="green">Datos del producto</font></legend>
+        <div class="containerCarrusel">    
+    
+    {% set cantidadFotos = producto.productsImagesCollection|length %}
+    {% set contadorFotos = 0 %}
+    <!-- Carousel
+    ================================================== -->
+    <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">        
+            {#% for contadorFotos in 0..cantidadFotos %#}
+            {% for productsImages in producto.productsImagesCollection %}
+                <li data-target="#myCarousel" data-slide-to="{{ contadorFotos }}">
+                    <img width="100" height="100"  src="{{app.request.basepath}}/{{ productsImages.getWebPath }}">
+                </li>        
+                {% set contadorFotos = 1 + contadorFotos %}
+            {% endfor %}
+            <li data-target="#myCarousel" data-slide-to="{{ contadorFotos }}" class="active">
+                <img width="100" height="100"  src="{{app.request.basepath}}/{{ producto.getWebPath }}">
+            </li>
+      </ol>
+      {% set contadorFotos = 1 %}
+      <div class="carousel-inner">
+              
+ {% for productsImages in producto.productsImagesCollection %}                  
+        {% if contadorFotos == 1  %}
+            <div class="item active">
+          {% else %}
+            <div class="item">
+          {% endif %}
+          <!--<img data-src="holder.js/375x225/auto/#666:#6a6a6a/text:Second slide" alt="Second slide">-->
+          <!--<img width="375" height="225"  src="{ {app.request.basepath}}/{ { productsImages.getWebPath }}">-->
+          <div class="containerCarrusel">
+            <div class="carousel-caption">
+              {#<span> <img class="imagenPreview" width="{{ anchoImagen }}" height="{{ altoImagen }}"  src="{{app.request.basepath}}/{{ productsImages.getWebPath }}"> </span>#}
+                <span>
+                    <span>
+                      {% if contadorFotos == 1  %}
+                            <img class="imagenPreview" width="{{ anchoImagen }}" height="{{ altoImagen }}"  src="{{app.request.basepath}}/{{ productsImages.getWebPath }}">
+                            {#<img width="230" height="230"  src="{{app.request.basepath}}/{{ productsImages.getWebPath }}">#}
+                      {% else %}                                    
+                            {#<img width="230" height="230" class="lazy" data-original="{{app.request.basepath}}/{{ productsImages.getWebPath }}">#}
+                            {#<img class="lazy" width="{{ anchoImagen }}" height="{{ altoImagen }}"  src="{{app.request.basepath}}/{{ productsImages.getWebPath }}"> #}
+                            <img class="lazy" width="{{ anchoImagen }}" height="{{ altoImagen }}"  data-original="{{app.request.basepath}}/{{ productsImages.getWebPath }}">                  
+                      {% endif %}
+                      </span>
+                </span>
+            </div>
+          </div>
+        </div>
+    {% set contadorFotos = 1 + contadorFotos %}
+   {% endfor %}                  
+        
+        <div class="item">
+         <!-- <img data-src="holder.js/10x10/auto/#777:#7a7a7a/text:First slide" alt="First slide">-->
+          <div class="containerCarrusel">
+            <div class="carousel-caption">              
+                {#<img width="{{ anchoImagen }}" height="{{ altoImagen }}"  src="{{app.request.basepath}}/{{ producto.getWebPath }}">#}
+                <span><span><img width="{{ anchoImagen }}" height="{{ altoImagen }}"  class="lazy" data-original="{{app.request.basepath}}/{{ producto.getWebPath }}"></span></span>
+            </div>
+          </div>
+        </div>
+          
+      </div>
+      <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+      <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+    </div><!-- /.carousel -->
+      
+
+    {#<script type="text/javascript"  src="{{ asset('bundles/frontend/jquery/jquery.min.js') }}" ></script>    
+    <script type="text/javascript"  src="{{ asset('bundles/frontend/bootstrap-3.1.1/js/bootstrap.min.js') }}" ></script>
+    <script type="text/javascript"  src="{{ asset('bundles/frontend/otros/js/lazyload.js') }}" ></script>
+    
+    <script>        
+        $(function() {
+            $("img.lazy").lazyload({
+                event: "mouseover"                 
+            });            
+        });
+    </script>#}
+
+    </div>
+       {# <img width="200" height="200" src="{{app.request.basepath}}/{{ producto.getWebPath }}">#}
+        <hr>
+            <div class="row">    
+                <div class="col-md-3">
+                    <b>Modelo</b>
+                </div>
+                <div class="col-md-3">
+                    <span>{{ producto.productsModel }}</span>
+                </div>
+                <div class="col-md-3">
+                    <b>Kilometraje</b>
+                </div>
+                <div class="col-md-3">
+                    <span> {{ producto.productsQuantity }} </span>
+                </div>    
+            </div>
+        
+            <div class="row">    
+                <div class="col-md-3">
+                    <b>Precio</b>
+                </div>
+                <div class="col-md-3">
+                    <span> {{ producto.productsPrice }} </span>
+                </div>
+                <div class="col-md-3">
+                    <b>Negociable</b>
+                </div>
+                <div class="col-md-3">
+                    <span> {{ producto.negociable }} </span>
+                </div>    
+            </div>
+        
+            <div class="row">    
+                <div class="col-md-3">
+                    <b>Placa</b>
+                </div>
+                <div class="col-md-3">
+                    <span> {{ producto.placa }} </span>
+                </div>
+                <div class="col-md-3">
+                    <b>Color</b>
+                </div>
+                <div class="col-md-3">         
+                    <span> {{ producto.colorId }} </span>
+                </div>    
+            </div>
+        
+            <div class="row">    
+                <div class="col-md-3">
+                    <b>Fabricante</b>
+                </div>
+                <div class="col-md-3">
+                    <span> {{ producto.manufacturersId }} </span>
+                </div>
+                <div class="col-md-3">
+                    <b>Cilindraje</b>
+                </div>
+                <div class="col-md-3">
+                    <span> {{ producto.cilindrajeId }} </span>
+                </div>    
+            </div>
+        
+            <div class="row">    
+                <div class="col-md-3">
+                    <b>Observacion</b>
+                </div>
+                <div class="col-md-3">
+                    <span> {{ producto.observacion }} </span>
+                </div>
+                <div class="col-md-3">
+                    <b>Año</b>
+                </div>
+                <div class="col-md-3">
+                    <span> {{ producto.anio }} </span>
+                </div>    
+            </div>
+            
+            <div class="row">    
+                <div class="col-md-3">
+                    <b>Tipo</b>
+                </div>
+                <div class="col-md-3">
+                    <span> {#{ producto.tipoProductoId }#} </span>
+                </div>
+                <div class="col-md-3">
+                    <b>Departamento</b>
+                </div>
+                <div class="col-md-3">
+                    <span> {#{ producto.departamentoId }#} </span>
+                </div>    
+            </div>                                       
+            
+                    
+            
+                    
+            
+       {# <table style="margin: 10px">
+            <tr>
+                <td>
+                    Modelo
+                </td>
+                <td>                    
+                    <span>{{ producto.productsModel }}</span>                        
+                </td>
+            <td>
+                    Kilometraje
+                </td>
+                <td>
+                    <span> {{ producto.productsQuantity }} </span>            
+                </td>
+                
+            </tr>
+            <tr>
+                <td>
+                    Precio
+                </td>
+                <td>
+                    <span> {{ producto.productsPrice }} </span>            
+                </td>
+                
+                <td>
+                    Negociable
+                </td>
+                <td>
+                    <span> {{ producto.negociable }} </span>                    
+                </td>                            
+            </tr>            
+            <tr>                
+            
+                <td>
+                    Placa
+                </td>
+                <td>
+                    <span> {{ producto.placa }} </span>            
+                </td>
+                
+                <td>
+                    Color
+                </td>
+                <td>
+                    <span> {{ producto.colorId }} </span>            
+                </td>
+                
+            </tr>    
+            <tr>
+                <td>
+                    Fabricante
+                </td>
+                <td>
+                    <span> {{ producto.manufacturersId }} </span>            
+                </td>            
+                <td>
+                    Cilindraje
+                </td>
+                <td>
+                    <span> {{ producto.cilindrajeId }} </span>            
+                </td>
+            </tr>                                                           
+            <tr>                
+                <td>
+                    Observacion
+                </td>
+                <td>
+                    <span> {{ producto.observacion }} </span>                    
+                </td>
+                <td>
+                    Año
+                </td>
+                <td>
+                    <span> {{ producto.anio }} </span>
+                </td>
+                
+            </tr>
+            <tr>                
+                <td>
+                    Tipo
+                </td>
+                <td>
+                    <span> { #{ producto.tipoProductoId }# } </span>                    
+                </td>
+                <td>
+                    Departamento
+                </td>
+                <td>
+                    <span> { #{ producto.departamentoId }# } </span>
+                </td>
+                
+            </tr>
+            
+        </table>   #}                                                    
+
+    </fieldset>
+    
+    {% set viejaCategoria = '' %}
+            
+            {% for productsAttributes in producto.productsAttributesCollection %}
+                
+            
+                {# Inicio dibujar encabezado de las opciones #}
+                {% set nuevaCategoria = productsAttributes.categoryLabel %}
+                {% if(nuevaCategoria != viejaCategoria) %}
+                    {% if('' != viejaCategoria) %}
+                        <!--</table>-->
+                        </div>
+                            </fieldset>
+                    {% endif%}
+                        
+                    <fieldset style="margin: 20px">
+                        <legend><font color="green">{{  productsAttributes.categoryLabel  }}</font></legend>
+                        <!--<table style="margin: 10px">-->
+                        <div class="row">
+
+                {% endif%}
+                {% set viejaCategoria = nuevaCategoria %}
+                {# Fin dibujar encabezado de las opciones #}
+            
+    
+                <!--<tr>
+                    <td>                        -->
+                <div class="col-md-2">
+                        
+                        {#Recorrer y escribir el seleccionado y esconder el widged del combo de opciones #}                                                                        
+                        {#{{ form.vars.value.task }}#}
+                        {#{{  productsAttributes.optionsLabel.vars.id  }}            #}
+                        {#{{  productsAttributes.optionsLabel.vars.full_name  }}            #}
+                        <b>{{  productsAttributes.optionsLabel  }}</b>
+                    <!--</td>
+                    <td>-->
+                </div>
+                <div class="col-md-2">
+                        {#<span> {{ form_widget(productsAttributes.optionsValuesId) }} </span>
+                        <div class="error">{{ form_errors(productsAttributes.optionsValuesId) }}</div>#}
+                        <span> 
+                            {% if ( productsAttributes.optionStatus == true ) %} 
+                                Si
+                            {% else %}
+                                No
+                            {% endif %} 
+                        </span>     
+                </div>
+                <!--<div class="col-md-8">
+                </div>-->
+                    <!--</td>
+                </tr>   -->                                
+    
+    {% endfor %}
+                
+               <!-- </table>-->
+                </div>
+                            </fieldset>
+                            
+{#
+**********************************************************************************************************
+**********************************************************************************************************
+******************************* FIN DATOS DEL PRODUCTO ASOCIADO ******************************************
+**********************************************************************************************************
+**********************************************************************************************************
+#}
+                            
+{#
+**********************************************************************************************************
+**********************************************************************************************************
+******************************* INICIO DATOS DEL TIPO PUBLICACION ***************************************
+**********************************************************************************************************
+**********************************************************************************************************
+#}    
+    
+             
+
+            
+    {% for productsTipoPublicacion in producto.productsTipoPublicacionCollection %}                
+                        
+        <fieldset style="margin: 20px">
+            <legend><font color="green">Tipo de publicación</font></legend>
+            <table style="margin: 10px">                            
+    
+                <tr>
+                    <td>                        
+                        
+                        {#Recorrer y escribir el seleccionado y esconder el widged del combo de opciones #}                                                
+                        {#{ form_widget(productsAttributes.optionsLabel) }#}                                                                       
+                        {#{ form_widget(productsAttributes.categoryLabel) }#}                                                                       
+                        {#{{ form.vars.value.task }}#}
+                        {#{{  productsAttributes.optionsLabel.vars.id  }}            #}
+                        {#{{  productsAttributes.optionsLabel.vars.full_name  }}            #}
+                        {#{  productsTipoPublicacion.tipoPublicacionId.vars.value  }#}                                    
+                    </td>
+                    <td>
+                        {#<span> {{ form_widget(productsAttributes.optionsValuesId) }} </span>
+                        <div class="error">{{ form_errors(productsAttributes.optionsValuesId) }}</div>#}
+                        <span> {{ productsTipoPublicacion.tipoPublicacionId.descripcion }} </span>                        
+                    </td>
+                </tr>                                   
+            </table>
+        </fieldset>
+    
+    {% endfor %}
+                
+
+
+  
+                            
+{#
+**********************************************************************************************************
+**********************************************************************************************************
+******************************* FIN DATOS DEL TIPO PUBLICACION *******************************************
+**********************************************************************************************************
+**********************************************************************************************************
+#}
+                            
+                            {#        <fieldset style="margin: 20px">
+            <legend><font color="green">Tipo de publicación</font></legend>
+            <table style="margin: 10px">                            
+ {% for productsImages in producto.productsImagesCollection %}                
+                        
+        
+    
+                <tr>
+                    <td>                                                
+                    </td>
+                    <td>
+                        <span> <img width="160" height="160"  src="{{app.request.basepath}}/{{ productsImages.getWebPath }}"> </span>                        
+                    </td>
+                </tr>                                   
+            
+    
+    {% endfor %}                            
+                
+                </table>
+        </fieldset>#}

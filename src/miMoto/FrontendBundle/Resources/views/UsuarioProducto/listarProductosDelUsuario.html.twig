@@ -1,0 +1,76 @@
+<style>
+        .tablaRejilla, .tablaRejilla td, .tablaRejilla th
+            {
+            border: 1px solid black;            
+            }
+</style>
+
+<fieldset style="margin: 20px">
+        <legend><font color="green">Mis Productos</font></legend>
+            <table style="margin: 10px;" class="tablaRejilla">  
+                <thead>
+                <th>Editar/Ver</th>                
+                <th>Publicación</th>
+                <th>Placa</th>
+                <th>Modelo</th>
+                <th>Año</th>
+                <th>Precio</th>                
+                <th>Kilometraje</th>
+                <th>Disponible hasta</th>
+                <th>Estado</th>                
+                <th>Activar</th>                
+                </thead>
+                {% for producto in productos %}                
+
+    
+                    <tr>
+                        <td>                                   
+                            <ul>
+                                <!-- <li>
+                                     <a href="{ { path('solicitud_show', { 'id': entity.id }) }}">ver</a>
+                                 </li>-->
+                                 <li>
+                                     <a href="{{ path('producto_editar', { 'id': producto.productsId }) }}">Editar</a>
+                                 </li>
+                                 <li>
+                                     <a href="{{ path('producto_ver', { 'id': producto.productsId }) }}">Ver</a>
+                                 </li>
+                             </ul>
+                        </td>                                                                  
+                        <td>                        
+                            <span> {#{ producto.id }#} </span>                        
+                        </td>
+                        <td>                        
+                            <span> {{ producto.placa }} </span>                        
+                        </td>
+                        <td>                        
+                            <span> {{ producto.productsModel }} </span>                        
+                        </td>
+                        <td>                        
+                            <span> {{ producto.anio }} </span>                        
+                        </td>
+                        <td>                        
+                            <span> {{ producto.productsPrice }} </span>                        
+                        </td>                        
+                        <td>                        
+                            {#<span> {{ producto.productsTipoPublicacionCollection.tipoPublicacionId.descripcion }} </span>#}
+                            <span> {{ producto.productsQuantity }} </span>                        
+                        </td>
+                        <td>                                                    
+                            <span> {{ producto.productsDateAvailable|date("Y/m/d") }} </span>                        
+                        </td>
+                        <td>                                                    
+                            <span> 
+                                {{ producto.productsStatus ? 'Activo' : 'Inactivo' }}
+                            </span>                        
+                        </td>
+                        <td>                                                    
+                            <span> 
+                                <a>Activar*</a>
+                            </span>                        
+                        </td>
+                    </tr>                                   
+            
+                {% endfor %}
+            </table>
+</fieldset>

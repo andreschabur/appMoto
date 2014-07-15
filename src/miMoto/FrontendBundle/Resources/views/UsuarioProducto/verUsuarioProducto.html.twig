@@ -1,0 +1,85 @@
+{% extends '::frontend.html.twig' %}
+
+{% block id 'usuarioProducto' %}
+{% block title %}Ver registro{% endblock %}
+
+{% block article %}
+<a href="{{ path('usuario_hello') }}">Volver al inicio</a> | 
+{#<a href="{{ path('usuario_producto_editar') }}">Editar</a>#}
+<a href="{{ path('usuario_perfilEditar') }}">Editar Perfil</a> | 
+<a href="{{ path('usuario_perfil') }}">Ver mi perfil</a> | 
+{# mostrar ver y editar producto solo si se tiene un producto#}
+{% if(productos is defined ) %}
+    {% if productos|length == 1 %}  
+        {% set producto = productos[0] %}
+        <a href="{{ path('producto_ver', { 'id': producto.productsId }) }}">Ver producto</a> | 
+        <a href="{{ path('producto_editar', { 'id': producto.productsId }) }}">Editar Producto</a> | 
+    {% endif %}
+{% else %}
+        {% if producto is defined %}
+            {% if(producto == null) %}
+                {% set producto = usuario.productsCollection[0] %} 
+            {% endif %}            
+        {% else %}
+            {% set producto = usuario.productsCollection[0] %}
+        {% endif %}    
+        <a href="{{ path('producto_ver', { 'id': producto.productsId } ) }}">Ver producto</a> | 
+        <a href="{{ path('producto_editar', { 'id': producto.productsId }) }}">Editar Producto</a> | 
+{% endif %}
+<a href="{{ path('producto_nuevo') }}">Nuevo producto</a> | 
+<a href="{{ path('cerrar_sesion') }}">Cerrar sesión</a> | 
+<h1>{{ block('title') }}</h1>
+
+{#<form action="{{ path('usuario_producto_nuevo') }}" method="post" >#}
+
+    {#{ form_errors(usuario) }#}
+{#<center>#}
+    
+    
+    
+        
+{#
+**********************************************************************************************************
+**********************************************************************************************************
+******************************* INICIO DATOS DEL USUARIO  ************************************************
+**********************************************************************************************************
+**********************************************************************************************************
+#}
+        {% include 'FrontendBundle:Default:datosVerUsuario.html.twig' %}                          
+
+{#
+**********************************************************************************************************
+**********************************************************************************************************
+******************************* INICIO DATOS DEL PRODUCTO ASOCIADO ***************************************
+**********************************************************************************************************
+**********************************************************************************************************
+#}
+
+    {% if producto is defined %}
+
+        {#{% if(producto == null) %}
+            {% set producto = usuario.productsCollection[0] %} 
+        {% endif %}#}
+        {% include 'FrontendBundle:UsuarioProducto:verDetalleUsuarioProducto.html.twig' %}
+    {% else %}
+        {% if productos is defined %}
+            {% if productos|length > 1 %}
+                {% include 'FrontendBundle:UsuarioProducto:listarProductosDelUsuario.html.twig' %}
+            {% else %}            
+                {% set producto = productos[0] %}
+                {% include 'FrontendBundle:UsuarioProducto:verDetalleUsuarioProducto.html.twig' %}
+            {% endif %}
+        {% endif %}
+        
+
+    {% endif %}
+    
+    {#</center>                           #}
+    
+    
+{#</form>#}
+    
+
+{% endblock %}
+
+{% block aside %}{% endblock %}

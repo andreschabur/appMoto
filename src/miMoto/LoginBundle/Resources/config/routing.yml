@@ -1,0 +1,46 @@
+#login_homepage:
+#    pattern:  /hello/{name}
+#    defaults: { _controller: LoginBundle:Default:index }
+#    
+#iniciar_sesion:
+#    pattern:  /iniciarSesion
+#    defaults: { _controller: LoginBundle:Default:iniciarSesion }    
+#
+#LoginBundle_backend_administrador:
+#    resource: "@LoginBundle/Resources/config/routing/administrators.yml"
+#    prefix:   /backend/administrador    
+
+usuario_login:
+    pattern:  /login
+    defaults: { _controller: LoginBundle:Default:login }
+
+usuario_login_check:
+    pattern:  /login_check    
+
+usuario_logout: 
+    pattern:  /logout    
+
+#iniciar_sesion:
+#    pattern:  /iniciarSesion
+#    defaults: { _controller: LoginBundle:Default:iniciar }
+    
+cerrar_sesion:
+    pattern:  /cerrarSesion
+    defaults: { _controller: LoginBundle:Default:cerrar }
+    
+usuario_perfil:
+    pattern:  /perfil
+    defaults: { _controller: LoginBundle:Default:perfil }  
+
+usuario_perfilEditar:
+    pattern:  /perfilEditar
+    defaults: { _controller: LoginBundle:Default:perfilEditar }  
+
+usuario_hello:
+    pattern:  /hello
+    defaults: { _controller: LoginBundle:Default:test }  
+    
+usuario_registro:
+    pattern: /registro
+    defaults: { _controller: LoginBundle:Default:registro }
+    
