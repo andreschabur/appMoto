@@ -43,8 +43,7 @@
     
     {% set cantidadFotos = producto.productsImagesCollection|length %}
     {% set contadorFotos = 0 %}
-    <!-- Carousel
-    ================================================== -->
+    <!-- Carousel================================================== -->
     <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
       <!-- Indicators -->
       <ol class="carousel-indicators">        
@@ -104,24 +103,14 @@
       </div>
       <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
       <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
-    </div><!-- /.carousel -->
-      
-
-    {#<script type="text/javascript"  src="{{ asset('bundles/frontend/jquery/jquery.min.js') }}" ></script>    
-    <script type="text/javascript"  src="{{ asset('bundles/frontend/bootstrap-3.1.1/js/bootstrap.min.js') }}" ></script>
-    <script type="text/javascript"  src="{{ asset('bundles/frontend/otros/js/lazyload.js') }}" ></script>
-    
-    <script>        
-        $(function() {
-            $("img.lazy").lazyload({
-                event: "mouseover"                 
-            });            
-        });
-    </script>#}
+    </div>
+      <!-- /.carousel ============================================-->
 
     </div>
        {# <img width="200" height="200" src="{{app.request.basepath}}/{{ producto.getWebPath }}">#}
         <hr>
+        
+        <!-- Datos principales de producto ============================================-->
             <div class="row">    
                 <div class="col-md-3">
                     <b>Modelo</b>
@@ -202,116 +191,31 @@
                     <b>Tipo</b>
                 </div>
                 <div class="col-md-3">
-                    <span> {#{ producto.tipoProductoId }#} </span>
+                    <span> {{ producto.tipoProductoId }} </span>
                 </div>
                 <div class="col-md-3">
                     <b>Departamento</b>
+                   <!-- <br/>
+                    <b>Ciudad</b>-->
                 </div>
                 <div class="col-md-3">
-                    <span> {#{ producto.departamentoId }#} </span>
+                    <span> {{ producto.departamentoId }} </span>
+                    <!--<br/>
+                    <span> { { producto.ciudadId }} </span>-->
                 </div>    
-            </div>                                       
-            
-                    
-            
-                    
-            
-       {# <table style="margin: 10px">
-            <tr>
-                <td>
-                    Modelo
-                </td>
-                <td>                    
-                    <span>{{ producto.productsModel }}</span>                        
-                </td>
-            <td>
-                    Kilometraje
-                </td>
-                <td>
-                    <span> {{ producto.productsQuantity }} </span>            
-                </td>
-                
-            </tr>
-            <tr>
-                <td>
-                    Precio
-                </td>
-                <td>
-                    <span> {{ producto.productsPrice }} </span>            
-                </td>
-                
-                <td>
-                    Negociable
-                </td>
-                <td>
-                    <span> {{ producto.negociable }} </span>                    
-                </td>                            
-            </tr>            
-            <tr>                
-            
-                <td>
-                    Placa
-                </td>
-                <td>
-                    <span> {{ producto.placa }} </span>            
-                </td>
-                
-                <td>
-                    Color
-                </td>
-                <td>
-                    <span> {{ producto.colorId }} </span>            
-                </td>
-                
-            </tr>    
-            <tr>
-                <td>
-                    Fabricante
-                </td>
-                <td>
-                    <span> {{ producto.manufacturersId }} </span>            
-                </td>            
-                <td>
-                    Cilindraje
-                </td>
-                <td>
-                    <span> {{ producto.cilindrajeId }} </span>            
-                </td>
-            </tr>                                                           
-            <tr>                
-                <td>
-                    Observacion
-                </td>
-                <td>
-                    <span> {{ producto.observacion }} </span>                    
-                </td>
-                <td>
-                    Año
-                </td>
-                <td>
-                    <span> {{ producto.anio }} </span>
-                </td>
-                
-            </tr>
-            <tr>                
-                <td>
-                    Tipo
-                </td>
-                <td>
-                    <span> { #{ producto.tipoProductoId }# } </span>                    
-                </td>
-                <td>
-                    Departamento
-                </td>
-                <td>
-                    <span> { #{ producto.departamentoId }# } </span>
-                </td>
-                
-            </tr>
-            
-        </table>   #}                                                    
-
+            </div>
+        
+        <!-- /.datos principales de producto ============================================-->
+        
     </fieldset>
+
+{#
+**********************************************************************************************************
+**********************************************************************************************************
+******************************* DATOS DEL PRODUCTO ASOCIADO ******************************************
+**********************************************************************************************************
+**********************************************************************************************************
+#}
     
     {% set viejaCategoria = '' %}
             
@@ -321,12 +225,15 @@
                 {# Inicio dibujar encabezado de las opciones #}
                 {% set nuevaCategoria = productsAttributes.categoryLabel %}
                 {% if(nuevaCategoria != viejaCategoria) %}
-                    {% if('' != viejaCategoria) %}
-                        <!--</table>-->
+                    {% if('' != viejaCategoria) %}                        
                         </div>
                             </fieldset>
                     {% endif%}
                         
+                    {#TODO: Buscar la categoria que se va a dibujar 
+                    y dibujar solo si la nueva categoria tiene atributos con optionStatus == true
+                    Si es false entonces no dibuje ni tampoco cierre con vieja categoria.#}
+                            
                     <fieldset style="margin: 20px">
                         <legend><font color="green">{{  productsAttributes.categoryLabel  }}</font></legend>
                         <!--<table style="margin: 10px">-->
@@ -337,33 +244,35 @@
                 {# Fin dibujar encabezado de las opciones #}
             
     
-                <!--<tr>
-                    <td>                        -->
-                <div class="col-md-2">
-                        
-                        {#Recorrer y escribir el seleccionado y esconder el widged del combo de opciones #}                                                                        
-                        {#{{ form.vars.value.task }}#}
-                        {#{{  productsAttributes.optionsLabel.vars.id  }}            #}
-                        {#{{  productsAttributes.optionsLabel.vars.full_name  }}            #}
-                        <b>{{  productsAttributes.optionsLabel  }}</b>
-                    <!--</td>
-                    <td>-->
-                </div>
-                <div class="col-md-2">
-                        {#<span> {{ form_widget(productsAttributes.optionsValuesId) }} </span>
-                        <div class="error">{{ form_errors(productsAttributes.optionsValuesId) }}</div>#}
-                        <span> 
-                            {% if ( productsAttributes.optionStatus == true ) %} 
-                                Si
-                            {% else %}
-                                No
-                            {% endif %} 
-                        </span>     
-                </div>
-                <!--<div class="col-md-8">
-                </div>-->
-                    <!--</td>
-                </tr>   -->                                
+                {% if ( productsAttributes.optionStatus == true ) %}
+                    <!--<tr>
+                        <td>                        -->
+                    <div class="col-md-2">
+
+                            {#Recorrer y escribir el seleccionado y esconder el widged del combo de opciones #}                                                                        
+                            {#{{ form.vars.value.task }}#}
+                            {#{{  productsAttributes.optionsLabel.vars.id  }}            #}
+                            {#{{  productsAttributes.optionsLabel.vars.full_name  }}            #}
+                            <b>{{  productsAttributes.optionsLabel  }}</b>
+                        <!--</td>
+                        <td>-->
+                    </div>
+                    <div class="col-md-2">
+                            {#<span> {{ form_widget(productsAttributes.optionsValuesId) }} </span>
+                            <div class="error">{{ form_errors(productsAttributes.optionsValuesId) }}</div>#}
+                            <span> 
+                                {% if ( productsAttributes.optionStatus == true ) %} 
+                                    Si
+                                {% else %}
+                                    No
+                                {% endif %} 
+                            </span>     
+                    </div>
+                    <!--<div class="col-md-8">
+                    </div>-->
+                        <!--</td>
+                    </tr>   -->   
+                {% endif %}
     
     {% endfor %}
                 
@@ -390,7 +299,7 @@
              
 
             
-    {% for productsTipoPublicacion in producto.productsTipoPublicacionCollection %}                
+    <!--{ % for productsTipoPublicacion in producto.productsTipoPublicacionCollection %}                
                         
         <fieldset style="margin: 20px">
             <legend><font color="green">Tipo de publicación</font></legend>
@@ -410,13 +319,14 @@
                     <td>
                         {#<span> {{ form_widget(productsAttributes.optionsValuesId) }} </span>
                         <div class="error">{{ form_errors(productsAttributes.optionsValuesId) }}</div>#}
-                        <span> {{ productsTipoPublicacion.tipoPublicacionId.descripcion }} </span>                        
+                        <span> { { productsTipoPublicacion.tipoPublicacionId.descripcion }} </span>                        
                     </td>
                 </tr>                                   
             </table>
         </fieldset>
     
-    {% endfor %}
+    { % endfor %}
+        -->
                 
 
 
@@ -428,25 +338,4 @@
 ******************************* FIN DATOS DEL TIPO PUBLICACION *******************************************
 **********************************************************************************************************
 **********************************************************************************************************
-#}
-                            
-                            {#        <fieldset style="margin: 20px">
-            <legend><font color="green">Tipo de publicación</font></legend>
-            <table style="margin: 10px">                            
- {% for productsImages in producto.productsImagesCollection %}                
-                        
-        
-    
-                <tr>
-                    <td>                                                
-                    </td>
-                    <td>
-                        <span> <img width="160" height="160"  src="{{app.request.basepath}}/{{ productsImages.getWebPath }}"> </span>                        
-                    </td>
-                </tr>                                   
-            
-    
-    {% endfor %}                            
-                
-                </table>
-        </fieldset>#}
+#}                    

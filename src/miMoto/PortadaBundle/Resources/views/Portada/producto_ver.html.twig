@@ -124,6 +124,21 @@
     
     {#% include 'FrontendBundle:Default:datosVerUsuario.html.twig' %#}
 
+<div class="row">    
+    <div class="col-md-3">
+        <b>Telefono</b>
+    </div>
+    <div class="col-md-3">
+        <span>{{ usuario.telefono }}</span>
+    </div>
+    <div class="col-md-3">
+        <b>Telefono 2</b>
+    </div>
+    <div class="col-md-3">
+        <span>{{ usuario.telefonodos }}</span>
+    </div>    
+</div>
+
     {% if producto is defined %}
 
         {% if(producto == null) %}
