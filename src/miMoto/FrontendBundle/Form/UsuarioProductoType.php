@@ -23,18 +23,33 @@ class UsuarioProductoType extends AbstractType
             ->add('direccion')
             ->add('telefono')
             ->add('telefonodos')
-            ->add('ciudad', 'entity', array(
+            /*->add('ciudad', 'entity', array(
                 'class' => 'miMoto\EntidadesBundle\Entity\Ciudad', 
+                'choices' => $options['ciudad'],
                 'empty_value' => 'Seleccione una Ciudad',
             ))
             ->add('departamento', 'entity', array(
                 'class' => 'miMoto\EntidadesBundle\Entity\Departamento', 
+                'choices' => $options['departamento'],
                 'empty_value' => 'Seleccione un Departamento',
             ))
             ->add('pais', 'entity', array(
                 'class' => 'miMoto\EntidadesBundle\Entity\Pais', 
+                'choices' => $options['pais'],
                 'empty_value' => 'Seleccione un Pais',
-            ))            
+            ))*/ 
+            ->add('ciudad', 'choice', array(                
+                'choices' => $options['ciudad'],
+                'empty_value' => 'Seleccione una Ciudad',
+            ))
+            ->add('departamento', 'choice', array(              
+                'choices' => $options['departamento'],
+                'empty_value' => 'Seleccione un Departamento',
+            ))
+            ->add('pais', 'choice', array(                
+                'choices' => $options['pais'],
+                'empty_value' => 'Seleccione un Pais',
+            ))  
             ->add('identificacion')
             ->add('tipoIdentificacion', 'choice', array(
                 'choices' => array(
@@ -62,7 +77,10 @@ class UsuarioProductoType extends AbstractType
             'fabricantes' => true,	    
 	    'cilindrajes' => true,	    
 	    'opcionesProductos' => true,	    
-	    'colores' => true,	    	    
+	    'colores' => true,
+            'pais' => true,
+            'departamento' => true,
+            'ciudad' => true,
         ));
     }
 

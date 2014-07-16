@@ -13,7 +13,7 @@ use miMoto\EntidadesBundle\Entity\ProductsImages;
 class DefaultController extends Controller
 {
     
-    private $imprimirEjecucion = true;
+    private $imprimirEjecucion = false;
             
     public function indexAction($name)
     {
@@ -21,11 +21,14 @@ class DefaultController extends Controller
     }
     
     /**
-     * Guardar anuncio
+     * Guardar anuncio, Este metodo se utiliza cuando un usuario ha iniciado sesion
+     * y quiere registrar un nuevo producto
      * @return type
      */
-   /* public function nuevoAction(){
-        echo 'xxxxxxxxEste metodo nunca se utiliza..';
+    public function nuevoAction(){
+        if($this->imprimirEjecucion){
+            echo 'xxxxxxxxEste metodo se utiliza..';
+        }
         //***Cargar un anuncion nuevo para una moto entidad producto
         //***obtener usuario en sesion, si no hay cree nueva instancia
         //***crear formulario con campos de producto, 
@@ -243,10 +246,19 @@ class DefaultController extends Controller
                 'FrontendBundle:Default:registrarProducto.html.twig',
                 array('formulario' => $formulario->createView())
         );
-    }*/
+    }
     
 
+    /**
+     * El metodo es utilizado en el momento que un usuario inicio sesion
+     * y entra a editar su producto
+     * @param type $id
+     * @return type
+     */
     public function editarAction($id){
+        if($this->imprimirEjecucion){
+            echo '<br/>Entro a editar el registro del producto';
+        }
     // Obtener los datos del usuario logueado y utilizarlos para
 //    $usuarioContext = $this->get('security.context')->getToken()->getUser();
 //    $formulario = $this->createForm(new UsuarioEditarType(), $usuario);
@@ -304,14 +316,15 @@ class DefaultController extends Controller
 
 
                 // actualizar el producto
-                $producto->upload();
+                $producto->upload();                
                 
-                //***Actulizar lista de producto imagen, quitar los vacios
-                $producto = $this->eliminarImagenesVacias($producto);
                 
                 foreach ($producto->getProductsImagesCollection() as $productsImages){
                     $productsImages->upload();                    
                 }
+                
+                //***Actulizar lista de producto imagen, quitar los vacios
+                $producto = $this->eliminarImagenesVacias($producto);
                 
                 $em = $this->getDoctrine()->getEntityManager();
                 //***
@@ -436,14 +449,16 @@ class DefaultController extends Controller
         $imagenesAsociadas = array();
         foreach ($producto->getProductsImagesCollection() as $productsImages){            
             if (null === $productsImages->getWebPath()) {
-//                echo '<br/><br/>Se elimina la imagen con id '.$productsImages->getId();
-//                echo '<br/>Se elimina la imagen con htmlContent '.$productsImages->getHtmlcontent();
-//                echo '<br/>Se elimina la imagen con image '.$productsImages->getImage();
-//                echo '<br/>Se elimina la imagen con nombreImagen '.$productsImages->getNombreImagen();
-//                echo '<br/>Se elimina la imagen con path '.$productsImages->getPath();                
-//                echo '<br/>Se elimina la imagen con sortOrder '.$productsImages->getSortOrder();
-//                echo '<br/>Se elimina la imagen con webPath '.$productsImages->getWebPath();
-//                echo '<br/>Se elimina la imagen con fileImage '.$productsImages->getfileImage().'<br/><br/>';
+                if($this->imprimirEjecucion){
+                    echo '<br/><br/>Se elimina la imagen con id '.$productsImages->getId();
+                    echo '<br/>Se elimina la imagen con htmlContent '.$productsImages->getHtmlcontent();
+                    echo '<br/>Se elimina la imagen con image '.$productsImages->getImage();
+                    echo '<br/>Se elimina la imagen con nombreImagen '.$productsImages->getNombreImagen();
+                    echo '<br/>Se elimina la imagen con path '.$productsImages->getPath();                
+                    echo '<br/>Se elimina la imagen con sortOrder '.$productsImages->getSortOrder();
+                    echo '<br/>Se elimina la imagen con webPath '.$productsImages->getWebPath();
+                    echo '<br/>Se elimina la imagen con fileImage '.$productsImages->getfileImage().'<br/><br/>';
+                }
                 continue;
             }
             

@@ -28,6 +28,8 @@ class UsuarioProductoController extends Controller
     
     /**
      * Guardar anuncio
+     * Este metodo es llamado en el momento en que se va a registar por 
+     * primera vez un anuncion y un usuario. desde la ventana principal
      * @return type
      */
     public function nuevoAction(){
@@ -56,11 +58,30 @@ class UsuarioProductoController extends Controller
         $cilindrajes = $em->getRepository('EntidadesBundle:Cilindraje')->findAll();
         $colores = $em->getRepository('EntidadesBundle:Color')->findAll();
         $opcionesProductos = $em->getRepository('EntidadesBundle:ProductsOptionsValues')->findAll();
+        
+         //***Armar mas combos para pasar
+        $paises = $em->getRepository('EntidadesBundle:Pais')->findAll();        
+        foreach ($paises as $paiss){
+            $pais[$paiss->getId()] = $paiss->getDescripcion();
+        }
+
+        $departamentos = $em->getRepository('EntidadesBundle:Departamento')->findAll();
+        foreach ($departamentos as $deptos){
+            $departamento[$deptos->getId()] = $deptos->getDescripcion();
+        }
+
+        $ciudades = $em->getRepository('EntidadesBundle:Ciudad')->findAll();
+        foreach ($ciudades as $city){
+            $ciudad[$city->getId()] = $city->getDescripcion();
+        }
 
         $options = array('fabricantes' => $fabricantesOptions, 
             'cilindrajes' => $cilindrajes, 
             'opcionesProductos' => $opcionesProductos, 
-            'colores' => $colores,);    
+            'colores' => $colores,
+            'pais' => $pais, 
+            'departamento' => $departamento, 
+            'ciudad' => $ciudad);    
         
         //**********************************************************************************
         //**************SECCION PARA CREAR UNA NUEVA INSTANCIA DE FORMULARIO****************
@@ -155,9 +176,14 @@ class UsuarioProductoController extends Controller
                     $producto->setProductsLastModified($fecha);
                     $producto->setProductsStatus(1);
                     $producto->setUsuarioId($usuario);
-                    $producto->setPaisId($usuario->getPais());
-                    $producto->setDepartamentoId($usuario->getDepartamento());
-                    $producto->setCiudadId($usuario->getCiudad());
+                    //***Buscar la entidad para relacionarla (TODO:reparar esto haciendo que el usuario tenga entidades)
+                    $paisEntity = $em->getRepository('EntidadesBundle:Pais')->find($usuario->getPais());
+                    $departamentoEntity = $em->getRepository('EntidadesBundle:Departamento')->find($usuario->getDepartamento());
+                    $ciudadEntity = $em->getRepository('EntidadesBundle:Ciudad')->find($usuario->getCiudad());
+                    //***
+                    $producto->setPaisId($paisEntity);
+                    $producto->setDepartamentoId($departamentoEntity);
+                    $producto->setCiudadId($ciudadEntity);
                     $producto->upload();
                     
 //                    if($this->imprimirEjecucion){
@@ -170,6 +196,10 @@ class UsuarioProductoController extends Controller
 //                        echo '<br/>webPath '.$producto->getWebPath();
 //                        echo '<br/>fileImage '.$producto->getProductsFileImage().'<br/><br/>';
 //                    }
+                    
+                    //**********************************************************
+                    //***************VALIDACIONES MANUALES**********************
+                    //**********************************************************
                     
                     //***Validar que exista por lo menos la foto de la placa
                     if($producto->getPath() == null){                          
@@ -185,8 +215,10 @@ class UsuarioProductoController extends Controller
                                 array('formulario' => $formulario->createView())
                         );
                         break;
-                    }
-                    //***
+                    }                   
+                    //***************************************************************
+                    //**************FIN VALIDACIONES MANUALES*******************************
+                    //***************************************************************
                     
 //                    $producto = new Products();
                     foreach ($producto->getProductsTipoPublicacionCollection() as $productsTipoPublicacion){
@@ -205,6 +237,29 @@ class UsuarioProductoController extends Controller
                     }
                     
                 }
+                
+                //**********************************************************
+                //***************VALIDACIONES MANUALES**********************
+                //**********************************************************
+                //***Validar que exista el Pais, Departamento y Ciudad
+                //***Realizar algunas validaciones manuales
+                if($usuario->getDepartamento() == null || $usuario->getCiudad() == null){
+                    $this->get('session')->getFlashBag()->add('info',
+                        'Por algun motivo usted no posee Departamento o Ciudad, por favor adicione estos datos.'
+                        );                                
+
+                    //***
+//                    echo '<br/>$pais '.$usuario->getPais();
+//                    echo '<br/>$departamento '.$usuario->getDepartamento();
+//                    echo '<br/>$ciudad '.$usuario->getCiudad();   
+                    return $this->render(
+                                   'FrontendBundle:UsuarioProducto:registroUsuarioProducto.html.twig',
+                                   array('formulario' => $formulario->createView())
+                    );                    
+                }
+                //***************************************************************
+                //**************FIN VALIDACIONES MANUALES*******************************
+                //***************************************************************
                 
                 
                 
@@ -262,7 +317,7 @@ class UsuarioProductoController extends Controller
         );
     }
     
-    public function editarAction(){
+   /* public function editarAction(){
         $peticion = $this->getRequest();
         
         
@@ -302,7 +357,7 @@ class UsuarioProductoController extends Controller
                 'FrontendBundle:UsuarioProducto:registroUsuarioProducto.html.twig',
                 array('formulario' => $formulario->createView())
         );
-    }
+    }*/
     
     
     /**
