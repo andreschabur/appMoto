@@ -295,9 +295,9 @@ class UsuarioProductoController extends Controller
                 array('usuario' => $usuario));
 
             }else{
-//                if($this->imprimirEjecucion){
+                if($this->imprimirEjecucion){
                         echo '<br/><font color="red">El formulario no es valido</font>';
-//                    }
+                    }
             }
 
         }
