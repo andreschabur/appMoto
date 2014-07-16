@@ -74,10 +74,11 @@ class Usuario implements UserInterface {
      */
     private $telefono;
 
+    
     /**
      * @var string $telefonodos
      *
-     * @ORM\Column(name="telefonodos", type="string", length=15)
+     * @ORM\Column(name="telefonodos", type="string", length=15, nullable=true)
      */
     private $telefonodos;
 
