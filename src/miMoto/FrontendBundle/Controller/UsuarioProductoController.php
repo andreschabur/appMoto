@@ -18,6 +18,9 @@ use miMoto\FrontendBundle\Form\UsuarioProductoType;
 
 class UsuarioProductoController extends Controller
 {
+    
+    private $imprimirEjecucion = false;
+    
     public function indexAction($name)
     {
         return $this->render('FrontendBundle:Default:index.html.twig', array('name' => $name));
@@ -28,6 +31,9 @@ class UsuarioProductoController extends Controller
      * @return type
      */
     public function nuevoAction(){
+         if($this->imprimirEjecucion){
+            echo 'yyyyyyyyyyyEste si se usa';
+         }
         //***Cargar un anuncion nuevo para una moto entidad producto
         //***obtener usuario en sesion, si no hay cree nueva instancia
         //***crear formulario con campos de producto, 
@@ -54,10 +60,17 @@ class UsuarioProductoController extends Controller
         $options = array('fabricantes' => $fabricantesOptions, 
             'cilindrajes' => $cilindrajes, 
             'opcionesProductos' => $opcionesProductos, 
-            'colores' => $colores,);        
-
-        //***Crear formularios        
-        if (!isset($formulario)) {                                    
+            'colores' => $colores,);    
+        
+        //**********************************************************************************
+        //**************SECCION PARA CREAR UNA NUEVA INSTANCIA DE FORMULARIO****************
+        //**********************************************************************************
+        //**********************************************************************************
+         //***Crear formularios           
+        if (!isset($formulario)) {
+            if($this->imprimirEjecucion){
+                        echo '<br/>El formulario no esta seteado';
+                    }
             
             //****************LLENAR LAS CATEGORIAS CON SUS ATRIBUTOS DEL PRODUCTO SEGURIDAD, SONIDO, ACCESORIOS, CONDICIONES
             //***Buscar todas las categorias activas y recorrerlas            
@@ -106,14 +119,29 @@ class UsuarioProductoController extends Controller
             $formulario = $this->createForm(new UsuarioProductoType(), $usuario, $options);
             
         }
-
+        
+        
+        //**********************************************************************************
+        //**********************************************************************************
+        //**********************************************************************************
+       
+        //**********************************************************************************
+        //********SECCION PARA GUARDAR EL FORMULARIO DE REGISTRO ***************************
+        //********EN NUEVA PUBLICACION SIN INICIAR SESION***********************************
+        //**********************************************************************************
         
 //        $formulario = $this->createForm(new ProductsType(), $producto);
         if ($peticion->getMethod() == 'POST') {
+            if($this->imprimirEjecucion){
+                echo '<br/><font color="red">Entro en el post </font>';
+            }
         // Validar los datos enviados y guardarlos en la base de datos
 //            $formulario->bindRequest($peticion);
             $formulario->bind($peticion);
             if ($formulario->isValid()) {
+                if($this->imprimirEjecucion){
+                        echo '<br/>El formulario es valido';
+                    }
                 
             // guardar la información en la base de datos//          
 //                $em = $this->getDoctrine()->getEntityManager();
@@ -132,13 +160,28 @@ class UsuarioProductoController extends Controller
                     $producto->setCiudadId($usuario->getCiudad());
                     $producto->upload();
                     
+//                    if($this->imprimirEjecucion){
+//                        echo '<br/>El path de la placa es '.$producto->getPath();
+//                        echo '<br/><br/>El id '.$producto->getId();
+//                        echo '<br/>htmlContent '.$producto->getHtmlcontent();
+//                        echo '<br/>image '.$producto->getImage();
+//                        echo '<br/>nombreImagen '.$producto->getNombreImagen();                        
+//                        echo '<br/>sortOrder '.$producto->getSortOrder();
+//                        echo '<br/>webPath '.$producto->getWebPath();
+//                        echo '<br/>fileImage '.$producto->getProductsFileImage().'<br/><br/>';
+//                    }
+                    
                     //***Validar que exista por lo menos la foto de la placa
-                    if($producto->getPath() == null){                        
+                    if($producto->getPath() == null){                          
                         $this->get('session')->getFlashBag()->add('info',
                         'La foto de la placa es una foto obligatoria.'
                         );
+//                        return $this->render(
+//                                'FrontendBundle:Default:registrarProducto.html.twig',
+//                                array('formulario' => $formulario->createView())
+//                        );
                         return $this->render(
-                                'FrontendBundle:Default:registrarProducto.html.twig',
+                                'FrontendBundle:UsuarioProducto:registroUsuarioProducto.html.twig',
                                 array('formulario' => $formulario->createView())
                         );
                         break;
@@ -196,9 +239,20 @@ class UsuarioProductoController extends Controller
                 'FrontendBundle:UsuarioProducto:verUsuarioProducto.html.twig',
                 array('usuario' => $usuario));
 
+            }else{
+//                if($this->imprimirEjecucion){
+                        echo '<br/><font color="red">El formulario no es valido</font>';
+//                    }
             }
 
         }
+        
+        if($this->imprimirEjecucion){
+            echo '<br/><font color="red">Voy a mostrar el registrar producto</font>';
+        }
+        
+        
+        
 //        return $this->render(
 //                'LoginBundle:Default:registro.html.twig',
 //                array('formulario' => $formulario->createView())

@@ -12,6 +12,9 @@ use miMoto\EntidadesBundle\Entity\ProductsImages;
 
 class DefaultController extends Controller
 {
+    
+    private $imprimirEjecucion = true;
+            
     public function indexAction($name)
     {
         return $this->render('FrontendBundle:Default:index.html.twig', array('name' => $name));
@@ -21,7 +24,8 @@ class DefaultController extends Controller
      * Guardar anuncio
      * @return type
      */
-    public function nuevoAction(){
+   /* public function nuevoAction(){
+        echo 'xxxxxxxxEste metodo nunca se utiliza..';
         //***Cargar un anuncion nuevo para una moto entidad producto
         //***obtener usuario en sesion, si no hay cree nueva instancia
         //***crear formulario con campos de producto, 
@@ -46,6 +50,9 @@ class DefaultController extends Controller
         $options = array('fabricantes' => $fabricantes, 'cilindrajes' => $cilindrajes, 'opcionesProductos' => $opcionesProductos, 'colores' => $colores);        
 //        Crear formularios        
         if (!isset($formulario)) {
+            if($this->imprimirEjecucion){
+                echo '<br/>Entro en no esta seteado el formulario';
+            }
 //            $formulario = $this->createForm(new SolicitudType(), $solicitud, $options);
             
             //***Adicionar un item al detalle del producto
@@ -113,6 +120,9 @@ class DefaultController extends Controller
         
 //        $formulario = $this->createForm(new ProductsType(), $producto);
         if ($peticion->getMethod() == 'POST') {
+            if($this->imprimirEjecucion){
+                echo '<br/><font color="red">Entro en el post</font>';
+            }
         // Validar los datos enviados y guardarlos en la base de datos
 //            $formulario->bindRequest($peticion);
             $formulario->bind($peticion);
@@ -130,7 +140,9 @@ class DefaultController extends Controller
                 echo '<br/>$ciudad '.$usuario->getCiudad();                            
             }else{
                 if ($formulario->isValid()) {
-
+                    if($this->imprimirEjecucion){
+                        echo '<br/>El formulario es valido';
+                    }
                 // guardar la información en la base de datos//          
     //                $em = $this->getDoctrine()->getEntityManager();
                     //***
@@ -157,9 +169,9 @@ class DefaultController extends Controller
         //                var_dump($ciudades);
         //                $ciudad = $ciudades[0];
                         //***
-                       /* echo '<br/>$pais '.$pais;
-                        echo '<br/>$departamento '.$departamento;
-                        echo '<br/>$ciudad '.$ciudad;*/
+                        //echo '<br/>$pais '.$pais;
+                        //echo '<br/>$departamento '.$departamento;
+                        //echo '<br/>$ciudad '.$ciudad;
                         $producto->setPaisId($departamento->getPaisId());
                         $producto->setDepartamentoId($departamento);
                         $producto->setCiudadId($ciudad);
@@ -213,6 +225,10 @@ class DefaultController extends Controller
                         array('producto' => $producto));
                     }
 
+                }else{
+                    if($this->imprimirEjecucion){
+                        echo '<br/><font color="red">El formulario no es valido</font>';
+                    }
                 }
             }
 
@@ -220,11 +236,14 @@ class DefaultController extends Controller
 //        return $this->render(
 //                'LoginBundle:Default:registro.html.twig',
 //                array('formulario' => $formulario->createView())
+        if($this->imprimirEjecucion){
+            echo '<br/><font color="red">Voy a mostrar el registrar producto</font>';
+        }
         return $this->render(
                 'FrontendBundle:Default:registrarProducto.html.twig',
                 array('formulario' => $formulario->createView())
         );
-    }
+    }*/
     
 
     public function editarAction($id){
@@ -286,6 +305,9 @@ class DefaultController extends Controller
 
                 // actualizar el producto
                 $producto->upload();
+                
+                //***Actulizar lista de producto imagen, quitar los vacios
+                $producto = $this->eliminarImagenesVacias($producto);
                 
                 foreach ($producto->getProductsImagesCollection() as $productsImages){
                     $productsImages->upload();                    
@@ -402,5 +424,33 @@ class DefaultController extends Controller
                 'PortadaBundle:Portada:bootstrapTest.html.twig',
                 array('producto' => $producto));
 
+    }
+    
+    /**
+     * El metodo funciona en el momento de editar la imagen
+     * @param type $producto
+     * @return type
+     */
+    public function eliminarImagenesVacias($producto){
+        $productsImages = new ProductsImages();
+        $imagenesAsociadas = array();
+        foreach ($producto->getProductsImagesCollection() as $productsImages){            
+            if (null === $productsImages->getWebPath()) {
+//                echo '<br/><br/>Se elimina la imagen con id '.$productsImages->getId();
+//                echo '<br/>Se elimina la imagen con htmlContent '.$productsImages->getHtmlcontent();
+//                echo '<br/>Se elimina la imagen con image '.$productsImages->getImage();
+//                echo '<br/>Se elimina la imagen con nombreImagen '.$productsImages->getNombreImagen();
+//                echo '<br/>Se elimina la imagen con path '.$productsImages->getPath();                
+//                echo '<br/>Se elimina la imagen con sortOrder '.$productsImages->getSortOrder();
+//                echo '<br/>Se elimina la imagen con webPath '.$productsImages->getWebPath();
+//                echo '<br/>Se elimina la imagen con fileImage '.$productsImages->getfileImage().'<br/><br/>';
+                continue;
+            }
+            
+            $imagenesAsociadas[] = $productsImages;
+                                    
+        }
+        $producto->setProductsImagesCollection($imagenesAsociadas);
+        return $producto;
     }
 }

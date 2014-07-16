@@ -40,7 +40,7 @@ class Products
     /**
      * @var string
      *
-     * @ORM\Column(name="products_image", type="string", length=64, nullable=true)
+     * @ORM\Column(name="products_image", type="string", length=64, nullable=false)
      */
     private $productsImage;
 
@@ -286,7 +286,7 @@ class Products
     //**********************************************************************************************
     
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     public $path;
     
