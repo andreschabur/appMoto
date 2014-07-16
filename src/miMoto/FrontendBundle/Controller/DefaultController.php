@@ -234,9 +234,37 @@ class DefaultController extends Controller
     
     $em = $this->getDoctrine()->getManager();                
 //    $productos = $fabricantes = $em->getRepository('EntidadesBundle:Products')->findBy(array('usuarioId' => $usuarioContext->getId()), null, 1);
-    $producto = $fabricantes = $em->getRepository('EntidadesBundle:Products')->find($id);
+    $producto = $em->getRepository('EntidadesBundle:Products')->find($id);
     $productoId = $producto->getProductsId();
-//    $producto = $productos[0];        
+//    $producto = $productos[0];            
+    
+//    echo '<br/>entro a editar producto';
+    //***Llenar las fotos que faltan por subir
+                  
+//    echo '<br/><br/>estoy a recorriendo el producto '.$producto->getProductsId().'<br/>';
+//                    $producto = new Products();
+    //***Obtener cantidad de fotos seleccionada
+    $tipoPublicacionSeleccionada = null;
+    foreach ($producto->getProductsTipoPublicacionCollection() as $productsTipoPublicacion){
+       $tipoPublicacionSeleccionada = $productsTipoPublicacion;
+       break;
+    }                
+    //***adicionar las fotos si son menos de la publicacion seleccionada
+    $cantidadDeFotos = sizeof($producto->getProductsImagesCollection());
+//    echo '<br/>cantidad de fotos de publicacion '.$tipoPublicacionSeleccionada->getCantidadFotos().'<br/>';
+//    echo '<br/>cantidad de fotos actual guardadas'.$cantidadDeFotos.'<br/>';
+    while($cantidadDeFotos < $tipoPublicacionSeleccionada->getCantidadFotos()){                     
+        $cantidadDeFotos++;
+        $productsImages = new ProductsImages();
+        $productsImages->setSortOrder($cantidadDeFotos);
+        $productsImages->setProductsId($producto);
+        $producto->addProductsImagesCollection($productsImages);                                
+//        echo '<br/>se adiciona foto con orden'.$cantidadDeFotos.'<br/>';
+    }                                
+
+
+        //***Fin llenar las fotos que faltan por subir
+    
     $options = array();
 //    $producto = $fabricantes = $em->getRepository('EntidadesBundle:Products')->find($producto->getProductsId());        
     $formulario = $this->createForm(new ProductsType(), $producto, $options);
