@@ -4208,7 +4208,7 @@ CREATE TABLE IF NOT EXISTS `Usuario` (
   `password` varchar(255) NOT NULL,
   `salt` varchar(255) DEFAULT NULL,
   `telefono` varchar(15) NOT NULL,
-  `telefonodos` varchar(15) NOT NULL,
+  `telefonodos` varchar(15) DEFAULT NULL,
   `ciudad` int(11) NOT NULL,
   `departamento` int(11) NOT NULL,
   `direccion` varchar(255) NOT NULL,
