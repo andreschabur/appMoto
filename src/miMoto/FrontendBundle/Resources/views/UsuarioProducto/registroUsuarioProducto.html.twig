@@ -127,124 +127,7 @@
                 </div>                
                 
             
-        </div>
-        
-        
-        
-        
-        
-        {#<table style="margin: 10px">
-            <tr>
-                <td>
-                    {{ form_label(formulario.nombre, 'Nombres *') }}
-                </td>
-                <td>                    
-                    <span>{{ form_widget(formulario.nombre) }}</span>
-                    <div class="error">{{ form_errors(formulario.nombre) }}</div>
-                    
-                </td>            
-                
-                <td>
-                    {{ form_label(formulario.apellido, 'Apellidos *') }}
-                </td>
-                <td>
-                    <span>{{ form_widget(formulario.apellido) }}</span>
-                    <div class="error">{{ form_errors(formulario.apellido) }}</div>
-                </td>
-            </tr>
-            
-            <tr>                                
-                <td>
-                    {{ form_label(formulario.tipoIdentificacion, 'Tipo identificacion') }}
-                </td>
-                <td>                    
-                    <span>{{ form_widget(formulario.tipoIdentificacion) }}</span>
-                    <div class="error">{{ form_errors(formulario.tipoIdentificacion) }}</div>
-                </td>                                                
-                
-                <td>
-                    {{ form_label(formulario.identificacion, 'Identificacion *') }}
-                </td>
-                <td>
-                    <span>{{ form_widget(formulario.identificacion) }}</span>
-                    <div class="error">{{ form_errors(formulario.identificacion) }}</div>
-                </td>
-            </tr>                    
-            
-            
-            <tr>                                
-                <td>
-                    {{ form_label(formulario.telefono, 'Telefono *') }}
-                </td>
-                <td>
-                    <span>{{ form_widget(formulario.telefono) }}</span>
-                    <div class="error">{{ form_errors(formulario.telefono) }}</div>
-                </td>
-                
-                <td>
-                    {{ form_label(formulario.telefonodos, 'Telefono 2') }}
-                </td>
-                <td>
-                    <span>{{ form_widget(formulario.telefonodos) }}</span>
-                    <div class="error">{{ form_errors(formulario.telefonodos) }}</div>
-                </td>
-            </tr>                    
-            
-            <tr>                     
-                <td>
-                    {{ form_label(formulario.correo, 'E-mail *') }}
-                </td>
-                <td>
-                    <span> {{ form_widget(formulario.correo) }} </span>
-                    <div class="error">{{ form_errors(formulario.correo) }}</div>
-                </td>
-                
-                
-                <td>
-                    {{ form_label(formulario.direccion, 'Direccion') }}
-                </td>
-                <td>
-                    <span> {{ form_widget(formulario.direccion) }} </span>
-                    <div class="error">{{ form_errors(formulario.direccion) }}</div>
-                </td>
-            </tr>                    
-            
-            <tr>                                     
-                <td>
-                    {{ form_label(formulario.departamento, 'Departamento*') }}
-                </td>
-                <td>
-                    <span> {{ form_widget(formulario.departamento) }} </span>
-                    <div class="error">{{ form_errors(formulario.departamento) }}</div>
-                </td>
-                
-                <td>
-                    {{ form_label(formulario.ciudad, 'Ciudad*') }}
-                </td>
-                <td>
-                    <span> {{ form_widget(formulario.ciudad) }} </span>
-                    <div class="error">{{ form_errors(formulario.ciudad) }}</div>
-                </td>                                
-            </tr>                    
-            
-            <tr>                                     
-                <td>
-                    {{ form_label(formulario.pais, 'Pais*') }}
-                </td>
-                <td>
-                    <span> {{ form_widget(formulario.pais) }} </span>
-                    <div class="error">{{ form_errors(formulario.pais) }}</div>
-                </td>
-                
-                <td>
-                    
-                </td>
-                <td>                    
-                    
-                </td>                                
-            </tr>                    
-            
-        </table>    #}                                    
+        </div>                                       
 
     </fieldset>
     
@@ -272,3 +155,56 @@
 {% endblock %}
 
 {% block aside %}{% endblock %}
+
+{% block javascript %}
+{#{ parent() }#}    
+    
+    <script>
+$(function(){
+    
+    //***********Pais --llenar departamentos
+    /*$("#mimoto_frontendbundle_usuarioproductotype_pais").change(function(){
+        var data = {
+        pais_id: $(this).val()
+        };
+
+        $.ajax({
+            type: 'post',
+            url: '/app.php/departamentos',
+            data: data,
+            success: function(data) {
+                var $province_selector = $('#mimoto_frontendbundle_usuarioproductotype_departamento');
+                $province_selector.html('<option>Departamento</option>');
+                for (var i=0, total = data.length; i < total; i++) {
+                    $province_selector.append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+                }
+                $('#mimoto_frontendbundle_usuarioproductotype_ciudad').html("<option>Ciudad</option>");
+            }
+        });
+    });*/
+
+    //**************Departamento --llenar ciudades
+    $("#mimoto_frontendbundle_usuarioproductotype_departamento").change(function(){
+        var data = {
+        departamento_id: $(this).val()
+        };
+        
+        //url: 'app_dev.php/producto/ciudades',
+          //url: '/app.php/ciudades',
+        $.ajax({
+            type: 'post',
+            url: 'ciudades',
+            data: data,
+            success: function(data) {
+                var $city_selector = $('#mimoto_frontendbundle_usuarioproductotype_ciudad');
+                $city_selector.html('<option>Ciudad</option>');
+                for (var i=0, total = data.length; i < total; i++) {
+                    $city_selector.append('<option value="' + data[i].id + '">' + data[i].descripcion + '</option>');
+                }
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

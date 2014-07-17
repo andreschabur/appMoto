@@ -19,7 +19,7 @@ class PortadaController extends Controller
 //        return $this->render('PortadaBundle:Portada:producto_buscar.html.twig', array('producto' => $productoForm));
 //    }
     
-    public function listarAction($producto){
+    public function listar($producto){
         /*$producto = new Products();
         $productoFiltroType = new ProductsFiltroType();
         $options = array();
@@ -61,7 +61,7 @@ class PortadaController extends Controller
 //    public function listarAction($filtros){        
         $em = $this->getDoctrine()->getManager();                
         $productos = $em->getRepository('EntidadesBundle:Products')->findByFiltro($producto);        
-        echo '<br/>La cantidad encontrada es: '.sizeof($productos);
+//        echo '<br/>La cantidad encontrada es: '.sizeof($productos);
 //        $productos = $em->getRepository('EntidadesBundle:Products')->findBy(array('productsStatus' => true));        
         return $this->render('PortadaBundle:Portada:producto_listar.html.twig', array('productos' => $productos));
     }
@@ -110,7 +110,7 @@ class PortadaController extends Controller
             $peticion = $this->getRequest();        
             $productoForm->bind($peticion);
             if ($productoForm->isValid()) {
-                return $this->listarAction($producto);                        
+                return $this->listar($producto);                        
             }
         }
         //***

@@ -30,3 +30,7 @@ usuario_producto_ver:
     pattern:  /usuario_producto_ver
     defaults: { _controller: FrontendBundle:UsuarioProducto:ver }  
     
+ciudades:
+    pattern: /ciudades
+    defaults: { _controller: FrontendBundle:UsuarioProducto:ciudades }
+    

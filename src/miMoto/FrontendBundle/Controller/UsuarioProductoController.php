@@ -15,6 +15,9 @@ use miMoto\EntidadesBundle\Entity\ProductsTipoPublicacion;
 use miMoto\EntidadesBundle\Entity\ProductsImages;
 use miMoto\FrontendBundle\Form\UsuarioProductoType;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 class UsuarioProductoController extends Controller
 {
@@ -388,6 +391,46 @@ class UsuarioProductoController extends Controller
             'productos' => $productos,             
             ));
 
-    }    
+    }  
+    
+    /**
+    * @ Route("/departamentos", name="select_provinces")
+    */
+    /*public function departamentosAction(Request $request)
+    {
+        $country_id = $request->request->get('pais_id');
+
+        $em = $this->getDoctrine()->getManager();
+        $provinces = $em->getRepository('MainBundle:Province')->findByCountryId($country_id);
+
+        return new JsonResponse($provinces);
+    }*/
+
+    /**
+     * 
+     * @param \miMoto\FrontendBundle\Controller\Request $request
+     * @return \miMoto\FrontendBundle\Controller\JsonResponse
+     */
+    public function ciudadesAction(Request $request)
+//    public function ciudadesAction()
+    {
+        $departamento_id = $request->request->get('departamento_id');
+//        $departamento_id = 66;
+
+        $em = $this->getDoctrine()->getManager();
+        $cities = $em->getRepository('EntidadesBundle:Ciudad')->findBy(array('departamentoId' => $departamento_id));
+        
+//        return new JsonResponse($cities);
+        
+        $ciudades = array();
+        foreach ($cities as $citi) {
+            $ciudad['id'] = $citi->getId();
+            $ciudad['descripcion'] = $citi->getDescripcion();
+            $ciudades[] = $ciudad;
+        }        
+        return new JsonResponse($ciudades);
+        
+        
+    }
 
 }
