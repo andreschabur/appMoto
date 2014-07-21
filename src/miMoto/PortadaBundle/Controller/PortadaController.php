@@ -69,7 +69,12 @@ class PortadaController extends Controller
     public function verAction($id){
         $producto = 'buscar por '.$id;
         $em = $this->getDoctrine()->getManager();                
-        $producto = $em->getRepository('EntidadesBundle:Products')->find($id);        
+        $producto = new Products();
+        $producto = $em->getRepository('EntidadesBundle:Products')->find($id);
+        $criteriosAtributosMostrados = array('productsId' => $producto->getProductsId(), 'optionStatus' => true);
+//        $criteriosAtributosMostrados = array('productsId' => $producto->getProductsId());
+        $productsAttributesCollection = $em->getRepository('EntidadesBundle:ProductsAttributes')->findBy($criteriosAtributosMostrados);
+        $producto->setProductsAttributesCollection($productsAttributesCollection);
         //***
         return $this->render(
         'PortadaBundle:Portada:producto_ver.html.twig',
