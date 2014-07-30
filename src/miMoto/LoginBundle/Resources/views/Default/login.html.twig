@@ -37,12 +37,12 @@
         {% endif %}
     {% endif %}
 
-    <label for="username">E-mail:</label><br/>
+    <label for="username" class="control-label">E-mail:</label><br/>
     <input type="text" id="username" name="_username"
-    value="{%if(last_username is defined )%}{{ last_username }}{% endif %}{#hchabur@kpizk.com#}" /><br/>
-    <label for="password">Contraseña:</label><br/>
+    value="{%if(last_username is defined )%}{{ last_username }}{% endif %}{#hchabur@kpizk.com#}"  class="form-control"/><br/>
+    <label for="password" class="control-label">Contraseña:</label><br/>
     <!--<input type="text" id="contrasena" name="contrasena" />-->
-    <input type="password" id="password" name="_password" value="{#xxx123#}"/><br/>
+    <input type="password" id="password" name="_password" value="{#xxx123#}" class="form-control"/><br/>
     <!--<input type="submit" name="login" value="Acceder" />-->
     <button type="submit" class="sf-button" >
         <span class="border-l">
