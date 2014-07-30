@@ -32,97 +32,97 @@
         
         <div class="row">
             <div class="col-md-3">
-                    {{ form_label(formulario.nombre, 'Nombres *') }}
+                    {{ form_label(formulario.nombre, 'Nombres *', {'label_attr': {'class': 'control-label'}}) }}
             </div>
                 <div class="col-md-3">
-                    <span>{{ form_widget(formulario.nombre) }}</span>
+                    <span>{{ form_widget(formulario.nombre, {'attr': {'class': 'form-control'}}) }}</span>
                     <div class="error">{{ form_errors(formulario.nombre) }}</div>
                     
                 </div>            
                 
                 <div class="col-md-3">
-                    {{ form_label(formulario.apellido, 'Apellidos *') }}
+                    {{ form_label(formulario.apellido, 'Apellidos *', {'label_attr': {'class': 'control-label'}}) }}
                 </div>
                 <div class="col-md-3">
-                    <span>{{ form_widget(formulario.apellido) }}</span>
+                    <span>{{ form_widget(formulario.apellido, {'attr': {'class': 'form-control'}}) }}</span>
                     <div class="error">{{ form_errors(formulario.apellido) }}</div>
                 </div>
             
             
             <div class="col-md-3">
-                    {{ form_label(formulario.tipoIdentificacion, 'Tipo identificacion') }}
+                    {{ form_label(formulario.tipoIdentificacion, 'Tipo identificacion', {'label_attr': {'class': 'control-label'}}) }}
                 </div>
                 <div class="col-md-3">      
-                    <span>{{ form_widget(formulario.tipoIdentificacion) }}</span>
+                    <span>{{ form_widget(formulario.tipoIdentificacion, {'attr': {'class': 'form-control'}}) }}</span>
                     <div class="error">{{ form_errors(formulario.tipoIdentificacion) }}</div>
                 </div>                               
                 
                 <div class="col-md-3">
-                    {{ form_label(formulario.identificacion, 'Identificacion *') }}
+                    {{ form_label(formulario.identificacion, 'Identificacion *', {'label_attr': {'class': 'control-label'}}) }}
                 </div>
                 <div class="col-md-3">
-                    <span>{{ form_widget(formulario.identificacion) }}</span>
+                    <span>{{ form_widget(formulario.identificacion, {'attr': {'class': 'form-control'}}) }}</span>
                     <div class="error">{{ form_errors(formulario.identificacion) }}</div>
                 </div>
                            
             
             
             <div class="col-md-3">
-                    {{ form_label(formulario.telefono, 'Telefono *') }}
+                    {{ form_label(formulario.telefono, 'Telefono *', {'label_attr': {'class': 'control-label'}}) }}
             </div>
                 <div class="col-md-3">
-                    <span>{{ form_widget(formulario.telefono) }}</span>
+                    <span>{{ form_widget(formulario.telefono, {'attr': {'class': 'form-control'}}) }}</span>
                     <div class="error">{{ form_errors(formulario.telefono) }}</div>
             </div>
                 
                 <div class="col-md-3">
-                    {{ form_label(formulario.telefonodos, 'Telefono 2') }}
+                    {{ form_label(formulario.telefonodos, 'Telefono 2', {'label_attr': {'class': 'control-label'}}) }}
                 </div>
                 <div class="col-md-3">
-                    <span>{{ form_widget(formulario.telefonodos) }}</span>
+                    <span>{{ form_widget(formulario.telefonodos, {'attr': {'class': 'form-control'}}) }}</span>
                     <div class="error">{{ form_errors(formulario.telefonodos) }}</div>
                 </div>
                            
             
             <div class="col-md-3">
-                    {{ form_label(formulario.correo, 'E-mail *') }}
+                    {{ form_label(formulario.correo, 'E-mail *', {'label_attr': {'class': 'control-label'}}) }}
                 </div>
                 <div class="col-md-3">
-                    <span> {{ form_widget(formulario.correo) }} </span>
+                    <span> {{ form_widget(formulario.correo, {'attr': {'class': 'form-control'}}) }} </span>
                     <div class="error">{{ form_errors(formulario.correo) }}</div>
                 </div>
                 
                 
                 <div class="col-md-3">
-                    {{ form_label(formulario.direccion, 'Direccion') }}
+                    {{ form_label(formulario.direccion, 'Direccion', {'label_attr': {'class': 'control-label'}}) }}
                 </div>
                 <div class="col-md-3">
-                    <span> {{ form_widget(formulario.direccion) }} </span>
+                    <span> {{ form_widget(formulario.direccion, {'attr': {'class': 'form-control'}}) }} </span>
                     <div class="error">{{ form_errors(formulario.direccion) }}</div>
                 </div>
                            
             
             <div class="col-md-3">
-                    {{ form_label(formulario.departamento, 'Departamento*') }}
+                    {{ form_label(formulario.departamento, 'Departamento*', {'label_attr': {'class': 'control-label'}}) }}
                 </div>
                 <div class="col-md-3">
-                    <span> {{ form_widget(formulario.departamento) }} </span>
+                    <span> {{ form_widget(formulario.departamento, {'attr': {'class': 'form-control'}}) }} </span>
                     <div class="error">{{ form_errors(formulario.departamento) }}</div>
                 </div>
                 
                 <div class="col-md-3">
-                    {{ form_label(formulario.ciudad, 'Ciudad*') }}
+                    {{ form_label(formulario.ciudad, 'Ciudad*', {'label_attr': {'class': 'control-label'}}) }}
                 </div>
                 <div class="col-md-3">
-                    <span> {{ form_widget(formulario.ciudad) }} </span>
+                    <span> {{ form_widget(formulario.ciudad, {'attr': {'class': 'form-control'}}) }} </span>
                     <div class="error">{{ form_errors(formulario.ciudad) }}</div>
                 </div>                               
                                            
             <div class="col-md-3">
-                    {{ form_label(formulario.pais, 'Pais*') }}
+                    {{ form_label(formulario.pais, 'Pais*', {'label_attr': {'class': 'control-label'}}) }}
                 </div>
                 <div class="col-md-3">
-                    <span> {{ form_widget(formulario.pais) }} </span>
+                    <span> {{ form_widget(formulario.pais, {'attr': {'class': 'form-control'}}) }} </span>
                     <div class="error">{{ form_errors(formulario.pais) }}</div>
                 </div>                
                 
