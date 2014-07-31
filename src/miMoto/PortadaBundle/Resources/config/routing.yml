@@ -21,3 +21,15 @@ portada_producto_inicio:
 portada_tarifas:
     pattern: /portada_tarifas
     defaults: { _controller: PortadaBundle:Portada:tarifas }
+
+modificar_anuncio:
+    pattern: /modificar_anuncio
+    defaults: { _controller: PortadaBundle:Portada:modificarAnuncio }
+
+renovar_anuncio:
+    pattern: /renovar_anuncio
+    defaults: { _controller: PortadaBundle:Portada:renovarAnuncio }
+
+notificar_venta:
+    pattern: /notificar_venta
+    defaults: { _controller: PortadaBundle:Portada:notificarVenta }

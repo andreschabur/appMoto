@@ -1,0 +1,13 @@
+{% extends '::frontend.html.twig' %}
+
+{% block id 'productos' %}
+{% block title %}Modificar Anuncio{% endblock %}
+
+{% block content %}
+<a href="{{ path('portada_producto_inicio') }}">Volver al inicio</a> | 
+<h1>{{ block('title') }}</h1>    
+    
+   Numero de anuncio **Donde encuentro el numero del anuncio? --mostrar imagen
+<br/>
+Email --olvide el mail --digite el numero de anuncio para darle una pista
+    {% endblock %}
