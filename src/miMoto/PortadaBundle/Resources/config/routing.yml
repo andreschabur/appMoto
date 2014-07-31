@@ -17,3 +17,7 @@ portada_producto_ver:
 portada_producto_inicio:
     pattern: /portada_producto_inicio
     defaults: { _controller: PortadaBundle:Portada:inicio }
+
+portada_tarifas:
+    pattern: /portada_tarifas
+    defaults: { _controller: PortadaBundle:Portada:tarifas }
