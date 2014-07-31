@@ -2,18 +2,98 @@
 
 {% block content %}
 
-<div class="row">
-    <div class="col-md-8">
-        {% include 'PortadaBundle:Portada:producto_buscar.html.twig' %}
-        <br/>
-        Espacion publicitario, marcas, repuestos y accesorios, otras categorias y las mas buscadas
+    <div class="row">
+    <div class="col-md-8">        
+        <div class="row">            
+            {% include 'PortadaBundle:Portada:producto_buscar.html.twig' %}            
+        </div>
+        
+        <div class="row">
+            {#        <br/>#}
+            <div class="col-md-7" style="padding-left: 0">        
+                <div class="col-md-12" style="border: 1px solid #428BCA; padding: 20px;">
+                   <font color="green">Categorias</font><br/>
+                   Espacion publicitario, marcas, repuestos y accesorios, otras categorias y las mas buscadas  
+               </div>
+                <div class="col-md-12" style="border: 1px solid #428BCA; padding: 20px; margin-top: 20px">
+                   <font color="green">Marcas</font><br/>
+                   Espacion publicitario, marcas, repuestos y accesorios, otras categorias y las mas buscadas  
+               </div>
+            </div>
+            <div class="col-md-5" style="border: 1px solid #428BCA; text-align: right; padding: 2px">
+                <font color="green">Publicidad</font><br/>
+                <a target="_blank" href="{{app.request.basepath}}/uploads/publicidad/grande/pendonGranBretañaGrande.jpg"><img width="300" height="300"  src="{{app.request.basepath}}/uploads/publicidad/mini/pendonGranBretañaMini.jpg"></a>
+            </div>
+        </div>
+            
+        <div class="row">     
+            <div class="col-md-6" style="padding-left: 0px">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Accesorios, Repuestos y servicios</h3>
+                    </div>
+                    <div class="panel-body">  
+                    <p>
+                        Garage 13... publicidad
+                        venta de soat
+                        servicio tecnopedo
+                    </p>    
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" style="padding-right: 0px">                
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Lo que más se busca</h3>
+                    </div>
+                    <div class="panel-body"> 
+                    <p>
+                        Espacio para eventos que se realizan por grupos de moteros de fb y que se quieran publicar aca
+                    </p>    
+                    </div>
+                </div>
+            </div>
+        </div>
+        
     </div>
     <div class="col-md-4">
-        {% include 'LoginBundle:Default:login.html.twig' %}
-            <br/>
-            Espacion publicitario anuncio calle 13
+        <div class="row">
+            <div class="col-md-12" style="padding-right: 0px">
+                {% include 'LoginBundle:Default:login.html.twig' %}                        
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="padding-right: 0px">
+                {% include 'PortadaBundle:Portada:consesionarioNoticias.html.twig' %}
+            </div>
+        </div>
     </div>
 </div>
+            {#<div class="row">                
+                <div class="col-md-12" style="border: 1px solid #d9edf7; padding: 20px; background-color: #d9edf7">                
+
+                    Comunicate con nosotros gratis desde tu fijo al 018000-xxxxxx. Desde tu celular, al 318 4246820
+                    <hr/>
+
+                        <a href="#">Quiénes somos</a> |
+                        <a href="#">Tarifas</a> |
+                        <a href="#">Mapa del Sitio</a> 
+
+                        <br/>
+
+                        <a href="#">MiCarro</a> |
+                        <a href="#">MiMercado</a> |
+                        <a href="#">MiInmueble</a> |
+                        <a href="#">MiLancha</a> |
+                        <a href="#">MiAvion</a> |
+                    <hr/>
+                    <b>MiMercado Colombia SAS</b>. no asume ninguna responsabilidad por la información contenida en los avisos clasificados, ya que ha sido suministrada y corroborada por los clientes. <b>MiMercado Colombia SAS</b>. no participa en ninguna negociación, venta o perfeccionamiento de operación alguna, sino que sólo se limita a la publicaciÓn y/o alojamiento de avisos clasificados en los términos contratados por cada cliente, por ello no será responsable por daños o perjuicios que pudiere sufrir el usuario o visitante por operaciones sobre anuncios publicados en el sitio.
+                    <br/><br/>
+                    El uso de este sitio implica la aceptación de los <a href="#">Términos y Condiciones</a> y de las <a href="#">Políticas de Privacidad</a> de MiMercado Colombia SAS.
+                    Copyright © 2014 <b>MiMercado Colombia SAS</b>. NIT: XXXXXXXX-1
+
+                </div>
+            </div>#}
 
 
 {#
