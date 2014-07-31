@@ -29,7 +29,18 @@
 
     <div class="block">
         {% block content %}{% endblock %}
+        {#<footer>
+            <div style="border: 1px solid #d9edf7; padding: 20px; background-color: #d9edf7">
+                {% block pie %}{% endblock %}
+            </div>
+        </footer>#}
     </div>
+
+    <footer>
+        <div style="border: 1px solid #d9edf7; padding: 20px; background-color: #d9edf7">
+            {% block pie %}{% endblock %}
+        </div>
+    </footer>
 
     {% if code is defined %}
         <h2>Code behind this page</h2>
