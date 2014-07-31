@@ -3,7 +3,7 @@
 {% block id 'productos' %}
 {% block title %}Ver motos{% endblock %}
 
-{% block article %}
+{% block content %}
 <a href="{{ path('portada_producto_inicio') }}">Volver al inicio</a> | 
 <h1>{{ block('title') }}</h1>
 
@@ -105,7 +105,7 @@
             </div>        
     
     {% endfor %}            
-
+    </div>
 
 
 {#
