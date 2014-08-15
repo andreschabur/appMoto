@@ -22,7 +22,8 @@
             </div>
             <div class="col-md-5" style="border: 1px solid #428BCA; text-align: right; padding: 2px">
                 <font color="green">Publicidad</font><br/>
-                <a target="_blank" href="{{app.request.basepath}}/uploads/publicidad/grande/pendonGranBretañaGrande.jpg"><img width="300" height="300"  src="{{app.request.basepath}}/uploads/publicidad/mini/pendonGranBretañaMini.jpg"></a>
+                {#<a target="_blank" href="{{app.request.basepath}}/uploads/publicidad/grande/pendonGranBretañaGrande.jpg"><img width="300" height="300"  src="{{app.request.basepath}}/uploads/publicidad/mini/pendonGranBretañaMini.jpg"></a>#}
+                <a target="_blank" href="{{ asset('bundles/frontend/publicidad/mini/pendonGranBretañaGrande.jpg') }}"><img width="300" height="300"  src="{{ asset('bundles/frontend/publicidad/mini/pendonGranBretañaMini.jpg') }}"></a>
             </div>
         </div>
             
