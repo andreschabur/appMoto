@@ -1,10 +1,41 @@
+{#Pagina Principal donde el usuario que busca su moto la podra encontrar mediante filtros
+adicionalmente se incluye publicidad de otras empresas #}
 {% extends '::frontend.html.twig' %}
 
 {% block content %}
+{# Inicio Slider para la pagina principal 3 fotos corriendo automaticamente #}
+
+
+
+<img src="{{ asset('bundles/frontend/images/slider/slider0.jpg') }}" 
+     class="imgResponsive" 
+     id="img_to_flip"
+     title="Mimoto.com" />  
+
+<script>    
+    (function() {     // function expression closure to contain variables
+        //var ruta = '/tests/appMoto/web/bundles/frontend/images/slider/'
+        //var ruta = 'http://public_html.kp/tests/appMoto/web/bundles/frontend/images/slider/';
+        var i = 0;
+        var pics = [ "slider0.jpg", "slider1.jpg", "slider2.jpg","slider3.jpg", "slider4.jpg" ];
+        var el = document.getElementById('img_to_flip');  // el doesn't change
+        var ruta = el.src;
+        ruta = ruta.replace("slider0.jpg","");
+        console.log(ruta);
+        function toggle() {
+            el.src = ruta + pics[i];           // set the image
+            i = (i + 1) % pics.length;  // update the counter
+        }
+        setInterval(toggle, 3000);
+    })();
+</script>
+
+{# Fin Slider para la pagina principal 3 fotos corriendo automaticamente #}
 
     <div class="row">
     <div class="col-md-8">        
         <div class="row">            
+            {# Filtros para busqueda de productos#}
             {% include 'PortadaBundle:Portada:producto_buscar.html.twig' %}            
         </div>
         

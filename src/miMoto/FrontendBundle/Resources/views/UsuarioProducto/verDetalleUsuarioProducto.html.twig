@@ -75,12 +75,13 @@
                 <span>
                     <span>
                       {% if contadorFotos == 1  %}
-                            <img class="imagenPreview" width="{{ anchoImagen }}" height="{{ altoImagen }}"  src="{{app.request.basepath}}/{{ productsImages.getWebPath }}">
+                            <img class="imagenPreview imgResponsive" src="{{app.request.basepath}}/{{ productsImages.getWebPath }}">
+                            {#<img class="imagenPreview" width="{{ anchoImagen }}" height="{{ altoImagen }}"  src="{{app.request.basepath}}/{{ productsImages.getWebPath }}">#]
                             {#<img width="230" height="230"  src="{{app.request.basepath}}/{{ productsImages.getWebPath }}">#}
                       {% else %}                                    
                             {#<img width="230" height="230" class="lazy" data-original="{{app.request.basepath}}/{{ productsImages.getWebPath }}">#}
                             {#<img class="lazy" width="{{ anchoImagen }}" height="{{ altoImagen }}"  src="{{app.request.basepath}}/{{ productsImages.getWebPath }}"> #}
-                            <img class="lazy" width="{{ anchoImagen }}" height="{{ altoImagen }}"  data-original="{{app.request.basepath}}/{{ productsImages.getWebPath }}">                  
+                            <img class="lazy imgResponsive"  data-original="{{app.request.basepath}}/{{ productsImages.getWebPath }}">                  
                       {% endif %}
                       </span>
                 </span>
@@ -95,7 +96,7 @@
           <div class="containerCarrusel">
             <div class="carousel-caption">              
                 {#<img width="{{ anchoImagen }}" height="{{ altoImagen }}"  src="{{app.request.basepath}}/{{ producto.getWebPath }}">#}
-                <span><span><img width="{{ anchoImagen }}" height="{{ altoImagen }}"  class="lazy" data-original="{{app.request.basepath}}/{{ producto.getWebPath }}"></span></span>
+                <span><span><img class="lazy imgResponsive" data-original="{{app.request.basepath}}/{{ producto.getWebPath }}"></span></span>
             </div>
           </div>
         </div>

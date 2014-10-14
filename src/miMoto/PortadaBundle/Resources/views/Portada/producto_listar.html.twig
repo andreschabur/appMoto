@@ -47,10 +47,10 @@
                                     <div class="symfony-blocks-help">
                                         <a href="{{ path('portada_producto_ver', { 'id': producto.productsId }) }}">
                                             {% if contadorFotos == 1  %}
-                                              <img width="230" height="230"  src="{{app.request.basepath}}/{{ productsImages.getWebPath }}">
+                                                <img class="imgResponsive" src="{{app.request.basepath}}/{{ productsImages.getWebPath }}">
                                             {% else %}
                                               <!--<img class="lazy" data-original="img/example.jpg" width="640" height="480">-->
-                                              <img width="230" height="230" class="lazy" data-original="{{app.request.basepath}}/{{ productsImages.getWebPath }}">
+                                              <img class="lazy imgResponsive" data-original="{{app.request.basepath}}/{{ productsImages.getWebPath }}">
                                               {#{app.request.basepath}}/{{ productsImages.getWebPath }#}
                                             {% endif %}
                                         </a>
@@ -79,7 +79,7 @@
                                         <div class="symfony-blocks-help">
                                             <a href="{{ path('portada_producto_ver', { 'id': producto.productsId }) }}">
                                                 {#<img width="230" height="230" src="{{app.request.basepath}}/{{ producto.getWebPath }}"><br/>#}
-                                                <img width="230" height="230" class="lazy" data-original="{{app.request.basepath}}/{{ producto.getWebPath }}">
+                                                <img class="lazy imgResponsive" data-original="{{app.request.basepath}}/{{ producto.getWebPath }}">
                                                 {#{app.request.basepath}}/{{ producto.getWebPath }#}
                                             </a>
                                         </div>  

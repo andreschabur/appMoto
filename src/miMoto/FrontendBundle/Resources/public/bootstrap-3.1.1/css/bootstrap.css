@@ -5590,7 +5590,7 @@ button.close {
     padding-bottom: 30px;
   }
   .carousel-indicators {
-    bottom: 70px;
+    bottom: 30px;
   }
 }
 .clearfix:before,
