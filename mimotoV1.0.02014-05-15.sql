@@ -2620,7 +2620,7 @@ CREATE TABLE IF NOT EXISTS `products` (
   `products_id` int(11) NOT NULL AUTO_INCREMENT,
   `products_quantity` int(6) NOT NULL,
   `products_model` varchar(12) DEFAULT NULL,
-  `products_image` varchar(64) NOT NULL,
+  `products_image` varchar(64) DEFAULT NULL,
   `products_price` decimal(15,4) NOT NULL,
   `products_date_added` datetime NOT NULL,
   `products_last_modified` datetime DEFAULT NULL,
