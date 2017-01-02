@@ -1,6 +1,6 @@
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <h3 class="panel-title">Buscando mi moto</h3>
+        <h3 class="panel-title">Buscando mi mascota</h3>
     </div>
     <div class="panel-body">  
         {#<form action="{{ path('portada_producto_listar') }}" method="post">#}
@@ -8,17 +8,17 @@
             
 <div class="row">    
     <div class="col-md-4">
-        <div>{{ form_label(producto.manufacturersIdFilter, 'Fabricante', {'label_attr': {'class': 'control-label'}}) }}</div>
+        <div>{{ form_label(producto.manufacturersIdFilter, 'Tipo de mascota', {'label_attr': {'class': 'control-label'}}) }}</div>
         <span> {{ form_widget(producto.manufacturersIdFilter, {'attr': {'class': 'form-control'}}) }} </span>
         <div class="error">{{ form_errors(producto.manufacturersIdFilter) }}</div>
     </div>
     <div class="col-md-4">
-        <div>{{ form_label(producto.cilindrajeIdFilter, 'Cilindraje', {'label_attr': {'class': 'control-label'}}) }}</div>
+        <div>{{ form_label(producto.cilindrajeIdFilter, 'Raza', {'label_attr': {'class': 'control-label'}}) }}</div>
         <span> {{ form_widget(producto.cilindrajeIdFilter, {'attr': {'class': 'form-control'}}) }} </span>
         <div class="error">{{ form_errors(producto.cilindrajeIdFilter) }}</div>
     </div>
     <div class="col-md-4">
-        <div>{{ form_label(producto.tipoProductoId, 'Tipo', {'label_attr': {'class': 'control-label'}}) }}</div>
+        <div>{{ form_label(producto.tipoProductoId, 'Ciudad', {'label_attr': {'class': 'control-label'}}) }}</div>
         <span> {{ form_widget(producto.tipoProductoId, {'attr': {'class': 'form-control'}}) }} </span>
         <div class="error">{{ form_errors(producto.tipoProductoId) }}</div>        
     </div>
@@ -33,7 +33,7 @@
         <div class="error">{{ form_errors(producto.productsPriceHastaFilter) }}</div>
     </div>
     <div class="col-md-4">
-        <div>{{ form_label(producto.productsAnioDesdeFilter, 'Año  ', {'label_attr': {'class': 'control-label'}}) }}
+        <div>{{ form_label(producto.productsAnioDesdeFilter, 'Edad  ', {'label_attr': {'class': 'control-label'}}) }}
         {{ form_label(producto.productsAnioHastaFilter, ' ', {'label_attr': {'class': 'control-label'}}) }}</div>
         <span>{{ form_widget(producto.productsAnioDesdeFilter, {'attr': {'class': 'form-control'}}) }} {{ form_widget(producto.productsAnioHastaFilter, {'attr': {'class': 'form-control'}}) }}</span>
         <div class="error">{{ form_errors(producto.productsAnioDesdeFilter) }} {{ form_errors(producto.productsAnioHastaFilter) }}</div>
