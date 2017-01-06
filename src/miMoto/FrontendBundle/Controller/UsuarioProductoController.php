@@ -35,7 +35,7 @@ class UsuarioProductoController extends Controller
      * primera vez un anuncion y un usuario. desde la ventana principal
      * @return type
      */
-    public function nuevoAction(){
+    public function nuevoAction(Request $peticion){
          if($this->imprimirEjecucion){
             echo 'yyyyyyyyyyyEste si se usa';
          }
@@ -45,7 +45,7 @@ class UsuarioProductoController extends Controller
         
         
         
-        $peticion = $this->getRequest();
+//        $peticion = $this->getRequest();
         
         $usuario = new Usuario();                
         $producto = new Products();

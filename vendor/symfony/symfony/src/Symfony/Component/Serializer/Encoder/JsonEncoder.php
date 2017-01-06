@@ -12,7 +12,7 @@
 namespace Symfony\Component\Serializer\Encoder;
 
 /**
- * Encodes JSON data
+ * Encodes JSON data.
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
@@ -37,22 +37,30 @@ class JsonEncoder implements EncoderInterface, DecoderInterface
     }
 
     /**
-     * Returns the last encoding error (if any)
+     * Returns the last encoding error (if any).
      *
      * @return int
+     *
+     * @deprecated since version 2.5, to be removed in 3.0. JsonEncode throws exception if an error is found.
      */
     public function getLastEncodingError()
     {
+        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.5 and will be removed in 3.0. Catch the exception raised by the Symfony\Component\Serializer\Encoder\JsonEncode::encode() method instead to get the last JSON encoding error.', E_USER_DEPRECATED);
+
         return $this->encodingImpl->getLastError();
     }
 
     /**
-     * Returns the last decoding error (if any)
+     * Returns the last decoding error (if any).
      *
      * @return int
+     *
+     * @deprecated since version 2.5, to be removed in 3.0. JsonDecode throws exception if an error is found.
      */
     public function getLastDecodingError()
     {
+        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.5 and will be removed in 3.0. Catch the exception raised by the Symfony\Component\Serializer\Encoder\JsonDecode::decode() method instead to get the last JSON decoding error.', E_USER_DEPRECATED);
+
         return $this->decodingImpl->getLastError();
     }
 
@@ -86,5 +94,19 @@ class JsonEncoder implements EncoderInterface, DecoderInterface
     public function supportsDecoding($format)
     {
         return self::FORMAT === $format;
+    }
+
+    /**
+     * Resolves json_last_error message.
+     *
+     * @return string
+     *
+     * @deprecated since 2.8, to be removed in 3.0. Use json_last_error_msg() instead.
+     */
+    public static function getLastErrorMessage()
+    {
+        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.8 and will be removed in 3.0. Use json_last_error_msg() instead.', E_USER_DEPRECATED);
+
+        return json_last_error_msg();
     }
 }

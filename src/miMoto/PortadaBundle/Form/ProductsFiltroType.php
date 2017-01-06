@@ -5,45 +5,49 @@ namespace miMoto\PortadaBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProductsFiltroType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {        
         $builder                 
-                ->add('productsAnioDesdeFilter', 'choice', array(
+                ->add('productsAnioDesdeFilter', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, array(
                     'choices' => $options['anios'],
-                    'empty_value' => 'Desde',
+                    'choices_as_values' => true,
+                    'placeholder' => 'Desde',
                     'required' => false))                        
-                ->add('productsAnioHastaFilter', 'choice', array(
+                ->add('productsAnioHastaFilter', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, array(
                     'choices' => $options['anios'],
-                    'empty_value' => 'Hasta',
+                    'placeholder' => 'Hasta',
+                    'choices_as_values' => true,
                     'required' => false))                  
-                ->add('productsPriceDesdeFilter', 'choice', array(
+                ->add('productsPriceDesdeFilter', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, array(
                     'choices' => $options['preciosDesde'],     
-                    'empty_value' => 'Desde',
+                    'placeholder' => 'Desde',
+                    'choices_as_values' => true,
                     'required' => false))                
-                ->add('productsPriceHastaFilter', 'choice', array(
+                ->add('productsPriceHastaFilter', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, array(
                     'choices' => $options['preciosHasta'],     
-                    'empty_value' => 'Hasta',
+                    'placeholder' => 'Hasta',
+                    'choices_as_values' => true,
                     'required' => false))                
-                ->add('manufacturersIdFilter', 'entity', array(
+                ->add('manufacturersIdFilter', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, array(
                     'class' => 'miMoto\EntidadesBundle\Entity\Manufacturers', 
                     'choices' => $options['fabricantes'], 
-                    'empty_value' => 'Todos',
-                    'required' => false))                
-                ->add('cilindrajeIdFilter', 'entity', array(
+                    'placeholder' => 'Todos',
+                    'placeholder' => false))                
+                ->add('cilindrajeIdFilter', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, array(
                     'class' => 'miMoto\EntidadesBundle\Entity\Cilindraje', 
                     'choices' => $options['cilindrajes'], 
-                    'empty_value' => 'Todos',
+                    'placeholder' => 'Todos',
                     'required' => false))                                
-                ->add('tipoProductoId', 'entity', array(
+                ->add('tipoProductoId', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, array(
                     'class' => 'miMoto\EntidadesBundle\Entity\TipoProducto', 
-                    'empty_value' => 'Todos',
+                    'placeholder' => 'Todos',
                     'required' => false))                
-                ->add('departamentoId', 'entity', array(
+                ->add('departamentoId', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, array(
                     'class' => 'miMoto\EntidadesBundle\Entity\Departamento', 
-                    'empty_value' => 'Todos',
+                    'placeholder' => 'Todos',
                     'required' => false))                
         ;
         
@@ -52,25 +56,25 @@ class ProductsFiltroType extends AbstractType {
     /**
      * @param OptionsResolverInterface $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
             'data_class' => 'miMoto\EntidadesBundle\Entity\Products',
-	    'fabricantes' => true,	    
-	    'cilindrajes' => true,	    	    
-	    'anios' => true,	    	   
-            'preciosDesde' => true, 
-            'preciosHasta' => true,
+	    'fabricantes' => null,	    
+	    'cilindrajes' => null,	    	    
+	    'anios' => null,	    	   
+            'preciosDesde' => null, 
+            'preciosHasta' => null,
         ));
     }
 
     /**
      * @return string
      */
-    public function getName()
-    {
-        return 'mimoto_portadabundle_productsFiltrotype';
-    }
+//    public function getName()
+//    {
+//        return 'mimoto_portadabundle_productsFiltrotype';
+//    }
 
 }

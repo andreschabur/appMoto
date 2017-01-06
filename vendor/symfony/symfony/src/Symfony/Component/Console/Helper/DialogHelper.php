@@ -11,6 +11,9 @@
 
 namespace Symfony\Component\Console\Helper;
 
+use Symfony\Component\Console\Exception\InvalidArgumentException;
+use Symfony\Component\Console\Exception\RuntimeException;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
@@ -18,12 +21,22 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
  * The Dialog class provides helpers to interact with the user.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ *
+ * @deprecated since version 2.5, to be removed in 3.0.
+ *             Use {@link \Symfony\Component\Console\Helper\QuestionHelper} instead.
  */
 class DialogHelper extends InputAwareHelper
 {
     private $inputStream;
     private static $shell;
     private static $stty;
+
+    public function __construct($triggerDeprecationError = true)
+    {
+        if ($triggerDeprecationError) {
+            @trigger_error('"Symfony\Component\Console\Helper\DialogHelper" is deprecated since version 2.5 and will be removed in 3.0. Use "Symfony\Component\Console\Helper\QuestionHelper" instead.', E_USER_DEPRECATED);
+        }
+    }
 
     /**
      * Asks the user to select a value.
@@ -32,35 +45,39 @@ class DialogHelper extends InputAwareHelper
      * @param string|array    $question     The question to ask
      * @param array           $choices      List of choices to pick from
      * @param bool|string     $default      The default answer if the user enters nothing
-     * @param bool|int        $attempts Max number of times to ask before giving up (false by default, which means infinite)
+     * @param bool|int        $attempts     Max number of times to ask before giving up (false by default, which means infinite)
      * @param string          $errorMessage Message which will be shown if invalid value from choice list would be picked
      * @param bool            $multiselect  Select more than one value separated by comma
      *
-     * @return int|string|array     The selected value or values (the key of the choices array)
+     * @return int|string|array The selected value or values (the key of the choices array)
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function select(OutputInterface $output, $question, $choices, $default = null, $attempts = false, $errorMessage = 'Value "%s" is invalid', $multiselect = false)
     {
+        if ($output instanceof ConsoleOutputInterface) {
+            $output = $output->getErrorOutput();
+        }
+
         $width = max(array_map('strlen', array_keys($choices)));
 
         $messages = (array) $question;
         foreach ($choices as $key => $value) {
-            $messages[] = sprintf("  [<info>%-${width}s</info>] %s", $key, $value);
+            $messages[] = sprintf("  [<info>%-{$width}s</info>] %s", $key, $value);
         }
 
         $output->writeln($messages);
 
         $result = $this->askAndValidate($output, '> ', function ($picked) use ($choices, $errorMessage, $multiselect) {
             // Collapse all spaces.
-            $selectedChoices = str_replace(" ", "", $picked);
+            $selectedChoices = str_replace(' ', '', $picked);
 
             if ($multiselect) {
                 // Check for a separated comma values
                 if (!preg_match('/^[a-zA-Z0-9_-]+(?:,[a-zA-Z0-9_-]+)*$/', $selectedChoices, $matches)) {
-                    throw new \InvalidArgumentException(sprintf($errorMessage, $picked));
+                    throw new InvalidArgumentException(sprintf($errorMessage, $picked));
                 }
-                $selectedChoices = explode(",", $selectedChoices);
+                $selectedChoices = explode(',', $selectedChoices);
             } else {
                 $selectedChoices = array($picked);
             }
@@ -69,9 +86,9 @@ class DialogHelper extends InputAwareHelper
 
             foreach ($selectedChoices as $value) {
                 if (empty($choices[$value])) {
-                    throw new \InvalidArgumentException(sprintf($errorMessage, $value));
+                    throw new InvalidArgumentException(sprintf($errorMessage, $value));
                 }
-                array_push($multiselectChoices, $value);
+                $multiselectChoices[] = $value;
             }
 
             if ($multiselect) {
@@ -94,12 +111,16 @@ class DialogHelper extends InputAwareHelper
      *
      * @return string The user answer
      *
-     * @throws \RuntimeException If there is no data to read in the input stream
+     * @throws RuntimeException If there is no data to read in the input stream
      */
     public function ask(OutputInterface $output, $question, $default = null, array $autocomplete = null)
     {
         if ($this->input && !$this->input->isInteractive()) {
             return $default;
+        }
+
+        if ($output instanceof ConsoleOutputInterface) {
+            $output = $output->getErrorOutput();
         }
 
         $output->write($question);
@@ -109,7 +130,7 @@ class DialogHelper extends InputAwareHelper
         if (null === $autocomplete || !$this->hasSttyAvailable()) {
             $ret = fgets($inputStream, 4096);
             if (false === $ret) {
-                throw new \RuntimeException('Aborted');
+                throw new RuntimeException('Aborted');
             }
             $ret = trim($ret);
         } else {
@@ -135,7 +156,7 @@ class DialogHelper extends InputAwareHelper
                 // Backspace Character
                 if ("\177" === $c) {
                     if (0 === $numMatches && 0 !== $i) {
-                        $i--;
+                        --$i;
                         // Move cursor backwards
                         $output->write("\033[1D");
                     }
@@ -150,11 +171,12 @@ class DialogHelper extends InputAwareHelper
 
                     // Pop the last character off the end of our string
                     $ret = substr($ret, 0, $i);
-                } elseif ("\033" === $c) { // Did we read an escape sequence?
+                } elseif ("\033" === $c) {
+                    // Did we read an escape sequence?
                     $c .= fread($inputStream, 2);
 
                     // A = Up Arrow. B = Down Arrow
-                    if ('A' === $c[2] || 'B' === $c[2]) {
+                    if (isset($c[2]) && ('A' === $c[2] || 'B' === $c[2])) {
                         if ('A' === $c[2] && -1 === $ofs) {
                             $ofs = 0;
                         }
@@ -187,7 +209,7 @@ class DialogHelper extends InputAwareHelper
                 } else {
                     $output->write($c);
                     $ret .= $c;
-                    $i++;
+                    ++$i;
 
                     $numMatches = 0;
                     $ofs = 0;
@@ -229,7 +251,7 @@ class DialogHelper extends InputAwareHelper
      * @param string|array    $question The question to ask
      * @param bool            $default  The default answer if the user enters nothing
      *
-     * @return bool    true if the user has confirmed, false otherwise
+     * @return bool true if the user has confirmed, false otherwise
      */
     public function askConfirmation(OutputInterface $output, $question, $default = true)
     {
@@ -246,19 +268,23 @@ class DialogHelper extends InputAwareHelper
     }
 
     /**
-     * Asks a question to the user, the response is hidden
+     * Asks a question to the user, the response is hidden.
      *
      * @param OutputInterface $output   An Output instance
      * @param string|array    $question The question
      * @param bool            $fallback In case the response can not be hidden, whether to fallback on non-hidden question or not
      *
-     * @return string         The answer
+     * @return string The answer
      *
-     * @throws \RuntimeException In case the fallback is deactivated and the response can not be hidden
+     * @throws RuntimeException In case the fallback is deactivated and the response can not be hidden
      */
     public function askHiddenResponse(OutputInterface $output, $question, $fallback = true)
     {
-        if (defined('PHP_WINDOWS_VERSION_BUILD')) {
+        if ($output instanceof ConsoleOutputInterface) {
+            $output = $output->getErrorOutput();
+        }
+
+        if ('\\' === DIRECTORY_SEPARATOR) {
             $exe = __DIR__.'/../Resources/bin/hiddeninput.exe';
 
             // handle code running from a phar
@@ -289,7 +315,7 @@ class DialogHelper extends InputAwareHelper
             shell_exec(sprintf('stty %s', $sttyMode));
 
             if (false === $value) {
-                throw new \RuntimeException('Aborted');
+                throw new RuntimeException('Aborted');
             }
 
             $value = trim($value);
@@ -312,7 +338,7 @@ class DialogHelper extends InputAwareHelper
             return $this->ask($output, $question);
         }
 
-        throw new \RuntimeException('Unable to hide the response');
+        throw new RuntimeException('Unable to hide the response');
     }
 
     /**
@@ -325,7 +351,7 @@ class DialogHelper extends InputAwareHelper
      * @param OutputInterface $output       An Output instance
      * @param string|array    $question     The question to ask
      * @param callable        $validator    A PHP callback
-     * @param int             $attempts     Max number of times to ask before giving up (false by default, which means infinite)
+     * @param int|false       $attempts     Max number of times to ask before giving up (false by default, which means infinite)
      * @param string          $default      The default answer if none is given by the user
      * @param array           $autocomplete List of values to autocomplete
      *
@@ -354,14 +380,13 @@ class DialogHelper extends InputAwareHelper
      * @param OutputInterface $output    An Output instance
      * @param string|array    $question  The question to ask
      * @param callable        $validator A PHP callback
-     * @param int             $attempts  Max number of times to ask before giving up (false by default, which means infinite)
+     * @param int|false       $attempts  Max number of times to ask before giving up (false by default, which means infinite)
      * @param bool            $fallback  In case the response can not be hidden, whether to fallback on non-hidden question or not
      *
-     * @return string         The response
+     * @return string The response
      *
-     * @throws \Exception        When any of the validators return an error
-     * @throws \RuntimeException In case the fallback is deactivated and the response can not be hidden
-     *
+     * @throws \Exception       When any of the validators return an error
+     * @throws RuntimeException In case the fallback is deactivated and the response can not be hidden
      */
     public function askHiddenResponseAndValidate(OutputInterface $output, $question, $validator, $attempts = false, $fallback = true)
     {
@@ -387,9 +412,9 @@ class DialogHelper extends InputAwareHelper
     }
 
     /**
-     * Returns the helper's input stream
+     * Returns the helper's input stream.
      *
-     * @return string
+     * @return resource|null The input stream or null if the default STDIN is used
      */
     public function getInputStream()
     {
@@ -405,9 +430,9 @@ class DialogHelper extends InputAwareHelper
     }
 
     /**
-     * Return a valid Unix shell
+     * Return a valid Unix shell.
      *
-     * @return string|bool     The valid shell name, false in case no valid shell is found
+     * @return string|bool The valid shell name, false in case no valid shell is found
      */
     private function getShell()
     {
@@ -443,31 +468,35 @@ class DialogHelper extends InputAwareHelper
     }
 
     /**
-     * Validate an attempt
+     * Validate an attempt.
      *
-     * @param callable         $interviewer  A callable that will ask for a question and return the result
-     * @param OutputInterface  $output       An Output instance
-     * @param callable         $validator    A PHP callback
-     * @param int              $attempts     Max number of times to ask before giving up ; false will ask infinitely
+     * @param callable        $interviewer A callable that will ask for a question and return the result
+     * @param OutputInterface $output      An Output instance
+     * @param callable        $validator   A PHP callback
+     * @param int|false       $attempts    Max number of times to ask before giving up; false will ask infinitely
      *
-     * @return string   The validated response
+     * @return string The validated response
      *
      * @throws \Exception In case the max number of attempts has been reached and no valid response has been given
      */
     private function validateAttempts($interviewer, OutputInterface $output, $validator, $attempts)
     {
-        $error = null;
+        if ($output instanceof ConsoleOutputInterface) {
+            $output = $output->getErrorOutput();
+        }
+
+        $e = null;
         while (false === $attempts || $attempts--) {
-            if (null !== $error) {
-                $output->writeln($this->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
+            if (null !== $e) {
+                $output->writeln($this->getHelperSet()->get('formatter')->formatBlock($e->getMessage(), 'error'));
             }
 
             try {
                 return call_user_func($validator, $interviewer());
-            } catch (\Exception $error) {
+            } catch (\Exception $e) {
             }
         }
 
-        throw $error;
+        throw $e;
     }
 }

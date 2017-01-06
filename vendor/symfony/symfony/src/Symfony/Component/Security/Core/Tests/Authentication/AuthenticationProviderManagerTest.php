@@ -27,6 +27,16 @@ class AuthenticationProviderManagerTest extends \PHPUnit_Framework_TestCase
         new AuthenticationProviderManager(array());
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testAuthenticateWithProvidersWithIncorrectInterface()
+    {
+        new AuthenticationProviderManager(array(
+            new \stdClass(),
+        ));
+    }
+
     public function testAuthenticateWhenNoProviderSupportsToken()
     {
         $manager = new AuthenticationProviderManager(array(
@@ -129,7 +139,7 @@ class AuthenticationProviderManagerTest extends \PHPUnit_Framework_TestCase
         } elseif (null !== $exception) {
             $provider->expects($this->once())
                      ->method('authenticate')
-                     ->will($this->throwException($this->getMock($exception, null, array(), '', false)))
+                     ->will($this->throwException($this->getMock($exception, null, array(), '')))
             ;
         }
 

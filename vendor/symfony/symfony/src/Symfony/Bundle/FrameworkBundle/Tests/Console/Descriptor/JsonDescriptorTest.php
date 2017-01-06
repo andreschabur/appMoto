@@ -13,15 +13,11 @@ namespace Symfony\Bundle\FrameworkBundle\Tests\Console\Descriptor;
 
 use Symfony\Bundle\FrameworkBundle\Console\Descriptor\JsonDescriptor;
 
+/**
+ * @requires PHP 5.4
+ */
 class JsonDescriptorTest extends AbstractDescriptorTest
 {
-    protected function setUp()
-    {
-        if (version_compare(phpversion(), '5.4.0', '<')) {
-            $this->markTestSkipped('Test skipped on PHP 5.3 as JSON_PRETTY_PRINT does not exist.');
-        }
-    }
-
     protected function getDescriptor()
     {
         return new JsonDescriptor();

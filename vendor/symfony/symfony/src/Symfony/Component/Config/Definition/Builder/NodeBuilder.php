@@ -22,19 +22,18 @@ class NodeBuilder implements NodeParentInterface
     protected $nodeMapping;
 
     /**
-     * Constructor
-     *
+     * Constructor.
      */
     public function __construct()
     {
         $this->nodeMapping = array(
-            'variable'    => __NAMESPACE__.'\\VariableNodeDefinition',
-            'scalar'      => __NAMESPACE__.'\\ScalarNodeDefinition',
-            'boolean'     => __NAMESPACE__.'\\BooleanNodeDefinition',
-            'integer'     => __NAMESPACE__.'\\IntegerNodeDefinition',
-            'float'       => __NAMESPACE__.'\\FloatNodeDefinition',
-            'array'       => __NAMESPACE__.'\\ArrayNodeDefinition',
-            'enum'        => __NAMESPACE__.'\\EnumNodeDefinition',
+            'variable' => __NAMESPACE__.'\\VariableNodeDefinition',
+            'scalar' => __NAMESPACE__.'\\ScalarNodeDefinition',
+            'boolean' => __NAMESPACE__.'\\BooleanNodeDefinition',
+            'integer' => __NAMESPACE__.'\\IntegerNodeDefinition',
+            'float' => __NAMESPACE__.'\\FloatNodeDefinition',
+            'array' => __NAMESPACE__.'\\ArrayNodeDefinition',
+            'enum' => __NAMESPACE__.'\\EnumNodeDefinition',
         );
     }
 
@@ -139,7 +138,7 @@ class NodeBuilder implements NodeParentInterface
     /**
      * Returns the parent node.
      *
-     * @return ParentNodeDefinitionInterface The parent node
+     * @return ParentNodeDefinitionInterface|NodeDefinition The parent node
      */
     public function end()
     {
@@ -243,5 +242,4 @@ class NodeBuilder implements NodeParentInterface
 
         return $class;
     }
-
 }

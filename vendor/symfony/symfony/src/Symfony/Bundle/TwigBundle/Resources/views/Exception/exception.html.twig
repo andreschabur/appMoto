@@ -8,9 +8,7 @@
                 <img alt="" src="data:image/gif;base64,R0lGODlhHAAWAMQQANra2+bl5s3Mzevr6/Pz8+jo6O3t7fHx8c/Oz+Pj49PS093d3djX2NXV1eDf4MrJyvb29gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAABAALAAAAAAcABYAQAWWICSOEDE4AamqRuAsT5yu6hA/wNrcfNysjl5PBOAJAAUDDRLoNRKDndAHnN6k058qaH2QuNelqCAYIm45MfGmIJCkAvUIPNB1td/uAyvEz/UqB0VUagQOZTEjgzx+Kk1CEAU8DAdqB4gPCHVjNwhucphKbzefamAFdlaNEGBZd1V3r1t6fE6wqrJ5XS4Ovb69MyQnv8QhADs=" />
             </div>
 
-            <h1>
-                {{ exception.message|nl2br|format_file_from_text }}
-            </h1>
+            <h1>{{ exception.message|nl2br|format_file_from_text }}</h1>
 
             <div>
                 <strong>{{ status_code }}</strong> {{ status_text }} - {{ exception.class|abbr_class }}
@@ -37,7 +35,7 @@
 </div>
 
 {% for position, e in exception.toarray %}
-    {% include 'TwigBundle:Exception:traces.html.twig' with { 'exception': e, 'position': position, 'count': previous_count } only %}
+    {% include '@Twig/Exception/traces.html.twig' with { 'exception': e, 'position': position, 'count': previous_count } only %}
 {% endfor %}
 
 {% if logger %}
@@ -63,7 +61,7 @@
         </div>
 
         <div id="logs">
-            {% include 'TwigBundle:Exception:logs.html.twig' with { 'logs': logger.logs } only %}
+            {% include '@Twig/Exception/logs.html.twig' with { 'logs': logger.logs } only %}
         </div>
     </div>
 {% endif %}
@@ -88,7 +86,7 @@
     </div>
 {% endif %}
 
-{% include 'TwigBundle:Exception:traces_text.html.twig' with { 'exception': exception } only %}
+{% include '@Twig/Exception/traces_text.html.twig' with { 'exception': exception } only %}
 
 <script type="text/javascript">//<![CDATA[
     function toggle(id, clazz) {
@@ -98,7 +96,7 @@
 
         if (clazz) {
             var tags = document.getElementsByTagName('*');
-            for (i = tags.length - 1; i >= 0 ; i--) {
+            for (i = tags.length - 1; i >= 0; i--) {
                 if (tags[i].className === clazz) {
                     tags[i].style.display = 'none';
                 }

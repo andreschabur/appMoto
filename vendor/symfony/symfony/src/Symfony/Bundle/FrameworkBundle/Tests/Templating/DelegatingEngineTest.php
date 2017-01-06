@@ -12,6 +12,7 @@
 namespace Symfony\Bundle\FrameworkBundle\Tests\Templating;
 
 use Symfony\Bundle\FrameworkBundle\Templating\DelegatingEngine;
+use Symfony\Component\HttpFoundation\Response;
 
 class DelegatingEngineTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,7 +20,7 @@ class DelegatingEngineTest extends \PHPUnit_Framework_TestCase
     {
         $container = $this->getContainerMock(array(
             'engine.first' => $this->getEngineMock('template.php', false),
-            'engine.second' => $this->getEngineMock('template.php', true)
+            'engine.second' => $this->getEngineMock('template.php', true),
         ));
 
         $delegatingEngine = new DelegatingEngine($container, array('engine.first', 'engine.second'));
@@ -33,12 +34,12 @@ class DelegatingEngineTest extends \PHPUnit_Framework_TestCase
         $secondEngine = $this->getEngineMock('template.php', true);
         $container = $this->getContainerMock(array(
             'engine.first' => $firstEngine,
-            'engine.second' => $secondEngine
+            'engine.second' => $secondEngine,
         ));
 
         $delegatingEngine = new DelegatingEngine($container, array('engine.first', 'engine.second'));
 
-        $this->assertSame($secondEngine, $delegatingEngine->getEngine('template.php', array('foo' => 'bar')));
+        $this->assertSame($secondEngine, $delegatingEngine->getEngine('template.php'));
     }
 
     /**
@@ -51,16 +52,16 @@ class DelegatingEngineTest extends \PHPUnit_Framework_TestCase
         $secondEngine = $this->getEngineMock('template.php', false);
         $container = $this->getContainerMock(array(
             'engine.first' => $firstEngine,
-            'engine.second' => $secondEngine
+            'engine.second' => $secondEngine,
         ));
 
         $delegatingEngine = new DelegatingEngine($container, array('engine.first', 'engine.second'));
-        $delegatingEngine->getEngine('template.php', array('foo' => 'bar'));
+        $delegatingEngine->getEngine('template.php');
     }
 
     public function testRenderResponseWithFrameworkEngine()
     {
-        $response = $this->getMock('Symfony\Component\HttpFoundation\Response');
+        $response = new Response();
         $engine = $this->getFrameworkEngineMock('template.php', true);
         $engine->expects($this->once())
             ->method('renderResponse')

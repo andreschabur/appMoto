@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Csrf\CsrfProvider\CsrfProviderInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\Util\ServerParams;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -28,19 +29,21 @@ use Symfony\Component\Translation\TranslatorInterface;
 class CsrfValidationListener implements EventSubscriberInterface
 {
     /**
-     * The name of the CSRF field
+     * The name of the CSRF field.
+     *
      * @var string
      */
     private $fieldName;
 
     /**
-     * The generator for CSRF tokens
+     * The generator for CSRF tokens.
+     *
      * @var CsrfTokenManagerInterface
      */
     private $tokenManager;
 
     /**
-     * A text mentioning the tokenId of the CSRF token
+     * A text mentioning the tokenId of the CSRF token.
      *
      * Validation of the token will only succeed if it was generated in the
      * same session and with the same tokenId.
@@ -51,6 +54,7 @@ class CsrfValidationListener implements EventSubscriberInterface
 
     /**
      * The message displayed in case of an error.
+     *
      * @var string
      */
     private $errorMessage;
@@ -65,6 +69,11 @@ class CsrfValidationListener implements EventSubscriberInterface
      */
     private $translationDomain;
 
+    /**
+     * @var ServerParams
+     */
+    private $serverParams;
+
     public static function getSubscribedEvents()
     {
         return array(
@@ -72,7 +81,7 @@ class CsrfValidationListener implements EventSubscriberInterface
         );
     }
 
-    public function __construct($fieldName, $tokenManager, $tokenId, $errorMessage, TranslatorInterface $translator = null, $translationDomain = null)
+    public function __construct($fieldName, $tokenManager, $tokenId, $errorMessage, TranslatorInterface $translator = null, $translationDomain = null, ServerParams $serverParams = null)
     {
         if ($tokenManager instanceof CsrfProviderInterface) {
             $tokenManager = new CsrfProviderAdapter($tokenManager);
@@ -86,14 +95,17 @@ class CsrfValidationListener implements EventSubscriberInterface
         $this->errorMessage = $errorMessage;
         $this->translator = $translator;
         $this->translationDomain = $translationDomain;
+        $this->serverParams = $serverParams ?: new ServerParams();
     }
 
     public function preSubmit(FormEvent $event)
     {
         $form = $event->getForm();
-        $data = $event->getData();
+        $postRequestSizeExceeded = $form->getConfig()->getMethod() === 'POST' && $this->serverParams->hasPostMaxSizeBeenExceeded();
 
-        if ($form->isRoot() && $form->getConfig()->getOption('compound')) {
+        if ($form->isRoot() && $form->getConfig()->getOption('compound') && !$postRequestSizeExceeded) {
+            $data = $event->getData();
+
             if (!isset($data[$this->fieldName]) || !$this->tokenManager->isTokenValid(new CsrfToken($this->tokenId, $data[$this->fieldName]))) {
                 $errorMessage = $this->errorMessage;
 
@@ -106,20 +118,21 @@ class CsrfValidationListener implements EventSubscriberInterface
 
             if (is_array($data)) {
                 unset($data[$this->fieldName]);
+                $event->setData($data);
             }
         }
-
-        $event->setData($data);
     }
 
     /**
      * Alias of {@link preSubmit()}.
      *
-     * @deprecated Deprecated since version 2.3, to be removed in 3.0. Use
-     *             {@link preSubmit()} instead.
+     * @deprecated since version 2.3, to be removed in 3.0.
+     *             Use {@link preSubmit()} instead.
      */
     public function preBind(FormEvent $event)
     {
+        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.3 and will be removed in 3.0. Use the preSubmit() method instead.', E_USER_DEPRECATED);
+
         $this->preSubmit($event);
     }
 }

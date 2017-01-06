@@ -20,22 +20,25 @@ class FormView implements \ArrayAccess, \IteratorAggregate, \Countable
 {
     /**
      * The variables assigned to this view.
+     *
      * @var array
      */
     public $vars = array(
         'value' => null,
-        'attr'  => array(),
+        'attr' => array(),
     );
 
     /**
      * The parent view.
+     *
      * @var FormView
      */
     public $parent;
 
     /**
      * The child views.
-     * @var array
+     *
+     * @var FormView[]
      */
     public $children = array();
 
@@ -58,33 +61,27 @@ class FormView implements \ArrayAccess, \IteratorAggregate, \Countable
     /**
      * Returns whether the view was already rendered.
      *
-     * @return bool    Whether this view's widget is rendered.
+     * @return bool Whether this view's widget is rendered
      */
     public function isRendered()
     {
-        $hasChildren = 0 < count($this->children);
-
-        if (true === $this->rendered || !$hasChildren) {
+        if (true === $this->rendered || 0 === count($this->children)) {
             return $this->rendered;
         }
 
-        if ($hasChildren) {
-            foreach ($this->children as $child) {
-                if (!$child->isRendered()) {
-                    return false;
-                }
+        foreach ($this->children as $child) {
+            if (!$child->isRendered()) {
+                return false;
             }
-
-            return $this->rendered = true;
         }
 
-        return false;
+        return $this->rendered = true;
     }
 
     /**
      * Marks the view as rendered.
      *
-     * @return FormView The view object.
+     * @return FormView The view object
      */
     public function setRendered()
     {
@@ -110,7 +107,7 @@ class FormView implements \ArrayAccess, \IteratorAggregate, \Countable
      *
      * @param string $name The child name
      *
-     * @return bool    Whether the child view exists
+     * @return bool Whether the child view exists
      */
     public function offsetExists($name)
     {
@@ -138,9 +135,9 @@ class FormView implements \ArrayAccess, \IteratorAggregate, \Countable
     }
 
     /**
-     * Returns an iterator to iterate over children (implements \IteratorAggregate)
+     * Returns an iterator to iterate over children (implements \IteratorAggregate).
      *
-     * @return \ArrayIterator The iterator
+     * @return \ArrayIterator|FormView[] The iterator
      */
     public function getIterator()
     {
@@ -150,7 +147,7 @@ class FormView implements \ArrayAccess, \IteratorAggregate, \Countable
     /**
      * Implements \Countable.
      *
-     * @return int     The number of children views
+     * @return int The number of children views
      */
     public function count()
     {

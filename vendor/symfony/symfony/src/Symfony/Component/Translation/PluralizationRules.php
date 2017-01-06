@@ -18,16 +18,15 @@ namespace Symfony\Component\Translation;
  */
 class PluralizationRules
 {
-    // @codeCoverageIgnoreStart
     private static $rules = array();
 
     /**
      * Returns the plural position to use for the given locale and number.
      *
-     * @param int     $number The number
-     * @param string  $locale The locale
+     * @param int    $number The number
+     * @param string $locale The locale
      *
-     * @return int     The plural position
+     * @return int The plural position
      */
     public static function get($number, $locale)
     {
@@ -56,6 +55,7 @@ class PluralizationRules
          * Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
          */
         switch ($locale) {
+            case 'az':
             case 'bo':
             case 'dz':
             case 'id':
@@ -74,7 +74,6 @@ class PluralizationRules
                 break;
 
             case 'af':
-            case 'az':
             case 'bn':
             case 'bg':
             case 'ca':
@@ -132,6 +131,7 @@ class PluralizationRules
             case 'fr':
             case 'gun':
             case 'hi':
+            case 'hy':
             case 'ln':
             case 'mg':
             case 'nso':
@@ -190,8 +190,8 @@ class PluralizationRules
     /**
      * Overrides the default plural rule for a given locale.
      *
-     * @param string $rule   A PHP callable
-     * @param string $locale The locale
+     * @param callable $rule   A PHP callable
+     * @param string   $locale The locale
      *
      * @throws \LogicException
      */
@@ -212,6 +212,4 @@ class PluralizationRules
 
         self::$rules[$locale] = $rule;
     }
-
-    // @codeCoverageIgnoreEnd
 }

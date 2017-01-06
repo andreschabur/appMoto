@@ -18,6 +18,6 @@ login:
     
 #Pagina de inicio    
 inicio:
-    pattern:  /
+    path:  /
     defaults: { _controller: PortadaBundle:Portada:inicio }    
 

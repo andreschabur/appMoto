@@ -5,7 +5,7 @@ namespace miMoto\FrontendBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
@@ -118,22 +118,22 @@ class UsuarioProductoType extends AbstractType
     /**
      * @param OptionsResolverInterface $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'miMoto\EntidadesBundle\Entity\Usuario',
-            'fabricantes' => true,	    
-	    'cilindrajes' => true,	    
+            'fabricantes' => null,	    
+	    'cilindrajes' => null,	    
+	    'colores' => null,
 	    'opcionesProductos' => true,	    
-	    'colores' => true,
             'pais' => true,
             'departamento' => true,
             'ciudad' => true,
         ));
     }
 
-    public function getName()
-    {
-        return 'mimoto_frontendbundle_usuarioproductotype';
-    }
+//    public function getName()
+//    {
+//        return 'mimoto_frontendbundle_usuarioproductotype';
+//    }
 }

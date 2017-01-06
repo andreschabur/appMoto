@@ -1,36 +1,36 @@
 frontend_homepage:
-    pattern:  /hello/{name}
+    path:  /hello/{name}
     defaults: { _controller: FrontendBundle:Default:index }
     
 producto_ver:
-    pattern:  /ver/{id}
+    path:  /ver/{id}
     defaults: { _controller: FrontendBundle:Default:ver }  
     
 producto_nuevo:
-    pattern: /nuevo
+    path: /nuevo
     defaults: { _controller: FrontendBundle:Default:nuevo }    
     
 producto_editar:
-    pattern: /editar/{id}
+    path: /editar/{id}
     defaults: { _controller: FrontendBundle:Default:editar }    
     
 producto_carrusel:
-    pattern: /carrusel/{id}
+    path: /carrusel/{id}
     defaults: { _controller: FrontendBundle:Default:carrusel }    
 
 usuario_producto_nuevo:
-    pattern: /usuario_producto_nuevo
+    path: /usuario_producto_nuevo
     defaults: { _controller: FrontendBundle:UsuarioProducto:nuevo }   
 
 usuario_producto_editar:
-    pattern:  /usuario_producto_editar
+    path:  /usuario_producto_editar
     defaults: { _controller: FrontendBundle:UsuarioProducto:editar }  
 
 usuario_producto_ver:
-    pattern:  /usuario_producto_ver
+    path:  /usuario_producto_ver
     defaults: { _controller: FrontendBundle:UsuarioProducto:ver }  
     
 ciudades:
-    pattern: /ciudades
+    path: /ciudades
     defaults: { _controller: FrontendBundle:UsuarioProducto:ciudades }
     

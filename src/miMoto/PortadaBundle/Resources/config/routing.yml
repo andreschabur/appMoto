@@ -1,35 +1,35 @@
 portada_homepage:
-    pattern:  /hello/{name}
+    path:  /hello/{name}
     defaults: { _controller: PortadaBundle:Default:index }
     
 #portada_producto_buscar:
-#    pattern: /portada_producto_buscar
+#    path: /portada_producto_buscar
 #    defaults: { _controller: PortadaBundle:Portada:buscar }
 
 #portada_producto_listar:
-#    pattern: /portada_producto_listar
+#    path: /portada_producto_listar
 #    defaults: { _controller: PortadaBundle:Portada:listar }
 
 portada_producto_ver:
-    pattern: /portada_producto_ver/{id}
+    path: /portada_producto_ver/{id}
     defaults: { _controller: PortadaBundle:Portada:ver }
 
 portada_producto_inicio:
-    pattern: /portada_producto_inicio
+    path: /portada_producto_inicio
     defaults: { _controller: PortadaBundle:Portada:inicio }
 
 portada_tarifas:
-    pattern: /portada_tarifas
+    path: /portada_tarifas
     defaults: { _controller: PortadaBundle:Portada:tarifas }
 
 modificar_anuncio:
-    pattern: /modificar_anuncio
+    path: /modificar_anuncio
     defaults: { _controller: PortadaBundle:Portada:modificarAnuncio }
 
 renovar_anuncio:
-    pattern: /renovar_anuncio
+    path: /renovar_anuncio
     defaults: { _controller: PortadaBundle:Portada:renovarAnuncio }
 
 notificar_venta:
-    pattern: /notificar_venta
+    path: /notificar_venta
     defaults: { _controller: PortadaBundle:Portada:notificarVenta }

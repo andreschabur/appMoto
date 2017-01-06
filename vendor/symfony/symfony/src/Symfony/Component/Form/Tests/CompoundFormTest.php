@@ -51,22 +51,6 @@ class CompoundFormTest extends AbstractFormTest
         $this->assertFalse($this->form->isValid());
     }
 
-    public function testValidIfChildIsNotSubmitted()
-    {
-        $this->form->add($this->getBuilder('firstName')->getForm());
-        $this->form->add($this->getBuilder('lastName')->getForm());
-
-        $this->form->submit(array(
-            'firstName' => 'Bernhard',
-        ));
-
-        // "lastName" is not "valid" because it was not submitted. This happens
-        // for example in PATCH requests. The parent form should still be
-        // considered valid.
-
-        $this->assertTrue($this->form->isValid());
-    }
-
     public function testDisabledFormsValidEvenIfChildrenInvalid()
     {
         $form = $this->getBuilder('person')
@@ -126,7 +110,7 @@ class CompoundFormTest extends AbstractFormTest
         $factory = Forms::createFormFactoryBuilder()
             ->getFormFactory();
 
-        $child = $factory->create('file', null, array('auto_initialize' => false));
+        $child = $factory->createNamed('file', 'Symfony\Component\Form\Extension\Core\Type\FileType', null, array('auto_initialize' => false));
 
         $this->form->add($child);
         $this->form->submit(array('file' => null), false);
@@ -188,13 +172,13 @@ class CompoundFormTest extends AbstractFormTest
 
         $this->factory->expects($this->once())
             ->method('createNamed')
-            ->with('foo', 'text', null, array(
+            ->with('foo', 'Symfony\Component\Form\Extension\Core\Type\TextType', null, array(
                 'bar' => 'baz',
                 'auto_initialize' => false,
             ))
             ->will($this->returnValue($child));
 
-        $this->form->add('foo', 'text', array('bar' => 'baz'));
+        $this->form->add('foo', 'Symfony\Component\Form\Extension\Core\Type\TextType', array('bar' => 'baz'));
 
         $this->assertTrue($this->form->has('foo'));
         $this->assertSame($this->form, $child->getParent());
@@ -207,18 +191,34 @@ class CompoundFormTest extends AbstractFormTest
 
         $this->factory->expects($this->once())
             ->method('createNamed')
-            ->with('0', 'text', null, array(
+            ->with('0', 'Symfony\Component\Form\Extension\Core\Type\TextType', null, array(
                 'bar' => 'baz',
                 'auto_initialize' => false,
             ))
             ->will($this->returnValue($child));
 
         // in order to make casting unnecessary
-        $this->form->add(0, 'text', array('bar' => 'baz'));
+        $this->form->add(0, 'Symfony\Component\Form\Extension\Core\Type\TextType', array('bar' => 'baz'));
 
         $this->assertTrue($this->form->has(0));
         $this->assertSame($this->form, $child->getParent());
         $this->assertSame(array(0 => $child), $this->form->all());
+    }
+
+    public function testAddWithoutType()
+    {
+        $child = $this->getBuilder('foo')->getForm();
+
+        $this->factory->expects($this->once())
+            ->method('createNamed')
+            ->with('foo', 'Symfony\Component\Form\Extension\Core\Type\TextType')
+            ->will($this->returnValue($child));
+
+        $this->form->add('foo');
+
+        $this->assertTrue($this->form->has('foo'));
+        $this->assertSame($this->form, $child->getParent());
+        $this->assertSame(array('foo' => $child), $this->form->all());
     }
 
     public function testAddUsingNameButNoType()
@@ -350,7 +350,7 @@ class CompoundFormTest extends AbstractFormTest
             ->with('bar', $this->isInstanceOf('\RecursiveIteratorIterator'))
             ->will($this->returnCallback(function ($data, \RecursiveIteratorIterator $iterator) use ($child, $test) {
                 $test->assertInstanceOf('Symfony\Component\Form\Util\InheritDataAwareIterator', $iterator->getInnerIterator());
-                $test->assertSame(array($child), iterator_to_array($iterator));
+                $test->assertSame(array($child->getName() => $child), iterator_to_array($iterator));
             }));
 
         $form->initialize();
@@ -784,7 +784,7 @@ class CompoundFormTest extends AbstractFormTest
         $values = array(
             'firstName' => 'Bernhard',
             'lastName' => 'Schussek',
-            'extra' => 'data'
+            'extra' => 'data',
         );
 
         $request = new Request($values, array(), array(), array(), array(), array(
@@ -807,6 +807,9 @@ class CompoundFormTest extends AbstractFormTest
         $this->assertEquals(array('extra' => 'data'), $form->getExtraData());
     }
 
+    /**
+     * @group legacy
+     */
     public function testGetErrorsAsStringDeep()
     {
         $parent = $this->getBuilder()
@@ -819,7 +822,104 @@ class CompoundFormTest extends AbstractFormTest
         $parent->add($this->form);
         $parent->add($this->getBuilder('foo')->getForm());
 
-        $this->assertEquals("name:\n    ERROR: Error!\nfoo:\n    No errors\n", $parent->getErrorsAsString());
+        $this->assertSame(
+             "name:\n".
+             "    ERROR: Error!\n",
+             $parent->getErrorsAsString()
+        );
+    }
+
+    /**
+     * @group legacy
+     */
+    public function testGetErrorsAsStringDeepWithIndentation()
+    {
+        $parent = $this->getBuilder()
+            ->setCompound(true)
+            ->setDataMapper($this->getDataMapper())
+            ->getForm();
+
+        $this->form->addError(new FormError('Error!'));
+
+        $parent->add($this->form);
+        $parent->add($this->getBuilder('foo')->getForm());
+
+        $this->assertSame(
+             "    name:\n".
+             "        ERROR: Error!\n",
+             $parent->getErrorsAsString(4)
+        );
+    }
+
+    public function testGetErrors()
+    {
+        $this->form->addError($error1 = new FormError('Error 1'));
+        $this->form->addError($error2 = new FormError('Error 2'));
+
+        $errors = $this->form->getErrors();
+
+        $this->assertSame(
+             "ERROR: Error 1\n".
+             "ERROR: Error 2\n",
+             (string) $errors
+        );
+
+        $this->assertSame(array($error1, $error2), iterator_to_array($errors));
+    }
+
+    public function testGetErrorsDeep()
+    {
+        $this->form->addError($error1 = new FormError('Error 1'));
+        $this->form->addError($error2 = new FormError('Error 2'));
+
+        $childForm = $this->getBuilder('Child')->getForm();
+        $childForm->addError($nestedError = new FormError('Nested Error'));
+        $this->form->add($childForm);
+
+        $errors = $this->form->getErrors(true);
+
+        $this->assertSame(
+             "ERROR: Error 1\n".
+             "ERROR: Error 2\n".
+             "ERROR: Nested Error\n",
+             (string) $errors
+        );
+
+        $this->assertSame(
+             array($error1, $error2, $nestedError),
+             iterator_to_array($errors)
+        );
+    }
+
+    public function testGetErrorsDeepRecursive()
+    {
+        $this->form->addError($error1 = new FormError('Error 1'));
+        $this->form->addError($error2 = new FormError('Error 2'));
+
+        $childForm = $this->getBuilder('Child')->getForm();
+        $childForm->addError($nestedError = new FormError('Nested Error'));
+        $this->form->add($childForm);
+
+        $errors = $this->form->getErrors(true, false);
+
+        $this->assertSame(
+             "ERROR: Error 1\n".
+             "ERROR: Error 2\n".
+             "Child:\n".
+             "    ERROR: Nested Error\n",
+             (string) $errors
+        );
+
+        $errorsAsArray = iterator_to_array($errors);
+
+        $this->assertSame($error1, $errorsAsArray[0]);
+        $this->assertSame($error2, $errorsAsArray[1]);
+        $this->assertInstanceOf('Symfony\Component\Form\FormErrorIterator', $errorsAsArray[2]);
+
+        $nestedErrorsAsArray = iterator_to_array($errorsAsArray[2]);
+
+        $this->assertCount(1, $nestedErrorsAsArray);
+        $this->assertSame($nestedError, $nestedErrorsAsArray[0]);
     }
 
     // Basic cases are covered in SimpleFormTest

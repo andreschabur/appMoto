@@ -4,21 +4,25 @@
     "type": "project",
     "description": "The \"Symfony Standard Edition\" distribution",
     "autoload": {
-        "psr-0": { "": "src/" }
+        "psr-4": { "": "src/" },
+        "files": ["app/AppKernel.php"]
     },
+    "autoload-dev": {
+        "psr-4": { "Tests\\": "tests/" }
+    },    
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": "~2.4",
-        "doctrine/orm": "~2.2,>=2.2.3",
-        "doctrine/doctrine-bundle": "~1.2",
-        "twig/extensions": "~1.0",
-        "symfony/assetic-bundle": "~2.3",
+        "symfony/symfony": "2.8.*",
+        "doctrine/orm": "~2.4",
+        "doctrine/doctrine-bundle": "~1.5",
+        "twig/extensions": "~1.2",
+        "symfony/assetic-bundle": "~2.8",
         "symfony/swiftmailer-bundle": "~2.3",
-        "symfony/monolog-bundle": "~2.4",
-        "sensio/distribution-bundle": "~2.3",
+        "symfony/monolog-bundle": "~2.7",
+        "sensio/distribution-bundle": "~5",
         "sensio/framework-extra-bundle": "~3.0",
-        "sensio/generator-bundle": "~2.3",
-        "incenteev/composer-parameter-handler": "~2.0",
+        "sensio/generator-bundle": "~3",
+        "incenteev/composer-parameter-handler": "~2.1",
         "gregwar/captcha-bundle": "dev-master"
     },
     "scripts": {
@@ -36,18 +40,18 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
         ]
-    },
-    "config": {
-        "bin-dir": "bin"
-    },
+    },    
     "extra": {
         "symfony-app-dir": "app",
         "symfony-web-dir": "web",
+        "symfony-var-dir": "var",
+        "symfony-bin-dir": "bin",
+        "symfony-test-dir": "tests",
         "incenteev-parameters": {
             "file": "app/config/parameters.yml"
         },
         "branch-alias": {
-            "dev-master": "2.4-dev"
+            "dev-master": "2.8.*-dev"
         }
     }
 }

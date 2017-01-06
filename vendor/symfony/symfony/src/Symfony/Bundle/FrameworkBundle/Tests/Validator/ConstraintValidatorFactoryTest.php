@@ -46,7 +46,7 @@ class ConstraintValidatorFactoryTest extends \PHPUnit_Framework_TestCase
         $validator = $this->getMockForAbstractClass('Symfony\\Component\\Validator\\ConstraintValidator');
 
         // mock ContainerBuilder b/c it implements TaggedContainerInterface
-        $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerBuilder');
+        $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerBuilder', array('get'));
         $container
             ->expects($this->once())
             ->method('get')
@@ -61,5 +61,20 @@ class ConstraintValidatorFactoryTest extends \PHPUnit_Framework_TestCase
 
         $factory = new ConstraintValidatorFactory($container, array('validator_constraint_alias' => 'validator_constraint_service'));
         $this->assertSame($validator, $factory->getInstance($constraint));
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Validator\Exception\ValidatorException
+     */
+    public function testGetInstanceInvalidValidatorClass()
+    {
+        $constraint = $this->getMock('Symfony\\Component\\Validator\\Constraint');
+        $constraint
+            ->expects($this->once())
+            ->method('validatedBy')
+            ->will($this->returnValue('Fully\\Qualified\\ConstraintValidator\\Class\\Name'));
+
+        $factory = new ConstraintValidatorFactory(new Container());
+        $factory->getInstance($constraint);
     }
 }

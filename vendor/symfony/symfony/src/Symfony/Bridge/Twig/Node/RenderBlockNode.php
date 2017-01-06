@@ -12,7 +12,7 @@
 namespace Symfony\Bridge\Twig\Node;
 
 /**
- * Compiles a call to {@link FormRendererInterface::renderBlock()}.
+ * Compiles a call to {@link \Symfony\Component\Form\FormRendererInterface::renderBlock()}.
  *
  * The function name is used as block name. For example, if the function name
  * is "foo", the block "foo" will be rendered.
@@ -25,11 +25,11 @@ class RenderBlockNode extends \Twig_Node_Expression_Function
     {
         $compiler->addDebugInfo($this);
         $arguments = iterator_to_array($this->getNode('arguments'));
-        $compiler->write('$this->env->getExtension(\'form\')->renderer->renderBlock(');
+        $compiler->write('$this->env->getExtension(\'Symfony\Bridge\Twig\Extension\FormExtension\')->renderer->renderBlock(');
 
         if (isset($arguments[0])) {
             $compiler->subcompile($arguments[0]);
-            $compiler->raw(', \'' . $this->getAttribute('name') . '\'');
+            $compiler->raw(', \''.$this->getAttribute('name').'\'');
 
             if (isset($arguments[1])) {
                 $compiler->raw(', ');

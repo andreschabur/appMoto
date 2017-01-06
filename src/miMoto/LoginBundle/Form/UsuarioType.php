@@ -5,7 +5,7 @@ namespace miMoto\LoginBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UsuarioType extends AbstractType
 {
@@ -35,15 +35,15 @@ class UsuarioType extends AbstractType
     /**
      * @param OptionsResolverInterface $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'miMoto\EntidadesBundle\Entity\Usuario'
         ));
     }
 
-    public function getName()
-    {
-        return 'mimoto_loginbundle_usuariotype';
-    }
+//    public function getName()
+//    {
+//        return 'mimoto_loginbundle_usuariotype';
+//    }
 }

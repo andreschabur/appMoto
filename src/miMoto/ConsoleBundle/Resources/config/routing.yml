@@ -1,13 +1,15 @@
 console:
-    pattern:  /console/
+    path:  /console/
     defaults: { _controller: ConsoleBundle:Console:console }
-    requirements:
-        _method: GET
+    methods: [GET]
+#    requirements:
+#        _method: GET
 
 
 console_exec:
-    pattern:  /console.{_format}
+    path:  /console.{_format}
     defaults: { _controller: ConsoleBundle:Console:exec, _format: json }
+    methods: [POST]
     requirements:
-        _method: POST
+#        _method: POST
         _format: json

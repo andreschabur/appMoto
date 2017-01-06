@@ -12,7 +12,6 @@
 namespace Symfony\Component\HttpKernel\EventListener;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\IpUtils;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -25,8 +24,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * All URL paths starting with /_fragment are handled as
  * content fragments by this listener.
  *
- * If the request does not come from a trusted IP, it throws an
- * AccessDeniedHttpException exception.
+ * If throws an AccessDeniedHttpException exception if the request
+ * is not signed or if it is not an internal sub-request.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
@@ -62,7 +61,16 @@ class FragmentListener implements EventSubscriberInterface
             return;
         }
 
-        $this->validateRequest($request);
+        if ($request->attributes->has('_controller')) {
+            // Is a sub-request: no need to parse _path but it should still be removed from query parameters as below.
+            $request->query->remove('_path');
+
+            return;
+        }
+
+        if ($event->isMasterRequest()) {
+            $this->validateRequest($request);
+        }
 
         parse_str($request->query->get('_path', ''), $attributes);
         $request->attributes->add($attributes);
@@ -73,15 +81,8 @@ class FragmentListener implements EventSubscriberInterface
     protected function validateRequest(Request $request)
     {
         // is the Request safe?
-        if (!$request->isMethodSafe()) {
+        if (!$request->isMethodSafe(false)) {
             throw new AccessDeniedHttpException();
-        }
-
-        // does the Request come from a trusted IP?
-        $trustedIps = array_merge($this->getLocalIpAddresses(), $request->getTrustedProxies());
-        $remoteAddress = $request->server->get('REMOTE_ADDR');
-        if (IpUtils::checkIp($remoteAddress, $trustedIps)) {
-            return;
         }
 
         // is the Request signed?
@@ -93,8 +94,15 @@ class FragmentListener implements EventSubscriberInterface
         throw new AccessDeniedHttpException();
     }
 
+    /**
+     * @deprecated since version 2.3.19, to be removed in 3.0.
+     *
+     * @return string[]
+     */
     protected function getLocalIpAddresses()
     {
+        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.3.19 and will be removed in 3.0.', E_USER_DEPRECATED);
+
         return array('127.0.0.1', 'fe80::1', '::1');
     }
 

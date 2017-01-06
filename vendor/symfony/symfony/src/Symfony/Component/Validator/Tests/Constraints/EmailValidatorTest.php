@@ -11,41 +11,38 @@
 
 namespace Symfony\Component\Validator\Tests\Constraints;
 
+use Symfony\Bridge\PhpUnit\DnsMock;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\EmailValidator;
+use Symfony\Component\Validator\Validation;
 
-class EmailValidatorTest extends \PHPUnit_Framework_TestCase
+/**
+ * @group dns-sensitive
+ */
+class EmailValidatorTest extends AbstractConstraintValidatorTest
 {
-    protected $context;
-    protected $validator;
-
-    protected function setUp()
+    protected function getApiVersion()
     {
-        $this->context = $this->getMock('Symfony\Component\Validator\ExecutionContext', array(), array(), '', false);
-        $this->validator = new EmailValidator();
-        $this->validator->initialize($this->context);
+        return Validation::API_VERSION_2_5;
     }
 
-    protected function tearDown()
+    protected function createValidator()
     {
-        $this->context = null;
-        $this->validator = null;
+        return new EmailValidator(false);
     }
 
     public function testNullIsValid()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation');
-
         $this->validator->validate(null, new Email());
+
+        $this->assertNoViolation();
     }
 
     public function testEmptyStringIsValid()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation');
-
         $this->validator->validate('', new Email());
+
+        $this->assertNoViolation();
     }
 
     /**
@@ -61,10 +58,9 @@ class EmailValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidEmails($email)
     {
-        $this->context->expects($this->never())
-            ->method('addViolation');
-
         $this->validator->validate($email, new Email());
+
+        $this->assertNoViolation();
     }
 
     public function getValidEmails()
@@ -82,16 +78,15 @@ class EmailValidatorTest extends \PHPUnit_Framework_TestCase
     public function testInvalidEmails($email)
     {
         $constraint = new Email(array(
-            'message' => 'myMessage'
+            'message' => 'myMessage',
         ));
 
-        $this->context->expects($this->once())
-            ->method('addViolation')
-            ->with('myMessage', array(
-                '{{ value }}' => $email,
-            ));
-
         $this->validator->validate($email, $constraint);
+
+        $this->buildViolation('myMessage')
+            ->setParameter('{{ value }}', '"'.$email.'"')
+            ->setCode(Email::INVALID_FORMAT_ERROR)
+            ->assertRaised();
     }
 
     public function getInvalidEmails()
@@ -100,7 +95,68 @@ class EmailValidatorTest extends \PHPUnit_Framework_TestCase
             array('example'),
             array('example@'),
             array('example@localhost'),
-            array('example@example.com@example.com'),
+            array('foo@example.com bar'),
         );
+    }
+
+    public function testStrict()
+    {
+        $constraint = new Email(array('strict' => true));
+
+        $this->validator->validate('example@localhost', $constraint);
+
+        $this->assertNoViolation();
+    }
+
+    /**
+     * @dataProvider getDnsChecks
+     * @requires function Symfony\Bridge\PhpUnit\DnsMock::withMockedHosts
+     */
+    public function testDnsChecks($type, $violation)
+    {
+        DnsMock::withMockedHosts(array('example.com' => array(array('type' => $violation ? false : $type))));
+
+        $constraint = new Email(array(
+            'message' => 'myMessage',
+            'MX' === $type ? 'checkMX' : 'checkHost' => true,
+        ));
+
+        $this->validator->validate('foo@example.com', $constraint);
+
+        if (!$violation) {
+            $this->assertNoViolation();
+        } else {
+            $this->buildViolation('myMessage')
+                ->setParameter('{{ value }}', '"foo@example.com"')
+                ->setCode($violation)
+                ->assertRaised();
+        }
+    }
+
+    public function getDnsChecks()
+    {
+        return array(
+            array('MX', false),
+            array('MX', Email::MX_CHECK_FAILED_ERROR),
+            array('A', false),
+            array('A', Email::HOST_CHECK_FAILED_ERROR),
+            array('AAAA', false),
+            array('AAAA', Email::HOST_CHECK_FAILED_ERROR),
+        );
+    }
+
+    /**
+     * @requires function Symfony\Bridge\PhpUnit\DnsMock::withMockedHosts
+     */
+    public function testHostnameIsProperlyParsed()
+    {
+        DnsMock::withMockedHosts(array('baz.com' => array(array('type' => 'MX'))));
+
+        $this->validator->validate(
+            '"foo@bar"@baz.com',
+            new Email(array('checkMX' => true))
+        );
+
+        $this->assertNoViolation();
     }
 }

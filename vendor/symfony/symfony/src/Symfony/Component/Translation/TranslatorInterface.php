@@ -15,8 +15,6 @@ namespace Symfony\Component\Translation;
  * TranslatorInterface.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @api
  */
 interface TranslatorInterface
 {
@@ -30,7 +28,7 @@ interface TranslatorInterface
      *
      * @return string The translated string
      *
-     * @api
+     * @throws \InvalidArgumentException If the locale contains invalid characters
      */
     public function trans($id, array $parameters = array(), $domain = null, $locale = null);
 
@@ -45,7 +43,7 @@ interface TranslatorInterface
      *
      * @return string The translated string
      *
-     * @api
+     * @throws \InvalidArgumentException If the locale contains invalid characters
      */
     public function transChoice($id, $number, array $parameters = array(), $domain = null, $locale = null);
 
@@ -54,7 +52,7 @@ interface TranslatorInterface
      *
      * @param string $locale The locale
      *
-     * @api
+     * @throws \InvalidArgumentException If the locale contains invalid characters
      */
     public function setLocale($locale);
 
@@ -62,8 +60,6 @@ interface TranslatorInterface
      * Returns the current locale.
      *
      * @return string The locale
-     *
-     * @api
      */
     public function getLocale();
 }

@@ -338,7 +338,7 @@ class Usuario implements UserInterface {
     
     //***Validacion adhoc
     /**
-    * @Assert\True(message = "Debes tener al menos 18 años")
+    * @Assert\IsTrue(message = "Debes tener al menos 18 años")
     */
     public function isMayorDeEdad(){
         return 1 == 1;

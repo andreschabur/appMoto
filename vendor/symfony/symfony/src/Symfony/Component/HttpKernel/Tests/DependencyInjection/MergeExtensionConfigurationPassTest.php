@@ -17,7 +17,17 @@ class MergeExtensionConfigurationPassTest extends \PHPUnit_Framework_TestCase
 {
     public function testAutoloadMainExtension()
     {
-        $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerBuilder');
+        $container = $this->getMock(
+            'Symfony\\Component\\DependencyInjection\\ContainerBuilder',
+            array(
+                'getExtensionConfig',
+                'loadFromExtension',
+                'getParameterBag',
+                'getDefinitions',
+                'getAliases',
+                'getExtensions',
+            )
+        );
         $params = $this->getMock('Symfony\\Component\\DependencyInjection\\ParameterBag\\ParameterBag');
 
         $container->expects($this->at(0))

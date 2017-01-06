@@ -41,28 +41,26 @@ class TwigEngine extends BaseEngine implements EngineInterface
         $this->locator = $locator;
     }
 
+    /**
+     * @deprecated since version 2.7, to be removed in 3.0.
+     *             Inject the escaping strategy on \Twig_Environment instead.
+     */
     public function setDefaultEscapingStrategy($strategy)
     {
-        $this->environment->getExtension('escaper')->setDefaultStrategy($strategy);
+        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.7 and will be removed in 3.0. Inject the escaping strategy in the Twig_Environment object instead.', E_USER_DEPRECATED);
+
+        $this->environment->getExtension('Twig_Extension_Escaper')->setDefaultStrategy($strategy);
     }
 
-    public function guessDefaultEscapingStrategy($filename)
+    /**
+     * @deprecated since version 2.7, to be removed in 3.0.
+     *             Use the 'name' strategy instead.
+     */
+    public function guessDefaultEscapingStrategy($name)
     {
-        // remove .twig
-        $filename = substr($filename, 0, -5);
+        @trigger_error('The '.__METHOD__.' method is deprecated since version 2.7 and will be removed in 3.0. Use the Twig_FileExtensionEscapingStrategy::guess method instead.', E_USER_DEPRECATED);
 
-        // get the format
-        $format = substr($filename, strrpos($filename, '.') + 1);
-
-        if ('js' === $format) {
-            return 'js';
-        }
-
-        if ('txt' === $format) {
-            return false;
-        }
-
-        return 'html';
+        return \Twig_FileExtensionEscapingStrategy::guess($name);
     }
 
     /**
@@ -75,9 +73,15 @@ class TwigEngine extends BaseEngine implements EngineInterface
         } catch (\Twig_Error $e) {
             if ($name instanceof TemplateReference) {
                 try {
-                    // try to get the real file name of the template where the error occurred
-                    $e->setTemplateFile(sprintf('%s', $this->locator->locate($this->parser->parse($e->getTemplateFile()))));
-                } catch (\Exception $ex) {
+                    // try to get the real name of the template where the error occurred
+                    $name = $e->getTemplateName();
+                    $path = (string) $this->locator->locate($this->parser->parse($name));
+                    if (method_exists($e, 'setSourceContext')) {
+                        $e->setSourceContext(new \Twig_Source('', $name, $path));
+                    } else {
+                        $e->setTemplateName($path);
+                    }
+                } catch (\Exception $e2) {
                 }
             }
 

@@ -1,9 +1,9 @@
 #login_homepage:
-#    pattern:  /hello/{name}
+#    path:  /hello/{name}
 #    defaults: { _controller: LoginBundle:Default:index }
 #    
 #iniciar_sesion:
-#    pattern:  /iniciarSesion
+#    path:  /iniciarSesion
 #    defaults: { _controller: LoginBundle:Default:iniciarSesion }    
 #
 #LoginBundle_backend_administrador:
@@ -11,36 +11,36 @@
 #    prefix:   /backend/administrador    
 
 usuario_login:
-    pattern:  /login
+    path:  /login
     defaults: { _controller: LoginBundle:Default:login }
 
 usuario_login_check:
-    pattern:  /login_check    
+    path:  /login_check    
 
 usuario_logout: 
-    pattern:  /logout    
+    path:  /logout    
 
 #iniciar_sesion:
-#    pattern:  /iniciarSesion
+#    path:  /iniciarSesion
 #    defaults: { _controller: LoginBundle:Default:iniciar }
     
 cerrar_sesion:
-    pattern:  /cerrarSesion
+    path:  /cerrarSesion
     defaults: { _controller: LoginBundle:Default:cerrar }
     
 usuario_perfil:
-    pattern:  /perfil
+    path:  /perfil
     defaults: { _controller: LoginBundle:Default:perfil }  
 
 usuario_perfilEditar:
-    pattern:  /perfilEditar
+    path:  /perfilEditar
     defaults: { _controller: LoginBundle:Default:perfilEditar }  
 
 usuario_hello:
-    pattern:  /hello
+    path:  /hello
     defaults: { _controller: LoginBundle:Default:test }  
     
 usuario_registro:
-    pattern: /registro
+    path: /registro
     defaults: { _controller: LoginBundle:Default:registro }
     

@@ -11,12 +11,13 @@
 
 namespace Symfony\Component\Finder\Adapter;
 
+@trigger_error('The '.__NAMESPACE__.'\AbstractFindAdapter class is deprecated since version 2.8 and will be removed in 3.0. Use directly the Finder class instead.', E_USER_DEPRECATED);
+
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\Finder\Iterator;
 use Symfony\Component\Finder\Shell\Shell;
 use Symfony\Component\Finder\Expression\Expression;
 use Symfony\Component\Finder\Shell\Command;
-use Symfony\Component\Finder\Iterator\SortableIterator;
 use Symfony\Component\Finder\Comparator\NumberComparator;
 use Symfony\Component\Finder\Comparator\DateComparator;
 
@@ -24,6 +25,8 @@ use Symfony\Component\Finder\Comparator\DateComparator;
  * Shell engine implementation using GNU find command.
  *
  * @author Jean-François Simon <contact@jfsimon.fr>
+ *
+ * @deprecated since 2.8, to be removed in 3.0. Use Finder instead.
  */
 abstract class AbstractFindAdapter extends AbstractAdapter
 {
@@ -95,7 +98,7 @@ abstract class AbstractFindAdapter extends AbstractAdapter
         $command->setErrorHandler(
             $this->ignoreUnreadableDirs
                 // If directory is unreadable and finder is set to ignore it, `stderr` is ignored.
-                ? function ($stderr) { return; }
+                ? function ($stderr) { }
                 : function ($stderr) { throw new AccessDeniedException($stderr); }
         );
 
@@ -217,7 +220,7 @@ abstract class AbstractFindAdapter extends AbstractAdapter
             // Fixes 'not search' regex problems.
             if ($expr->isRegex()) {
                 $regex = $expr->getRegex();
-                $regex->prepend($regex->hasStartFlag() ? $dir.DIRECTORY_SEPARATOR : '.*')->setEndJoker(!$regex->hasEndFlag());
+                $regex->prepend($regex->hasStartFlag() ? preg_quote($dir).DIRECTORY_SEPARATOR : '.*')->setEndJoker(!$regex->hasEndFlag());
             } else {
                 $expr->prepend('*')->append('*');
             }
@@ -248,7 +251,7 @@ abstract class AbstractFindAdapter extends AbstractAdapter
                     $command->add('-size -'.($size->getTarget() + 1).'c');
                     break;
                 case '>=':
-                    $command->add('-size +'. ($size->getTarget() - 1).'c');
+                    $command->add('-size +'.($size->getTarget() - 1).'c');
                     break;
                 case '>':
                     $command->add('-size +'.$size->getTarget().'c');
@@ -256,6 +259,7 @@ abstract class AbstractFindAdapter extends AbstractAdapter
                 case '!=':
                     $command->add('-size -'.$size->getTarget().'c');
                     $command->add('-size +'.$size->getTarget().'c');
+                    break;
                 case '<':
                 default:
                     $command->add('-size -'.$size->getTarget().'c');
@@ -272,7 +276,7 @@ abstract class AbstractFindAdapter extends AbstractAdapter
         foreach ($dates as $i => $date) {
             $command->add($i > 0 ? '-and' : null);
 
-            $mins = (int) round((time()-$date->getTarget()) / 60);
+            $mins = (int) round((time() - $date->getTarget()) / 60);
 
             if (0 > $mins) {
                 // mtime is in the future

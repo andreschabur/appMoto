@@ -13,18 +13,20 @@ namespace Symfony\Component\Finder\Adapter;
 
 /**
  * @author Jean-François Simon <contact@jfsimon.fr>
+ *
+ * @deprecated since 2.8, to be removed in 3.0.
  */
 interface AdapterInterface
 {
     /**
-     * @param bool    $followLinks
+     * @param bool $followLinks
      *
      * @return AdapterInterface Current instance
      */
     public function setFollowLinks($followLinks);
 
     /**
-     * @param int     $mode
+     * @param int $mode
      *
      * @return AdapterInterface Current instance
      */
@@ -94,7 +96,7 @@ interface AdapterInterface
     public function setFilters(array $filters);
 
     /**
-     * @param \Closure|int     $sort
+     * @param \Closure|int $sort
      *
      * @return AdapterInterface Current instance
      */
@@ -115,7 +117,7 @@ interface AdapterInterface
     public function setNotPath(array $notPaths);
 
     /**
-     * @param bool    $ignore
+     * @param bool $ignore
      *
      * @return AdapterInterface Current instance
      */

@@ -19,17 +19,17 @@ namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
 class MemcacheSessionHandler implements \SessionHandlerInterface
 {
     /**
-     * @var \Memcache Memcache driver.
+     * @var \Memcache Memcache driver
      */
     private $memcache;
 
     /**
-     * @var int     Time to live in seconds
+     * @var int Time to live in seconds
      */
     private $ttl;
 
     /**
-     * @var string Key prefix for shared environments.
+     * @var string Key prefix for shared environments
      */
     private $prefix;
 
@@ -71,7 +71,7 @@ class MemcacheSessionHandler implements \SessionHandlerInterface
      */
     public function close()
     {
-        return $this->memcache->close();
+        return true;
     }
 
     /**
@@ -108,7 +108,7 @@ class MemcacheSessionHandler implements \SessionHandlerInterface
     }
 
     /**
-     * Return a Memcache instance
+     * Return a Memcache instance.
      *
      * @return \Memcache
      */

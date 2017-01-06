@@ -15,6 +15,8 @@ namespace Symfony\Bundle\TwigBundle\Node;
  * Represents a render node.
  *
  * @author Fabien Potencier <fabien@symfony.com>
+ *
+ * @deprecated since version 2.2, to be removed in 3.0.
  */
 class RenderNode extends \Twig_Node
 {
@@ -32,7 +34,7 @@ class RenderNode extends \Twig_Node
     {
         $compiler
             ->addDebugInfo($this)
-            ->write("echo \$this->env->getExtension('actions')->renderUri(")
+            ->write("echo \$this->env->getExtension('Symfony\Bundle\TwigBundle\Extension\ActionsExtension')->renderUri(")
             ->subcompile($this->getNode('expr'))
             ->raw(', ')
             ->subcompile($this->getNode('options'))

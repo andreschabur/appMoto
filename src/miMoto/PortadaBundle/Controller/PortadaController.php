@@ -2,13 +2,13 @@
 
 namespace miMoto\PortadaBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use DateTime;
 use miMoto\EntidadesBundle\Entity\Products;
 use miMoto\PortadaBundle\Form\ProductsFiltroType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 
-use Symfony\Component\Security\Core\SecurityContext;
-
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class PortadaController extends Controller
 {
@@ -86,19 +86,22 @@ class PortadaController extends Controller
 //        return $this->render('PortadaBundle:Portada:producto_ver.html.twig', array('producto' => $producto));
     }    
     
-    public function inicioAction(){
+    public function inicioAction(Request $request){
         
         $em = $this->getDoctrine()->getManager();        
         //***
-        $peticion = $this->getRequest();
+//        $peticion = $this->getRequest();
+        $peticion = $request;
         $sesion = $peticion->getSession();        
+//        $error = $peticion->attributes->get(
+//                SecurityContext::AUTHENTICATION_ERROR, $sesion->get(SecurityContext::AUTHENTICATION_ERROR));
         $error = $peticion->attributes->get(
-                SecurityContext::AUTHENTICATION_ERROR, $sesion->get(SecurityContext::AUTHENTICATION_ERROR));
+                Security::AUTHENTICATION_ERROR, $sesion->get(Security::AUTHENTICATION_ERROR));
         
         //***Si se va a mostrar, 
         if (!isset($productoForm)){
             $producto = new Products();
-            $productoFiltroType = new ProductsFiltroType();
+//            $productoFiltroType = new ProductsFiltroType();
             //***
             $fabricantes = $em->getRepository('EntidadesBundle:Manufacturers')->findBy(array('estado' => 'A'));
             $cilindrajes = $em->getRepository('EntidadesBundle:Cilindraje')->findAll();
@@ -107,7 +110,7 @@ class PortadaController extends Controller
             $preciosHasta = $this->generarArrayPreciosHasta();
             $options = array('fabricantes' => $fabricantes, 'cilindrajes' => $cilindrajes,'anios' => $anios, 'preciosDesde' => $preciosDesde, 'preciosHasta' => $preciosHasta);        
 
-            $productoForm = $this->createForm(new $productoFiltroType(), $producto, $options);
+            $productoForm = $this->createForm(ProductsFiltroType::class, $producto, $options);
         }
         
         //***Si se esta filtrando
@@ -122,13 +125,13 @@ class PortadaController extends Controller
         return $this->render(
         'PortadaBundle:Portada:inicio.html.twig',
         array('producto' => $productoForm->createView(),
-            'last_username' => $sesion->get(SecurityContext::LAST_USERNAME),
+            'last_username' => $sesion->get(Security::LAST_USERNAME),
             'error' => $error));
     }
     
     
     public function generarArrayAnios(){
-        $fechaActual = new \DateTime;
+        $fechaActual = new DateTime;
         $anioActual = $fechaActual->format('Y');
         $mesActual = $fechaActual->format('m');
         $anios = array();

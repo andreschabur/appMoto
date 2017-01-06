@@ -23,15 +23,15 @@ class TestMultipleHttpKernel extends HttpKernel implements ControllerResolverInt
     protected $bodies = array();
     protected $statuses = array();
     protected $headers = array();
-    protected $call = false;
+    protected $called = false;
     protected $backendRequest;
 
     public function __construct($responses)
     {
         foreach ($responses as $response) {
-            $this->bodies[]   = $response['body'];
+            $this->bodies[] = $response['body'];
             $this->statuses[] = $response['status'];
-            $this->headers[]  = $response['headers'];
+            $this->headers[] = $response['headers'];
         }
 
         parent::__construct(new EventDispatcher(), $this);
@@ -75,6 +75,6 @@ class TestMultipleHttpKernel extends HttpKernel implements ControllerResolverInt
 
     public function reset()
     {
-        $this->call = false;
+        $this->called = false;
     }
 }

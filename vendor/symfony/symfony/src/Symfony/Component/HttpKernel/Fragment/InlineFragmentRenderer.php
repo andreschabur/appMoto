@@ -93,9 +93,7 @@ class InlineFragmentRenderer extends RoutableFragmentRenderer
             }
 
             // let's clean up the output buffers that were created by the sub-request
-            while (ob_get_level() > $level) {
-                ob_get_clean();
-            }
+            Response::closeOutputBuffers($level, false);
 
             if (isset($options['alt'])) {
                 $alt = $options['alt'];
@@ -131,6 +129,8 @@ class InlineFragmentRenderer extends RoutableFragmentRenderer
         }
 
         $server['REMOTE_ADDR'] = '127.0.0.1';
+        unset($server['HTTP_IF_MODIFIED_SINCE']);
+        unset($server['HTTP_IF_NONE_MATCH']);
 
         $subRequest = Request::create($uri, 'get', array(), $cookies, array(), $server);
         if ($request->headers->has('Surrogate-Capability')) {

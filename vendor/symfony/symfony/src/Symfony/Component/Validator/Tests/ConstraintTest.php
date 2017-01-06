@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Validator\Tests;
 
+use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Tests\Fixtures\ClassConstraint;
 use Symfony\Component\Validator\Tests\Fixtures\ConstraintA;
 use Symfony\Component\Validator\Tests\Fixtures\ConstraintB;
@@ -55,7 +56,7 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
 
         new ConstraintC(array(
             'option1' => 'default',
-            'foo' => 'bar'
+            'foo' => 'bar',
         ));
     }
 
@@ -153,5 +154,87 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
         $constraint = new ConstraintA();
 
         $this->assertEquals(array('property', 'class'), $constraint->getTargets());
+    }
+
+    public function testSerialize()
+    {
+        $constraint = new ConstraintA(array(
+            'property1' => 'foo',
+            'property2' => 'bar',
+        ));
+
+        $restoredConstraint = unserialize(serialize($constraint));
+
+        $this->assertEquals($constraint, $restoredConstraint);
+    }
+
+    public function testSerializeInitializesGroupsOptionToDefault()
+    {
+        $constraint = new ConstraintA(array(
+            'property1' => 'foo',
+            'property2' => 'bar',
+        ));
+
+        $constraint = unserialize(serialize($constraint));
+
+        $expected = new ConstraintA(array(
+            'property1' => 'foo',
+            'property2' => 'bar',
+            'groups' => 'Default',
+        ));
+
+        $this->assertEquals($expected, $constraint);
+    }
+
+    public function testSerializeKeepsCustomGroups()
+    {
+        $constraint = new ConstraintA(array(
+            'property1' => 'foo',
+            'property2' => 'bar',
+            'groups' => 'MyGroup',
+        ));
+
+        $constraint = unserialize(serialize($constraint));
+
+        $this->assertSame(array('MyGroup'), $constraint->groups);
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Validator\Exception\InvalidArgumentException
+     */
+    public function testGetErrorNameForUnknownCode()
+    {
+        Constraint::getErrorName(1);
+    }
+
+    public function testOptionsAsDefaultOption()
+    {
+        $constraint = new ConstraintA($options = array('value1'));
+
+        $this->assertEquals($options, $constraint->property2);
+
+        $constraint = new ConstraintA($options = array('value1', 'property1' => 'value2'));
+
+        $this->assertEquals($options, $constraint->property2);
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Validator\Exception\InvalidOptionsException
+     * @expectedExceptionMessage The options "0", "5" do not exist
+     */
+    public function testInvalidOptions()
+    {
+        new ConstraintA(array('property2' => 'foo', 'bar', 5 => 'baz'));
+    }
+
+    public function testOptionsWithInvalidInternalPointer()
+    {
+        $options = array('property1' => 'foo');
+        next($options);
+        next($options);
+
+        $constraint = new ConstraintA($options);
+
+        $this->assertEquals('foo', $constraint->property1);
     }
 }

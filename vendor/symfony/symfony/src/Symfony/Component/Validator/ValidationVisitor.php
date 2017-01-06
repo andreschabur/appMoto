@@ -11,15 +11,19 @@
 
 namespace Symfony\Component\Validator;
 
+@trigger_error('The '.__NAMESPACE__.'\ValidationVisitor class is deprecated since version 2.5 and will be removed in 3.0.', E_USER_DEPRECATED);
+
+use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Exception\NoSuchMetadataException;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
-use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Default implementation of {@link ValidationVisitorInterface} and
  * {@link GlobalExecutionContextInterface}.
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
+ *
+ * @deprecated since version 2.5, to be removed in 3.0.
  */
 class ValidationVisitor implements ValidationVisitorInterface, GlobalExecutionContextInterface
 {
@@ -66,12 +70,12 @@ class ValidationVisitor implements ValidationVisitorInterface, GlobalExecutionCo
     /**
      * Creates a new validation visitor.
      *
-     * @param mixed                               $root               The value passed to the validator.
-     * @param MetadataFactoryInterface            $metadataFactory    The factory for obtaining metadata instances.
-     * @param ConstraintValidatorFactoryInterface $validatorFactory   The factory for creating constraint validators.
-     * @param TranslatorInterface                 $translator         The translator for translating violation messages.
-     * @param string|null                         $translationDomain  The domain of the translation messages.
-     * @param ObjectInitializerInterface[]        $objectInitializers The initializers for preparing objects before validation.
+     * @param mixed                               $root               The value passed to the validator
+     * @param MetadataFactoryInterface            $metadataFactory    The factory for obtaining metadata instances
+     * @param ConstraintValidatorFactoryInterface $validatorFactory   The factory for creating constraint validators
+     * @param TranslatorInterface                 $translator         The translator for translating violation messages
+     * @param string|null                         $translationDomain  The domain of the translation messages
+     * @param ObjectInitializerInterface[]        $objectInitializers The initializers for preparing objects before validation
      *
      * @throws UnexpectedTypeException If any of the object initializers is not an instance of ObjectInitializerInterface
      */
@@ -127,16 +131,19 @@ class ValidationVisitor implements ValidationVisitorInterface, GlobalExecutionCo
                 return;
             }
 
+            // Initialize if the object wasn't initialized before
+            if (!isset($this->validatedObjects[$hash])) {
+                foreach ($this->objectInitializers as $initializer) {
+                    if (!$initializer instanceof ObjectInitializerInterface) {
+                        throw new \LogicException('Validator initializers must implement ObjectInitializerInterface.');
+                    }
+                    $initializer->initialize($value);
+                }
+            }
+
             // Remember validating this object before starting and possibly
             // traversing the object graph
             $this->validatedObjects[$hash][$group] = true;
-
-            foreach ($this->objectInitializers as $initializer) {
-                if (!$initializer instanceof ObjectInitializerInterface) {
-                    throw new \LogicException('Validator initializers must implement ObjectInitializerInterface.');
-                }
-                $initializer->initialize($value);
-            }
         }
 
         // Validate arrays recursively by default, otherwise every driver needs

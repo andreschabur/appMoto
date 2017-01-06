@@ -18,8 +18,11 @@ namespace Symfony\Component\Config\Resource;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class FileResource implements ResourceInterface, \Serializable
+class FileResource implements SelfCheckingResourceInterface, \Serializable
 {
+    /**
+     * @var string|false
+     */
     private $resource;
 
     /**
@@ -29,13 +32,11 @@ class FileResource implements ResourceInterface, \Serializable
      */
     public function __construct($resource)
     {
-        $this->resource = realpath($resource);
+        $this->resource = realpath($resource) ?: (file_exists($resource) ? $resource : false);
     }
 
     /**
-     * Returns a string representation of the Resource.
-     *
-     * @return string A string representation of the Resource
+     * {@inheritdoc}
      */
     public function __toString()
     {
@@ -43,9 +44,7 @@ class FileResource implements ResourceInterface, \Serializable
     }
 
     /**
-     * Returns the resource tied to this Resource.
-     *
-     * @return mixed The resource
+     * {@inheritdoc}
      */
     public function getResource()
     {
@@ -53,19 +52,15 @@ class FileResource implements ResourceInterface, \Serializable
     }
 
     /**
-     * Returns true if the resource has not been updated since the given timestamp.
-     *
-     * @param int     $timestamp The last time the resource was loaded
-     *
-     * @return bool    true if the resource has not been updated, false otherwise
+     * {@inheritdoc}
      */
     public function isFresh($timestamp)
     {
-        if (!file_exists($this->resource)) {
+        if (false === $this->resource || !file_exists($this->resource)) {
             return false;
         }
 
-        return filemtime($this->resource) < $timestamp;
+        return filemtime($this->resource) <= $timestamp;
     }
 
     public function serialize()
