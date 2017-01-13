@@ -32,7 +32,8 @@ class UsuarioProductoController extends Controller
     /**
      * Guardar anuncio
      * Este metodo es llamado en el momento en que se va a registar por 
-     * primera vez un anuncion y un usuario. desde la ventana principal
+     * primera vez un anuncio y un usuario. desde la ventana principal
+     * ruta: http://kpizk.net/appTienda/web/app_dev.php/producto/usuario_producto_nuevo
      * @return type
      */
     public function nuevoAction(Request $peticion){
@@ -414,6 +415,7 @@ class UsuarioProductoController extends Controller
     public function ciudadesAction(Request $request)
 //    public function ciudadesAction()
     {
+//        echo 'voy a buscar las ciudades Action aqui ejecuntadome';
         $departamento_id = $request->request->get('departamento_id');
 //        $departamento_id = 66;
 
@@ -429,8 +431,24 @@ class UsuarioProductoController extends Controller
             $ciudades[] = $ciudad;
         }        
         return new JsonResponse($ciudades);
-        
-        
+    }
+
+    /**
+     * 
+     * @param \miMoto\FrontendBundle\Controller\Request $request
+     * @return \miMoto\FrontendBundle\Controller\JsonResponse
+     */
+    public function razasAction(Request $request){
+        $manufacturers_id = $request->request->get('mascota_id');
+        $em = $this->getDoctrine()->getManager();
+        $cilindrajes = $em->getRepository('EntidadesBundle:Cilindraje')->findBy(array('manufacturersId' => $manufacturers_id));
+        $cilindrajesJson = array();
+        foreach ($cilindrajes as $cilindraje) {
+            $cilindrajeJson['id'] = $cilindraje->getId();
+            $cilindrajeJson['descripcion'] = $cilindraje->getDescripcion();
+            $cilindrajesJson[] = $cilindrajeJson;
+        }        
+        return new JsonResponse($cilindrajesJson);
     }
 
 }

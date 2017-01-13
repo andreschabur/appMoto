@@ -6,6 +6,10 @@ parameters:
     database_name: mimoto
     database_user: tiendavirtual
     database_password: '123'
+#    database_host: sql206.0fees.us
+#    database_name: 0fe_19393870_mimoto
+#    database_user: 0fe_19393870
+#    database_password: 'Colombia'
     mailer_transport: smtp
     mailer_host: 127.0.0.1
     mailer_user: null

@@ -71,3 +71,6 @@ swiftmailer:
     spool:     { type: memory }
 
 gregwar_captcha: ~
+
+#genemu_form:
+#    select2: ~

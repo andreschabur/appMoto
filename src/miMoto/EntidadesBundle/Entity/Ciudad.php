@@ -29,9 +29,12 @@ class Ciudad
     private $descripcion;
 
     /**
-     * @var integer
+     * @var \Departamento
      *
-     * @ORM\Column(name="departamento_id", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Departamento")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="departamento_id", referencedColumnName="id")
+     * })
      */
     private $departamentoId;
 

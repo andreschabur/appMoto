@@ -40,15 +40,17 @@ class UsuarioProductoType extends AbstractType
                 'choices' => $options['pais'],
                 'empty_value' => 'Seleccione un Pais',
             ))*/ 
-            ->add('ciudad', 'choice', array(  
-                'auto_initialize' => false,
-                'choices' => $options['ciudad'],
-                'empty_value' => 'Seleccione una Ciudad',
-            ))
-            ->add('departamento', 'choice', array(              
-                'choices' => $options['departamento'],
-                'empty_value' => 'Seleccione un Departamento',
-            ))
+//            ->add('ciudad', 'choice', array(  
+//                'auto_initialize' => false,
+//                'choices' => $options['ciudad'],
+//                'empty_value' => 'Seleccione una Ciudad',
+//            ))
+//            ->add('departamento', 'choice', array(              
+//                'choices' => $options['departamento'],
+//                'empty_value' => 'Seleccione un Departamento',
+//            ))
+            ->addEventSubscriber(new EventListener\AddCiudadFieldSubscriber($builder->getFormFactory()))
+            ->addEventSubscriber(new EventListener\AddDepartamentoFieldSubscriber($builder->getFormFactory()))
             ->add('pais', 'choice', array(                
                 'choices' => $options['pais'],
                 'empty_value' => 'Seleccione un Pais',

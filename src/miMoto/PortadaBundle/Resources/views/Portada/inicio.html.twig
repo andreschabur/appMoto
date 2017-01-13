@@ -22,7 +22,8 @@ adicionalmente se incluye publicidad de otras empresas #}
         var el = document.getElementById('img_to_flip');  // el doesn't change
         var ruta = el.src;
         ruta = ruta.replace("slider0.jpg","");
-        console.log(ruta);
+{#        console.log(ruta);#}
+{#        console.log('>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');#}
         function toggle() {
             el.src = ruta + pics[i];           // set the image
             i = (i + 1) % pics.length;  // update the counter
@@ -32,6 +33,68 @@ adicionalmente se incluye publicidad de otras empresas #}
 </script>
 
 {# Fin Slider para la pagina principal 3 fotos corriendo automaticamente #}
+
+<script>
+    function departamentoSeleccionado(){
+{#        console.log('Se ha seleccionado un departamento '+document.getElementById('products_filtro_departamentoId').value);#}
+         var data = {departamento_id: document.getElementById('products_filtro_departamentoId').value};
+        $.ajax({
+           type: 'post',
+           url: '{{ path("ciudades") }}',
+           data: data,
+           success: function(data){
+{#               console.log('ciudades encontradas '+data);#}
+               var $ciudad_selector = $('#products_filtro_ciudadId');
+               
+               $ciudad_selector.html('<option>Selecciona...</option>');
+               
+               for(var i= 0, total = data.length; i< total; i++){
+                   $ciudad_selector.append('<option value="' + data[i].id + '">' + data[i].descripcion + '</option>');
+               }
+           }
+        });
+    }
+    function mascotaSeleccionada(){
+{#        console.log('Se ha seleccionado un departamento '+document.getElementById('products_filtro_departamentoId').value);#}
+         var data = {mascota_id: document.getElementById('products_filtro_manufacturersIdFilter').value};
+        $.ajax({
+           type: 'post',
+           url: '{{ path("razas") }}',
+           data: data,
+           success: function(data){
+{#               console.log('ciudades encontradas '+data);#}
+               var $raza_selector = $('#products_filtro_cilindrajeIdFilter');
+               
+               $raza_selector.html('<option>Selecciona...</option>');
+               
+               for(var i= 0, total = data.length; i< total; i++){
+                   $raza_selector.append('<option value="' + data[i].id + '">' + data[i].descripcion + '</option>');
+               }
+           }
+        });
+    }
+{#    $("#products_filtro_cilindrajeIdFilter").change(function(){console.log('cambio de cilindraje id filter');});#}
+    $("#products_filtro_departamentoId").change(function() {
+        console.log('cambio de departamento por jquery');
+
+        var data = {departamento_id: $(this).val()};
+        $.ajax({
+           type: 'post',
+           url: '{{ path("ciudades") }}',
+           data: data,
+           success: function(data){
+               var $ciudad_selector = $('#products_filtro_ciudadId');
+               
+               $ciudad_selector.html('<option>Selecciona...</option>');
+               
+               for(var i= 0, total = data.length; i< total; i++){
+                   $ciudad_selector.append('<option value="' + data[i].id + '">' + data[i].descripcion + '</option>');
+               }
+           }
+        });
+    });
+    
+</script>
 
     <div class="row">
     <div class="col-md-8">        

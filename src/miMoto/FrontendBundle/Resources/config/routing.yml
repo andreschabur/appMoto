@@ -34,3 +34,7 @@ ciudades:
     path: /ciudades
     defaults: { _controller: FrontendBundle:UsuarioProducto:ciudades }
     
+razas:
+    path: /razas
+    defaults: { _controller: FrontendBundle:UsuarioProducto:razas }
+    

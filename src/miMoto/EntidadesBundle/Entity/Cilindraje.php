@@ -28,6 +28,16 @@ class Cilindraje
      */
     private $descripcion;
     
+        /**
+     * @var \Manufacturers
+     *
+     * @ORM\ManyToOne(targetEntity="Manufacturers")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="manufacturers_id", referencedColumnName="manufacturers_id")
+     * })
+     */
+    private $manufacturersId;
+    
     public function getId() {
         return $this->id;
     }
@@ -43,7 +53,15 @@ class Cilindraje
     public function setDescripcion($descripcion) {
         $this->descripcion = $descripcion;
     }
+    
+    function getManufacturersId() {
+        return $this->manufacturersId;
+    }
 
+    function setManufacturersId(\Manufacturers $manufacturersId) {
+        $this->manufacturersId = $manufacturersId;
+    }
+    
     public function __toString() {
         return $this->descripcion;
     }

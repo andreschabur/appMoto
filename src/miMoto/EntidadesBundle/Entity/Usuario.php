@@ -97,9 +97,12 @@ class Usuario implements UserInterface {
     private $ciudad;
     
     /**
-     * @var integer
+     * @var \Departamento
      *
-     * @ORM\Column(name="departamento", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Departamento")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="departamento", referencedColumnName="id")
+     * })
      */
     private $departamento;
     
