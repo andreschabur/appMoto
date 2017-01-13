@@ -28,9 +28,9 @@ class AddCiudadIdFieldSubscriber implements EventSubscriberInterface
  
     private function addCiudadIdForm($form, $departamento)
     {
-        $form->add($this->factory->createNamed('ciudadId','entity', null, array(
+        $form->add($this->factory->createNamed('ciudadId',\Symfony\Bridge\Doctrine\Form\Type\EntityType::class, null, array(
             'class'         => 'EntidadesBundle:Ciudad',
-            'empty_value'   => 'Ciudad',
+            'placeholder'   => 'Ciudad',
             'query_builder' => function (EntityRepository $repository) use ($departamento) {
                 $qb = $repository->createQueryBuilder('Ciudad')
                     ->innerJoin('Ciudad.departamentoId', 'departamento');
@@ -47,7 +47,8 @@ class AddCiudadIdFieldSubscriber implements EventSubscriberInterface
  
                 return $qb;
             },
-            'auto_initialize' => false
+            'auto_initialize' => false,
+            'required' =>false
         )));
     }
  

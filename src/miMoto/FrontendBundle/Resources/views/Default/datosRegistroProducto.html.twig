@@ -1,24 +1,6 @@
 <fieldset style="margin: 20px">
-        <legend><font color="green">Datos del producto</font></legend>
-        
-        <div class="row">
-            
-            <div class="col-md-3">
-                {{ form_label(producto.productsModel, 'Modelo*', {'label_attr': {'class': 'control-label'}}) }}
-            </div>
-            <div class="col-md-3">
-                <span>{{ form_widget(producto.productsModel, {'attr': {'class': 'form-control'}}) }}</span>
-                <div class="error">{{ form_errors(producto.productsModel) }}</div>
-            </div>
-            <div class="col-md-3">
-                {{ form_label(producto.productsQuantity, 'Kilometraje*', {'label_attr': {'class': 'control-label'}}) }}
-            </div>
-            <div class="col-md-3">
-                <span> {{ form_widget(producto.productsQuantity, {'attr': {'class': 'form-control'}}) }} </span>
-                <div class="error">{{ form_errors(producto.productsQuantity) }}</div>
-            </div>
-        
-        </div>            
+        <legend><font color="green">Datos de la mascota</font></legend>
+                   
         <div class="row">
                 
             <div class="col-md-3">
@@ -40,14 +22,15 @@
         <div class="row">   
                 
             <div class="col-md-3">
-                {{ form_label(producto.placa, 'Placa*', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_label(producto.anio, 'Edad en años', {'label_attr': {'class': 'control-label'}}) }}
             </div>
             <div class="col-md-3">
-                <span> {{ form_widget(producto.placa, {'attr': {'class': 'form-control'}}) }} </span>
-                <div class="error">{{ form_errors(producto.placa) }}</div>
+                <span> {{ form_widget(producto.anio, {'attr': {'class': 'form-control'}}) }} </span>
+                <div class="error">{{ form_errors(producto.anio) }}</div>
             </div>
+          
             <div class="col-md-3">
-                {{ form_label(producto.productsFileImage, 'Imagen placa*', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_label(producto.productsFileImage, 'Imagen principal*', {'label_attr': {'class': 'control-label'}}) }}
             </div>
             <div class="col-md-3">
                 <span>{{ form_widget(producto.productsFileImage, {'attr': {'class': 'form-control'}}) }}</span>
@@ -58,14 +41,14 @@
         <div class="row">
                 
             <div class="col-md-3">
-                {{ form_label(producto.manufacturersId, 'Fabricante*', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_label(producto.manufacturersId, 'Tipo Mascota*', {'label_attr': {'class': 'control-label'}}) }}
             </div>
             <div class="col-md-3">
                 <span> {{ form_widget(producto.manufacturersId, {'attr': {'class': 'form-control'}}) }} </span>
                 <div class="error">{{ form_errors(producto.manufacturersId) }}</div>
             </div>
             <div class="col-md-3">
-                {{ form_label(producto.cilindrajeId, 'Cilindraje*', {'label_attr': {'class': 'control-label'}}) }}
+                {{ form_label(producto.cilindrajeId, 'Raza*', {'label_attr': {'class': 'control-label'}}) }}
             </div>
             <div class="col-md-3">
                 <span> {{ form_widget(producto.cilindrajeId, {'attr': {'class': 'form-control'}}) }} </span>
@@ -93,20 +76,8 @@
         </div>            
         <div class="row">
                 
-            <div class="col-md-3">
-                {{ form_label(producto.anio, 'Año', {'label_attr': {'class': 'control-label'}}) }}
-            </div>
-            <div class="col-md-3">
-                <span> {{ form_widget(producto.anio, {'attr': {'class': 'form-control'}}) }} </span>
-                <div class="error">{{ form_errors(producto.anio) }}</div>
-            </div>
-            <div class="col-md-3">
-                {{ form_label(producto.tipoProductoId, 'Tipo', {'label_attr': {'class': 'control-label'}}) }}
-            </div>
-            <div class="col-md-3">
-                <span> {{ form_widget(producto.tipoProductoId, {'attr': {'class': 'form-control'}}) }} </span>
-                <div class="error">{{ form_errors(producto.tipoProductoId) }}</div>
-            </div>
+           
+
             
         </div>                                                                                                                                           
 
@@ -200,7 +171,7 @@
     {% for productsTipoPublicacion in producto.productsTipoPublicacionCollection %}                
                         
         <fieldset style="margin: 20px">
-            <legend><font color="green">Tipo de publicación</font></legend>
+            <legend><font color="green">Cantidad de fotos</font></legend>
             <div class="row">
     
                 <div class="col-md-3">                     

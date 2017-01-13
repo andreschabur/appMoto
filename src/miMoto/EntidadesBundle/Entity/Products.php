@@ -26,7 +26,7 @@ class Products
     /**
      * @var integer
      *
-     * @ORM\Column(name="products_quantity", type="integer", nullable=false)
+     * @ORM\Column(name="products_quantity", type="integer", nullable=true)
      */
     private $productsQuantity;
 
@@ -133,7 +133,7 @@ class Products
     /**
      * @var string
      *
-     * @ORM\Column(name="placa", type="string", length=6, nullable=false)
+     * @ORM\Column(name="placa", type="string", length=6, nullable=true)
      */
     private $placa;
     

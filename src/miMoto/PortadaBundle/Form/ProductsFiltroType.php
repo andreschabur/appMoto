@@ -35,18 +35,24 @@ class ProductsFiltroType extends AbstractType {
                 ->add('productsPriceDesdeFilter', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, array(
                     'choices' => $options['preciosDesde'],     
                     'placeholder' => 'Desde',
-                    'choices_as_values' => true,
+                    'choices_as_values' => false,
                     'required' => false))                
                 ->add('productsPriceHastaFilter', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, array(
                     'choices' => $options['preciosHasta'],     
                     'placeholder' => 'Hasta',
-                    'choices_as_values' => true,
+                    'choices_as_values' => false,
                     'required' => false))                
                 ->add('manufacturersIdFilter', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, array(
                     'class' => 'miMoto\EntidadesBundle\Entity\Manufacturers', 
                     'choices' => $options['fabricantes'], 
                     'placeholder' => 'Todos',
-                    'placeholder' => false))                
+                    'required' => false))        
+//                ->add('cilindrajeIdFilter',\Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, array(
+//                    'placeholder'   => 'Raza',
+//                    'choices' => $options['cilindrajes'],
+//                    'auto_initialize' => false,
+//                    'required' =>false
+//                ))
 //                ->add('cilindrajeIdFilter', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, array(
 //                    'class' => 'miMoto\EntidadesBundle\Entity\Cilindraje', 
 //                    'choices' => $options['cilindrajes'], 
@@ -86,10 +92,12 @@ class ProductsFiltroType extends AbstractType {
 	    'anios' => null,	    	   
             'preciosDesde' => null, 
             'preciosHasta' => null,
+            'em' => null,
         ));
     }
 
-    /**
+
+        /**
      * @return string
      */
 //    public function getName()

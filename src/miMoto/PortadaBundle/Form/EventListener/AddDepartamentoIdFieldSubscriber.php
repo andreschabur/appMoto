@@ -28,16 +28,17 @@ class AddDepartamentoIdFieldSubscriber implements EventSubscriberInterface
  
     private function addDepartamentoIdForm($form, $departamento)
     {
-        $form->add($this->factory->createNamed('departamentoId', 'entity', $departamento, array(
+        $form->add($this->factory->createNamed('departamentoId', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, $departamento, array(
             'class'         => 'EntidadesBundle:Departamento',
             'mapped'        => false,
-            'empty_value'   => 'Departamento',
+            'placeholder'   => 'Departamento',
             'query_builder' => function (EntityRepository $repository) {
                 $qb = $repository->createQueryBuilder('Departamento');
  
                 return $qb;
             },
-                    'auto_initialize' => false
+            'auto_initialize' => false,
+            'required' =>false
         )));
     }
  

@@ -35,7 +35,7 @@
         <div class="error">{{ form_errors(producto.productsPriceHastaFilter) }}</div>
     </div>
     <div class="col-md-4">
-        <div>{{ form_label(producto.productsAnioDesdeFilter, 'Edad  ', {'label_attr': {'class': 'control-label'}}) }}
+        <div>{{ form_label(producto.productsAnioDesdeFilter, 'Edad en años', {'label_attr': {'class': 'control-label'}}) }}
         {{ form_label(producto.productsAnioHastaFilter, ' ', {'label_attr': {'class': 'control-label'}}) }}</div>
         <span>{{ form_widget(producto.productsAnioDesdeFilter, {'attr': {'class': 'form-control'}}) }} {{ form_widget(producto.productsAnioHastaFilter, {'attr': {'class': 'form-control'}}) }}</span>
         <div class="error">{{ form_errors(producto.productsAnioDesdeFilter) }} {{ form_errors(producto.productsAnioHastaFilter) }}</div>

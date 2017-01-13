@@ -2,16 +2,19 @@
 adicionalmente se incluye publicidad de otras empresas #}
 {% extends '::frontend.html.twig' %}
 
-{% block content %}
-{# Inicio Slider para la pagina principal 3 fotos corriendo automaticamente #}
-
-
-<div style="text-align: center; height:300px;">
+{% block ladoLago %}
+<div style="text-align: center; height:150px;">
 <img src="{{ asset('bundles/frontend/images/slider/slider0.jpg') }}" 
      class="imgResponsive" 
      id="img_to_flip"
-     title="Mimascota.com" />  
+     title="Mimascota.com"
+     height="150px"/>  
 </div>
+{% endblock %}
+
+
+{% block content %}
+{# Inicio Slider para la pagina principal 3 fotos corriendo automaticamente #}
 
 <script>    
     (function() {     // function expression closure to contain variables
@@ -46,7 +49,7 @@ adicionalmente se incluye publicidad de otras empresas #}
 {#               console.log('ciudades encontradas '+data);#}
                var $ciudad_selector = $('#products_filtro_ciudadId');
                
-               $ciudad_selector.html('<option>Selecciona...</option>');
+               $ciudad_selector.html('<option value="">Selecciona...</option>');
                
                for(var i= 0, total = data.length; i< total; i++){
                    $ciudad_selector.append('<option value="' + data[i].id + '">' + data[i].descripcion + '</option>');
@@ -65,7 +68,7 @@ adicionalmente se incluye publicidad de otras empresas #}
 {#               console.log('ciudades encontradas '+data);#}
                var $raza_selector = $('#products_filtro_cilindrajeIdFilter');
                
-               $raza_selector.html('<option>Selecciona...</option>');
+               $raza_selector.html('<option value="">Selecciona...</option>');
                
                for(var i= 0, total = data.length; i< total; i++){
                    $raza_selector.append('<option value="' + data[i].id + '">' + data[i].descripcion + '</option>');

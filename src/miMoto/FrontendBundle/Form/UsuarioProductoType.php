@@ -21,7 +21,7 @@ class UsuarioProductoType extends AbstractType
         $builder
             ->add('nombre')
             ->add('apellido')
-            ->add('correo', 'email')
+            ->add('correo', \Symfony\Component\Form\Extension\Core\Type\EmailType::class)
             ->add('direccion')
             ->add('telefono')
             ->add('telefonodos')
@@ -51,12 +51,12 @@ class UsuarioProductoType extends AbstractType
 //            ))
             ->addEventSubscriber(new EventListener\AddCiudadFieldSubscriber($builder->getFormFactory()))
             ->addEventSubscriber(new EventListener\AddDepartamentoFieldSubscriber($builder->getFormFactory()))
-            ->add('pais', 'choice', array(                
+            ->add('pais', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, array(                
                 'choices' => $options['pais'],
                 'empty_value' => 'Seleccione un Pais',
             ))  
             ->add('identificacion')
-            ->add('tipoIdentificacion', 'choice', array(
+            ->add('tipoIdentificacion', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, array(
                 'choices' => array(
                     'CC' => 'Cedula',
                     'PA' => 'Pasaporte',
@@ -64,7 +64,7 @@ class UsuarioProductoType extends AbstractType
                     ),
                 'empty_value' => 'Seleccione tipo documento',
                 ))
-            ->add('productsCollection', 'collection', array('type' => new ProductsType(),
+            ->add('productsCollection', \Symfony\Component\Form\Extension\Core\Type\CollectionType::class, array('type' => new ProductsType(),
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,

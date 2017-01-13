@@ -108,16 +108,18 @@ class PortadaController extends Controller
             $anios = $this->generarArrayAnios();
             $preciosDesde = $this->generarArrayPreciosDesde();
             $preciosHasta = $this->generarArrayPreciosHasta();
-            $options = array('fabricantes' => $fabricantes, 'cilindrajes' => $cilindrajes,'anios' => $anios, 'preciosDesde' => $preciosDesde, 'preciosHasta' => $preciosHasta);        
+            $options = array('fabricantes' => $fabricantes, 'cilindrajes' => $cilindrajes,'anios' => $anios, 'preciosDesde' => $preciosDesde, 'preciosHasta' => $preciosHasta, 'em' => $em);
 
             $productoForm = $this->createForm(ProductsFiltroType::class, $producto, $options);
         }
         
         //***Si se esta filtrando
         if ($peticion->getMethod() == 'POST') {
-            $peticion = $this->getRequest();        
-            $productoForm->bind($peticion);
-            if ($productoForm->isValid()) {
+//            $peticion = $request;        
+             $productoForm->submit($peticion->request->get($productoForm->getName()));
+//            $productoForm->handleRequest($peticion);
+//            $productoForm->bind($peticion);
+            if ($productoForm->isSubmitted() && $productoForm->isValid()) {
                 return $this->listar($producto);                        
             }
         }
@@ -131,15 +133,15 @@ class PortadaController extends Controller
     
     
     public function generarArrayAnios(){
-        $fechaActual = new DateTime;
-        $anioActual = $fechaActual->format('Y');
-        $mesActual = $fechaActual->format('m');
-        $anios = array();
-        if($mesActual > 6){
-            $anioActual = $anioActual + 1;
-        }
-        for ($contadorAnios = 1930; $contadorAnios < $anioActual; $anioActual--) {
-            $anios[$anioActual] = $anioActual;
+//        $fechaActual = new DateTime;
+//        $anioActual = $fechaActual->format('Y');
+//        $mesActual = $fechaActual->format('m');
+//        $anios = array();
+//        if($mesActual > 6){
+//            $anioActual = $anioActual + 1;
+//        }
+        for ($contadorAnios = 0; $contadorAnios <= 30; $contadorAnios++) {
+            $anios[$contadorAnios] = $contadorAnios;
         }
         return $anios;
         
@@ -147,24 +149,25 @@ class PortadaController extends Controller
     
     public function generarArrayPreciosDesde(){
         $precios = array();
-        $precios['0'] = 'Menor a $ 5.000.000';
-        $precios['5000000'] = '$ 5.000.000';
-        $precios['10000000'] = '$ 10.000.000';
-        $precios['15000000'] = '$ 15.000.000';
-        $precios['20000000'] = '$ 20.000.000';
-        $precios['25000000'] = '$ 25.000.000';                
+        $precios['0'] = 'En Adopcion';
+        $precios['50000'] = '$ 50.000';
+        $precios['100000'] = '$ 100.000';
+        $precios['200000'] = '$ 200.000';
+        $precios['500000'] = '$ 500.000';
+        $precios['1000000'] = '$ 1.000.000';
         return $precios;
         
     }
     
     public function generarArrayPreciosHasta(){
         $precios = array();        
-        $precios['5000000'] = '$ 5.000.000';
-        $precios['10000000'] = '$ 10.000.000';
-        $precios['15000000'] = '$ 15.000.000';
-        $precios['20000000'] = '$ 20.000.000';
-        $precios['25000000'] = '$ 25.000.000';                
-        $precios['100000000'] = 'Mayor a $ 30.000.000';
+        $precios['0'] = 'En Adopcion';
+        $precios['50000'] = '$ 50.000';
+        $precios['100000'] = '$ 100.000';
+        $precios['200000'] = '$ 200.000';
+        $precios['500000'] = '$ 500.000';
+        $precios['1000000'] = '$ 1.000.000';               
+        $precios['100000000'] = 'Mayor a $ 1.000.000';
         return $precios;
         
     }

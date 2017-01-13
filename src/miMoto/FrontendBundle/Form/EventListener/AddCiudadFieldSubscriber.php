@@ -28,26 +28,30 @@ class AddCiudadFieldSubscriber implements EventSubscriberInterface
  
     private function addCiudadForm($form, $departamento)
     {
-        $form->add($this->factory->createNamed('ciudad','entity', null, array(
+        $form->add($this->factory->createNamed('ciudad',\Symfony\Bridge\Doctrine\Form\Type\EntityType::class, null, array(
             'class'         => 'EntidadesBundle:Ciudad',
-            'empty_value'   => 'Ciudad',
+            'placeholder'   => 'Ciudad',
             'query_builder' => function (EntityRepository $repository) use ($departamento) {
                 $qb = $repository->createQueryBuilder('Ciudad')
                     ->innerJoin('Ciudad.departamentoId', 'departamento');
                 if ($departamento instanceof Departamento) {
+                    echo 'en el if <br/>';
                     $qb->where('Ciudad.departamentoId = :departamentoId')
                     ->setParameter('departamentoId', $departamento);
                 } elseif (is_numeric($departamento)) {
+                    echo 'en el else if <br/>';
                     $qb->where('departamento.id = :departamento')
                     ->setParameter('departamento', $departamento);
                 } else {
+                    echo 'en el else <br/>';
                     $qb->where('departamento.descripcion = :departamento')
                     ->setParameter('departamento', null);
                 }
  
                 return $qb;
             },
-            'auto_initialize' => false
+            'auto_initialize' => false,
+            'required' =>false
         )));
     }
  
@@ -72,8 +76,9 @@ class AddCiudadFieldSubscriber implements EventSubscriberInterface
         if (null === $data) {
             return;
         }
- 
-        $departamento = array_key_exists('departamentoId', $data) ? $data['departamentoId'] : null;
+//        var_dump($data);
+        $departamento = array_key_exists('departamento', $data) ? $data['departamento'] : null;
+//        echo 'departamento '.$departamento.'<br/>';
         $this->addCiudadForm($form, $departamento);
     }
 }
