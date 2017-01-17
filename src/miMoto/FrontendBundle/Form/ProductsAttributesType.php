@@ -52,7 +52,7 @@ class ProductsAttributesType extends AbstractType {
     {
         $resolver->setDefaults(array(    
             'data_class' => 'miMoto\EntidadesBundle\Entity\ProductsAttributes',
-	    'opcionesProductos' => true,	    	    
+	    'opcionesProductos' => null,	    	    
         ));
     }
 

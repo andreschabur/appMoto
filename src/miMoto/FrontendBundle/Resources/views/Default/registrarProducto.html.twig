@@ -9,7 +9,7 @@
 {#/*.sf-reset td{margin:0;padding:0;}.*//*sf-reset table{border-collapse:collapse;border-spacing:0;}.*/#}
 
 {% block id 'producto' %}
-{% block title %}Regístra tu moto{% endblock %}
+{% block title %}Regístrar mascota{% endblock %}
 
 
 {% block article %}
@@ -36,3 +36,8 @@
 {% endblock %}
 
 {% block aside %}{% endblock %}
+
+{% block javascript %}
+{#{ parent() }#}
+<script type="text/javascript"  src="{{ asset('bundles/frontend/js/combos.js') }}" ></script>
+{% endblock %}

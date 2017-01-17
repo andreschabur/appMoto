@@ -26,10 +26,11 @@ class ProductsType extends AbstractType {
 //                ->add('tipoProductoId', 'entity', array(
 //                    'class' => 'miMoto\EntidadesBundle\Entity\TipoProducto', 
 //                    'empty_value' => 'Seleccione un Tipo',))                
-                ->add('cilindrajeId', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, array(
-                    'class' => 'miMoto\EntidadesBundle\Entity\Cilindraje', 
-                    'choices' => $options['cilindrajes'], 
-                    'placeholder' => 'Seleccione un Cilindraje',))                
+//                ->add('cilindrajeId', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, array(
+//                    'class' => 'miMoto\EntidadesBundle\Entity\Cilindraje', 
+//                    'choices' => $options['cilindrajes'], 
+//                    'placeholder' => 'Seleccione un Cilindraje',))  
+                ->addEventSubscriber(new EventListener\AddRazaIdFieldSubscriber($builder->getFormFactory()))
                 ->add('colorId', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, array(
                     'class' => 'miMoto\EntidadesBundle\Entity\Color',
                     'choices' => $options['colores'],
@@ -45,16 +46,16 @@ class ProductsType extends AbstractType {
                 ->add('observacion', \Symfony\Component\Form\Extension\Core\Type\TextareaType::class, array(
                     'max_length' => 255,
                     'required' => false,))               
-                ->add('productsAttributesCollection', \Symfony\Component\Form\Extension\Core\Type\CollectionType::class, array('type' => new ProductsAttributesType(),
+                ->add('productsAttributesCollection', \Symfony\Component\Form\Extension\Core\Type\CollectionType::class, array('entry_type' => new ProductsAttributesType(),
                     'allow_add' => true,
                     'allow_delete' => true,
                     'by_reference' => false,
                     'options' => array('opcionesProductos' => $options['opcionesProductos'])))
-                ->add('productsTipoPublicacionCollection', \Symfony\Component\Form\Extension\Core\Type\CollectionType::class, array('type' => new ProductsTipoPublicacionType(),
+                ->add('productsTipoPublicacionCollection', \Symfony\Component\Form\Extension\Core\Type\CollectionType::class, array('entry_type' => new ProductsTipoPublicacionType(),
                     'allow_add' => true,
                     'allow_delete' => true,
                     'by_reference' => false,))
-                ->add('productsImagesCollection', \Symfony\Component\Form\Extension\Core\Type\CollectionType::class, array('type' => new ProductsImagesType(),
+                ->add('productsImagesCollection', \Symfony\Component\Form\Extension\Core\Type\CollectionType::class, array('entry_type' => new ProductsImagesType(),
                     'allow_add' => true,
                     'allow_delete' => true,
                     'by_reference' => false,))
@@ -75,7 +76,7 @@ class ProductsType extends AbstractType {
             'data_class' => 'miMoto\EntidadesBundle\Entity\Products',
 	    'fabricantes' => null,	    
 	    'cilindrajes' => null,	    
-	    'opcionesProductos' => true,	    
+	    'opcionesProductos' => null,	    
 	    'colores' => null,	    	    
         ));
     }

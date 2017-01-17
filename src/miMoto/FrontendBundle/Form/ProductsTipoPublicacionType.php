@@ -19,7 +19,7 @@ class ProductsTipoPublicacionType extends AbstractType {
 //                ->add('precio')
 //                ->add('optionStatus', 'checkbox', array(
 //                    'required' => false,))
-                ->add('tipoPublicacionId', 'entity', array(
+                ->add('tipoPublicacionId', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, array(
                     'class' => 'miMoto\EntidadesBundle\Entity\TipoPublicacion',                     
                     'disabled' => false,
                     'expanded' => true,

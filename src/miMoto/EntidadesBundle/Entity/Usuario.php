@@ -90,9 +90,12 @@ class Usuario implements UserInterface {
     private $direccion;
     
     /**
-     * @var integer
+     * @var \Ciudad
      *
-     * @ORM\Column(name="ciudad", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Ciudad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ciudad", referencedColumnName="id")
+     * })
      */
     private $ciudad;
     

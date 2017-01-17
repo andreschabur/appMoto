@@ -2,14 +2,14 @@
 
 {% block id 'producto' %}
 
-{% block title %}Ver producto{% endblock %}
+{% block title %}Ver mascota{% endblock %}
 
 {% block article %}
 
 <h1>{{ block('title') }}</h1>
     
     <a href="{{ path('usuario_hello') }}">Volver inicio</a> |
-    <a href="{{ path('usuario_producto_ver') }}">Usuario producto</a> |
+    <a href="{{ path('usuario_producto_ver') }}">Usuario mascota</a> |
     
     {% include 'FrontendBundle:UsuarioProducto:verDetalleUsuarioProducto.html.twig' %}                          
 {% endblock %}

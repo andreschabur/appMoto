@@ -11,7 +11,7 @@
 <div class="row">    
     <div class="col-md-4">
         <div>{{ form_label(producto.manufacturersIdFilter, 'Tipo de mascota', {'label_attr': {'class': 'control-label'}}) }}</div>
-        <span> {{ form_widget(producto.manufacturersIdFilter, {'attr': {'class': 'form-control', 'onchange': 'mascotaSeleccionada()'}}) }} </span>
+        <span> {{ form_widget(producto.manufacturersIdFilter, {'attr': {'class': 'form-control', 'onchange': 'mascotaSeleccionada(\'products_filtro_manufacturersIdFilter\', \'products_filtro_cilindrajeIdFilter\')'}}) }} </span>
         <div class="error">{{ form_errors(producto.manufacturersIdFilter) }}</div>
     </div>
     <div class="col-md-4">
@@ -21,7 +21,7 @@
     </div>
     <div class="col-md-4">
         <div>{{ form_label(producto.departamentoId, 'Departamento', {'label_attr': {'class': 'control-label'}}) }}</div>
-        <span> {{ form_widget(producto.departamentoId, {'attr': {'class': 'form-control', 'onchange': "departamentoSeleccionado()" }}) }} </span>
+        <span> {{ form_widget(producto.departamentoId, {'attr': {'class': 'form-control', 'onchange': "departamentoSeleccionado(\'products_filtro_departamentoId\',\'products_filtro_ciudadId\')" }}) }} </span>
         <div class="error">{{ form_errors(producto.departamentoId) }}</div>
     </div>
 </div>

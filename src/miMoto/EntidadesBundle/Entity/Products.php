@@ -6,6 +6,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use DateInterval;
+
 /**
  * Products
  *
@@ -355,10 +357,11 @@ class Products
     
     public function upload(){
         // the file property can be empty if the field is not required
+//        echo '$this->getProductsFileImage() '.$this->getProductsFileImage().' xxx xxx xx xx x x x x x x x x<br/>';
         if (null === $this->getProductsFileImage()) {
             return;
         }
-
+//        echo '$this->getProductsFileImage() '.$this->getProductsFileImage().'<br/>';
         // use the original file name here but you should
         // sanitize it at least to avoid any security issues
 
@@ -809,6 +812,16 @@ class Products
     public function removeProductsImagesCollection($productsImagesCollection) {
         /*$this->productsImagesCollection = $productsImagesCollection;
          /***TODO*/
+    }
+    
+    /**
+     * Asigna a la fecha recibida +30 dias y luego el resultado lo asigna a la variables productsDateAvaible
+     * esto para dar disponibilidad a los productos
+     * @param \DateTime $fecha
+     */     
+    public function asignarDisponibilidadPorUnMes(\DateTime $fecha){
+        $fecha->add(new DateInterval('P30D'));
+        $this->setProductsDateAvailable($fecha);
     }
 
 

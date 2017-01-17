@@ -10,6 +10,8 @@ use miMoto\FrontendBundle\Form\ProductsType;
 use miMoto\EntidadesBundle\Entity\ProductsTipoPublicacion;
 use miMoto\EntidadesBundle\Entity\ProductsImages;
 
+use Symfony\Component\HttpFoundation\Request;
+
 class DefaultController extends Controller
 {
     
@@ -25,7 +27,7 @@ class DefaultController extends Controller
      * y quiere registrar un nuevo producto
      * @return type
      */
-    public function nuevoAction(){
+    public function nuevoAction(Request $request){
         if($this->imprimirEjecucion){
             echo 'xxxxxxxxEste metodo se utiliza..';
         }
@@ -35,7 +37,8 @@ class DefaultController extends Controller
         
         
         
-        $peticion = $this->getRequest();
+        $peticion = $request;
+//        $peticion = $this->getRequest();
         $producto = new Products();        
         
         //***Crear options para pasarle al combo de cajas de compensacion
@@ -128,8 +131,11 @@ class DefaultController extends Controller
             }
         // Validar los datos enviados y guardarlos en la base de datos
 //            $formulario->bindRequest($peticion);
-            $formulario->bind($peticion);
-            $usuario = $this->get('security.context')->getToken()->getUser();
+//            $formulario->bind($peticion);
+//            $formulario->submit($peticion->request->get($formulario->getName()));
+            $formulario->handleRequest($peticion);
+         
+            $usuario = $this->get('security.token_storage')->getToken()->getUser();
             
             //***Realizar algunas validaciones manuales
             if($usuario->getDepartamento() == null || $usuario->getCiudad() == null){
@@ -142,7 +148,8 @@ class DefaultController extends Controller
                 echo '<br/>$departamento '.$usuario->getDepartamento();
                 echo '<br/>$ciudad '.$usuario->getCiudad();                            
             }else{
-                if ($formulario->isValid()) {
+                if ($formulario->isSubmitted() && $formulario->isValid()) {
+//                if ($formulario->isValid()) {
                     if($this->imprimirEjecucion){
                         echo '<br/>El formulario es valido';
                     }
@@ -152,7 +159,7 @@ class DefaultController extends Controller
     //                $producto = new Products();
                     $fecha = new \DateTime;
                     $producto->setProductsDateAdded($fecha);
-                    $producto->setProductsDateAvailable($fecha);
+                    $producto->asignarDisponibilidadPorUnMes($fecha);
                     $producto->setProductsLastModified($fecha);
                     $producto->setProductsStatus(1);
 
@@ -177,14 +184,14 @@ class DefaultController extends Controller
                         //echo '<br/>$ciudad '.$ciudad;
                         $producto->setPaisId($departamento->getPaisId());
                         $producto->setDepartamentoId($departamento);
-                        $producto->setCiudadId($ciudad);
+                        $producto->setCiudadId($ciudad->getId());
 
                         $producto->upload();
                         
                         //***Validar que exista por lo menos la foto de la placa
                         if($producto->getPath() == null){
                             $this->get('session')->getFlashBag()->add('info',
-                            'La foto de la placa es una foto obligatoria.'
+                            'La foto principal es una foto obligatoria.'
                             );
                             return $this->render(
                                     'FrontendBundle:Default:registrarProducto.html.twig',
@@ -218,7 +225,7 @@ class DefaultController extends Controller
                         $idProducto = 0;
                         $idProducto = $producto->getProductsId();
                         $this->get('session')->getFlashBag()->add('info',
-                            '¡Enhorabuena! Has registrado tu moto correctamente en Mi moto , el numero de publicacion es: '.$idProducto
+                            '¡Enhorabuena! Has registrado tu mascota correctamente en Mi macota, el numero de publicacion es: '.$idProducto
                             );                                
 
 
@@ -311,8 +318,10 @@ class DefaultController extends Controller
     if ($peticion->getMethod() == 'POST') {        
     
         
-        $formulario->bind($peticion);
-        if ($formulario->isValid()) {                        
+//        $formulario->bind($peticion);
+//        if ($formulario->isValid()) {                        
+        $formulario->submit($peticion->request->get($formulario->getName()));
+         if ($formulario->isSubmitted() && $formulario->isValid()) {
 
 
                 // actualizar el producto

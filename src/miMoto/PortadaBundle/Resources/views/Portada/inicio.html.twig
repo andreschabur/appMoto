@@ -14,90 +14,6 @@ adicionalmente se incluye publicidad de otras empresas #}
 
 
 {% block content %}
-{# Inicio Slider para la pagina principal 3 fotos corriendo automaticamente #}
-
-<script>    
-    (function() {     // function expression closure to contain variables
-        //var ruta = '/tests/appMoto/web/bundles/frontend/images/slider/'
-        //var ruta = 'http://public_html.kp/tests/appMoto/web/bundles/frontend/images/slider/';
-        var i = 0;
-        var pics = [ "slider0.jpg", "slider1.jpg", "slider2.jpg","slider3.jpg", "slider4.jpg" ];
-        var el = document.getElementById('img_to_flip');  // el doesn't change
-        var ruta = el.src;
-        ruta = ruta.replace("slider0.jpg","");
-{#        console.log(ruta);#}
-{#        console.log('>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');#}
-        function toggle() {
-            el.src = ruta + pics[i];           // set the image
-            i = (i + 1) % pics.length;  // update the counter
-        }
-        setInterval(toggle, 3000);
-    })();
-</script>
-
-{# Fin Slider para la pagina principal 3 fotos corriendo automaticamente #}
-
-<script>
-    function departamentoSeleccionado(){
-{#        console.log('Se ha seleccionado un departamento '+document.getElementById('products_filtro_departamentoId').value);#}
-         var data = {departamento_id: document.getElementById('products_filtro_departamentoId').value};
-        $.ajax({
-           type: 'post',
-           url: '{{ path("ciudades") }}',
-           data: data,
-           success: function(data){
-{#               console.log('ciudades encontradas '+data);#}
-               var $ciudad_selector = $('#products_filtro_ciudadId');
-               
-               $ciudad_selector.html('<option value="">Selecciona...</option>');
-               
-               for(var i= 0, total = data.length; i< total; i++){
-                   $ciudad_selector.append('<option value="' + data[i].id + '">' + data[i].descripcion + '</option>');
-               }
-           }
-        });
-    }
-    function mascotaSeleccionada(){
-{#        console.log('Se ha seleccionado un departamento '+document.getElementById('products_filtro_departamentoId').value);#}
-         var data = {mascota_id: document.getElementById('products_filtro_manufacturersIdFilter').value};
-        $.ajax({
-           type: 'post',
-           url: '{{ path("razas") }}',
-           data: data,
-           success: function(data){
-{#               console.log('ciudades encontradas '+data);#}
-               var $raza_selector = $('#products_filtro_cilindrajeIdFilter');
-               
-               $raza_selector.html('<option value="">Selecciona...</option>');
-               
-               for(var i= 0, total = data.length; i< total; i++){
-                   $raza_selector.append('<option value="' + data[i].id + '">' + data[i].descripcion + '</option>');
-               }
-           }
-        });
-    }
-{#    $("#products_filtro_cilindrajeIdFilter").change(function(){console.log('cambio de cilindraje id filter');});#}
-    $("#products_filtro_departamentoId").change(function() {
-        console.log('cambio de departamento por jquery');
-
-        var data = {departamento_id: $(this).val()};
-        $.ajax({
-           type: 'post',
-           url: '{{ path("ciudades") }}',
-           data: data,
-           success: function(data){
-               var $ciudad_selector = $('#products_filtro_ciudadId');
-               
-               $ciudad_selector.html('<option>Selecciona...</option>');
-               
-               for(var i= 0, total = data.length; i< total; i++){
-                   $ciudad_selector.append('<option value="' + data[i].id + '">' + data[i].descripcion + '</option>');
-               }
-           }
-        });
-    });
-    
-</script>
 
     <div class="row">
     <div class="col-md-8">        
@@ -214,4 +130,31 @@ adicionalmente se incluye publicidad de otras empresas #}
         <td></td>
     </tr>
 </table>        #}
+{% endblock %}
+
+{% block javascript %}
+    {# Inicio Slider para la pagina principal 3 fotos corriendo automaticamente #}
+
+<script>    
+    (function() {     // function expression closure to contain variables
+        //var ruta = '/tests/appMoto/web/bundles/frontend/images/slider/'
+        //var ruta = 'http://public_html.kp/tests/appMoto/web/bundles/frontend/images/slider/';
+        var i = 0;
+        var pics = [ "slider0.jpg", "slider1.jpg", "slider2.jpg","slider3.jpg", "slider4.jpg" ];
+        var el = document.getElementById('img_to_flip');  // el doesn't change
+        var ruta = el.src;
+        ruta = ruta.replace("slider0.jpg","");
+{#        console.log(ruta);#}
+{#        console.log('>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');#}
+        function toggle() {
+            el.src = ruta + pics[i];           // set the image
+            i = (i + 1) % pics.length;  // update the counter
+        }
+        setInterval(toggle, 3000);
+    })();
+</script>
+
+{# Fin Slider para la pagina principal 3 fotos corriendo automaticamente #}
+<script type="text/javascript"  src="{{ asset('bundles/frontend/js/combos.js') }}" ></script>
+
 {% endblock %}

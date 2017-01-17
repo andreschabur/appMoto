@@ -3,6 +3,7 @@
 namespace miMoto\EntidadesBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use miMoto\EntidadesBundle\Entity\Manufacturers;
 
 /**
  * Cilindraje
@@ -58,7 +59,7 @@ class Cilindraje
         return $this->manufacturersId;
     }
 
-    function setManufacturersId(\Manufacturers $manufacturersId) {
+    function setManufacturersId(Manufacturers $manufacturersId) {
         $this->manufacturersId = $manufacturersId;
     }
     

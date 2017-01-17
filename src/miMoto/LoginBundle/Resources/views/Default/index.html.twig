@@ -13,8 +13,8 @@
 {% if is_granted('ROLE_USUARIO') %}
 <p>
 <a href="{{ path('usuario_perfil') }}">Ver mi perfil</a> | 
-<a href="{{ path('producto_nuevo') }}">Nuevo producto</a> | <br/>
-<a href="{{ path('usuario_producto_ver') }}">Ver mi perfil y mi producto</a> | 
+<a href="{{ path('producto_nuevo') }}">Nueva mascota</a> | <br/>
+<a href="{{ path('usuario_producto_ver') }}">Ver mi perfil y mi mascota</a> | 
 <a href="{{ path('cerrar_sesion') }}">Cerrar sesión</a> | 
 Bienvenido {{ usuario.nombre ~ ' ' ~ usuario.apellido }}
 

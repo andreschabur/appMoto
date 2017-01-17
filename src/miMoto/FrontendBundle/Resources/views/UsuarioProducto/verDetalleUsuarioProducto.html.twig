@@ -38,7 +38,7 @@
 {% set anchoImagen = 600 %}
 <!--Fin hacer que el estilo del carrusel aparezca como un slide de imagenes de album-->
 <fieldset style="margin: 20px">
-        <legend><font color="green">Datos del producto</font></legend>
+        <legend><font color="green">Datos de la mascota</font></legend>
         <div class="containerCarrusel">    
     
     {% set cantidadFotos = producto.productsImagesCollection|length %}
@@ -112,21 +112,7 @@
         <hr>
         
         <!-- Datos principales de producto ============================================-->
-            <div class="row">    
-                <div class="col-md-3">
-                    <b>Modelo</b>
-                </div>
-                <div class="col-md-3">
-                    <span>{{ producto.productsModel }}</span>
-                </div>
-                <div class="col-md-3">
-                    <b>Kilometraje</b>
-                </div>
-                <div class="col-md-3">
-                    <span> {{ producto.productsQuantity }} </span>
-                </div>    
-            </div>
-        
+                 
             <div class="row">    
                 <div class="col-md-3">
                     <b>Precio</b>
@@ -144,11 +130,15 @@
         
             <div class="row">    
                 <div class="col-md-3">
-                    <b>Placa</b>
+                    <b>Departamento</b>
+                   <!-- <br/>
+                    <b>Ciudad</b>-->
                 </div>
                 <div class="col-md-3">
-                    <span> {{ producto.placa }} </span>
-                </div>
+                    <span> {{ producto.departamentoId }} </span>
+                    <!--<br/>
+                    <span> { { producto.ciudadId }} </span>-->
+                </div> 
                 <div class="col-md-3">
                     <b>Color</b>
                 </div>
@@ -159,13 +149,13 @@
         
             <div class="row">    
                 <div class="col-md-3">
-                    <b>Fabricante</b>
+                    <b>Tipo Mascota</b>
                 </div>
                 <div class="col-md-3">
                     <span> {{ producto.manufacturersId }} </span>
                 </div>
                 <div class="col-md-3">
-                    <b>Cilindraje</b>
+                    <b>Raza</b>
                 </div>
                 <div class="col-md-3">
                     <span> {{ producto.cilindrajeId }} </span>
@@ -180,29 +170,10 @@
                     <span> {{ producto.observacion }} </span>
                 </div>
                 <div class="col-md-3">
-                    <b>Año</b>
+                    <b>Edad en años</b>
                 </div>
                 <div class="col-md-3">
                     <span> {{ producto.anio }} </span>
-                </div>    
-            </div>
-            
-            <div class="row">    
-                <div class="col-md-3">
-                    <b>Tipo</b>
-                </div>
-                <div class="col-md-3">
-                    <span> {{ producto.tipoProductoId }} </span>
-                </div>
-                <div class="col-md-3">
-                    <b>Departamento</b>
-                   <!-- <br/>
-                    <b>Ciudad</b>-->
-                </div>
-                <div class="col-md-3">
-                    <span> {{ producto.departamentoId }} </span>
-                    <!--<br/>
-                    <span> { { producto.ciudadId }} </span>-->
                 </div>    
             </div>
         

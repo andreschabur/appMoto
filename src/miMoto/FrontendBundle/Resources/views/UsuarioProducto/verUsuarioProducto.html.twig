@@ -12,8 +12,8 @@
 {% if(productos is defined ) %}
     {% if productos|length == 1 %}  
         {% set producto = productos[0] %}
-        <a href="{{ path('producto_ver', { 'id': producto.productsId }) }}">Ver producto</a> | 
-        <a href="{{ path('producto_editar', { 'id': producto.productsId }) }}">Editar Producto</a> | 
+        <a href="{{ path('producto_ver', { 'id': producto.productsId }) }}">Ver mascota</a> | 
+        <a href="{{ path('producto_editar', { 'id': producto.productsId }) }}">Editar mascota</a> | 
     {% endif %}
 {% else %}
         {% if producto is defined %}
@@ -23,10 +23,10 @@
         {% else %}
             {% set producto = usuario.productsCollection[0] %}
         {% endif %}    
-        <a href="{{ path('producto_ver', { 'id': producto.productsId } ) }}">Ver producto</a> | 
-        <a href="{{ path('producto_editar', { 'id': producto.productsId }) }}">Editar Producto</a> | 
+        <a href="{{ path('producto_ver', { 'id': producto.productsId } ) }}">Ver mascota</a> | 
+        <a href="{{ path('producto_editar', { 'id': producto.productsId }) }}">Editar Mascota</a> | 
 {% endif %}
-<a href="{{ path('producto_nuevo') }}">Nuevo producto</a> | 
+<a href="{{ path('producto_nuevo') }}">Nueva mascota</a> | 
 <a href="{{ path('cerrar_sesion') }}">Cerrar sesión</a> | 
 <h1>{{ block('title') }}</h1>
 

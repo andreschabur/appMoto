@@ -4,47 +4,6 @@
 {% block title %}Regístrate{% endblock %}
 
 {% block article %}
-<script>
-    function departamentoSeleccionado(){
-{#        console.log('Se ha seleccionado un departamento '+document.getElementById('products_filtro_departamentoId').value);#}
-         var data = {departamento_id: document.getElementById('usuario_producto_departamento').value};
-        $.ajax({
-           type: 'post',
-           url: '{{ path("ciudades") }}',
-           data: data,
-           success: function(data){
-{#               console.log('ciudades encontradas '+data);#}
-               var $ciudad_selector = $('#usuario_producto_ciudad');
-               
-               $ciudad_selector.html('<option>Selecciona...</option>');
-               
-               for(var i= 0, total = data.length; i< total; i++){
-                   $ciudad_selector.append('<option value="' + data[i].id + '">' + data[i].descripcion + '</option>');
-               }
-           }
-        });
-    }
-    function mascotaSeleccionada(){
-{#        console.log('Se ha seleccionado un departamento '+document.getElementById('products_filtro_departamentoId').value);#}
-         var data = {mascota_id: document.getElementById('usuario_producto_productsCollection_0_manufacturersId').value};
-        $.ajax({
-           type: 'post',
-           url: '{{ path("razas") }}',
-           data: data,
-           success: function(data){
-{#               console.log('ciudades encontradas '+data);#}
-               var $raza_selector = $('#usuario_producto_productsCollection_0_cilindrajeId');
-               
-               $raza_selector.html('<option>Selecciona...</option>');
-               
-               for(var i= 0, total = data.length; i< total; i++){
-                   $raza_selector.append('<option value="' + data[i].id + '">' + data[i].descripcion + '</option>');
-               }
-           }
-        });
-    }
-</script>    
-    
     
 <a href="{{ path('usuario_hello') }}">Cancelar el registro - Volver al inicio</a>
 <h1>{{ block('title') }}</h1>
@@ -210,55 +169,6 @@
 {% block aside %}{% endblock %}
 
 {% block javascript %}
-{#{ parent() }#}    
-    
-    <script>
-$(function(){
-    
-    //***********Pais --llenar departamentos
-    /*$("#mimoto_frontendbundle_usuarioproductotype_pais").change(function(){
-        var data = {
-        pais_id: $(this).val()
-        };
-
-        $.ajax({
-            type: 'post',
-            url: '/app.php/departamentos',
-            data: data,
-            success: function(data) {
-                var $province_selector = $('#mimoto_frontendbundle_usuarioproductotype_departamento');
-                $province_selector.html('<option>Departamento</option>');
-                for (var i=0, total = data.length; i < total; i++) {
-                    $province_selector.append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
-                }
-                $('#mimoto_frontendbundle_usuarioproductotype_ciudad').html("<option>Ciudad</option>");
-            }
-        });
-    });*/
-
-    //**************Departamento --llenar ciudades
-{#    $("#mimoto_frontendbundle_usuarioproductotype_departamento").change(function(){#}
-    $("#usuario_producto_departamento").change(function(){
-        var data = {
-        departamento_id: $(this).val()
-        };
-        
-        //url: 'app_dev.php/producto/ciudades',
-          //url: '/app.php/ciudades',
-        $.ajax({
-            type: 'post',
-            url: 'ciudades',
-            data: data,
-            success: function(data) {
-                var $city_selector = $('#usuario_producto_ciudad');
-                $city_selector.html('<option>Ciudad</option>');
-                for (var i=0, total = data.length; i < total; i++) {
-                    $city_selector.append('<option value="' + data[i].id + '">' + data[i].descripcion + '</option>');
-                }
-            }
-        });
-    });
-});
-</script>
-
+{#{ parent() }#}
+<script type="text/javascript"  src="{{ asset('bundles/frontend/js/combos.js') }}" ></script>
 {% endblock %}

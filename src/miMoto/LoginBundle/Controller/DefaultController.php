@@ -16,6 +16,8 @@ use miMoto\LoginBundle\Form\UsuarioEditarType;
 use miMoto\EntidadesBundle\Entity\Products;
 use miMoto\PortadaBundle\Form\ProductsFiltroType;
 
+use Symfony\Component\HttpFoundation\Request;
+
 class DefaultController extends Controller 
 {
     public function indexAction($name)
@@ -28,7 +30,7 @@ class DefaultController extends Controller
 //        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')){
 //            throw new AccessDeniedException();
 //        }
-        if (false === $this->get('security.context')->isGranted('ROLE_USUARIO')){
+        if (false === $this->get('security.authorization_checker')->isGranted('ROLE_USUARIO')){
             throw new AccessDeniedException();
         }
 
@@ -65,9 +67,10 @@ class DefaultController extends Controller
     
     
     
-    public function loginAction() {
+    public function loginAction(Request $request) {
 //        echo '<br />entro en login action<br />';
-        $peticion = $this->getRequest();
+//        $peticion = $this->getRequest();
+        $peticion = $request;
 //        echo '<br />obtuvo peticion<br />';
         $sesion = $peticion->getSession();        
 //        echo '<br />obtuvo sesion<br />';
@@ -219,7 +222,7 @@ class DefaultController extends Controller
 //        $peticion = $this->getRequest();
         //***Cerrar sesion del usuario
         $this->get("request")->getSession()->invalidate();
-        $this->get("security.context")->setToken(null);
+        $this->get("security.token_storage")->setToken(null);
         //***Mostrar mensaje
 //        $this->get("session")->setFlash('message.success', true);
 //        return new RedirectResponse($this->generateUrl('homepage'));
@@ -234,7 +237,7 @@ class DefaultController extends Controller
 //        return $esValido;        
 //    }
     
-    public function registroAction(){
+    public function registroAction(Request $request){
         /*Crear formulario quemado en la clase
 //        $usuario = new Usuario();
 //        $formulario = $this->createFormBuilder($usuario)
@@ -247,7 +250,8 @@ class DefaultController extends Controller
 //                array('formulario' => $formulario->createView())
 //                );         
          */
-        $peticion = $this->getRequest();
+        $peticion = $request;
+//        $peticion = $this->getRequest();
         $usuario = new Usuario();
         
         /*$usuario->setPermiteEmail(true);//casilla marcada
@@ -286,7 +290,7 @@ class DefaultController extends Controller
                         'usuarios',
                         $usuario->getRoles()
                         );
-                $this->container->get('security.context')->setToken($token);
+                $this->container->get('security.token_storage')->setToken($token);
                 //***Fin registrar usuario en sesion
 
 
@@ -306,24 +310,25 @@ class DefaultController extends Controller
     
     public function perfilAction(){
     // Obtener los datos del usuario logueado y utilizarlos para
-    $usuario = $this->get('security.context')->getToken()->getUser();        
+    $usuario = $this->get('security.token_storage')->getToken()->getUser();        
     
     return $this->render('LoginBundle:Default:perfil.html.twig', array(
                 'usuario' => $usuario));    
 
     }
 
-    public function perfilEditarAction(){
+    public function perfilEditarAction(Request $request){
     // Obtener los datos del usuario logueado y utilizarlos para
-    $usuario = $this->get('security.context')->getToken()->getUser();
-    $em = $this->getDoctrine()->getEntityManager();
+    $usuario = $this->get('security.token_storage')->getToken()->getUser();
+//    $em = $this->getDoctrine()->getEntityManager();
+    $em = $this->getDoctrine()->getManager();
     
     //***Armar combos para pasar
     $paises = $em->getRepository('EntidadesBundle:Pais')->findAll();        
     foreach ($paises as $paiss){
         $pais[$paiss->getId()] = $paiss->getDescripcion();
     }
-    
+    /*
     $departamentos = $em->getRepository('EntidadesBundle:Departamento')->findAll();
     foreach ($departamentos as $deptos){
         $departamento[$deptos->getId()] = $deptos->getDescripcion();
@@ -332,16 +337,18 @@ class DefaultController extends Controller
     $ciudades = $em->getRepository('EntidadesBundle:Ciudad')->findAll();
     foreach ($ciudades as $city){
         $ciudad[$city->getId()] = $city->getDescripcion();
-    }
+    }*/
     
     
     
     
     
-    $options = array('pais' => $pais, 'departamento' => $departamento, 'ciudad' => $ciudad);
+    $options = array('pais' => $pais);
+//    $options = array('pais' => array(), 'departamento' => array(), 'ciudad' => array());
     $formulario = $this->createForm(new UsuarioEditarType(), $usuario, $options);
     
-    $peticion = $this->getRequest();
+    $peticion = $request;
+//    $peticion = $this->getRequest();
     
     // rellenar un formulario de registro.
     //

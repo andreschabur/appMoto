@@ -7,6 +7,9 @@ use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use miMoto\FrontendBundle\Form\EventListener\AddCiudadFieldSubscriber;
+use miMoto\FrontendBundle\Form\EventListener\AddDepartamentoFieldSubscriber;
+
 class UsuarioEditarType extends AbstractType
 {
 //    public function buildForm(FormBuilder $builder, array $options)
@@ -19,33 +22,35 @@ class UsuarioEditarType extends AbstractType
         $builder
             ->add('nombre')
             ->add('apellido')
-            ->add('correo', 'email')            
+            ->add('correo', \Symfony\Component\Form\Extension\Core\Type\EmailType::class)            
             ->add('direccion')
             ->add('telefono')
             ->add('telefonodos')
-            ->add('ciudad', 'choice', array(
-                /*'class' => 'miMoto\EntidadesBundle\Entity\Ciudad', */
-                'choices' => $options['ciudad'],
-                'empty_value' => 'Seleccione una Ciudad',
-            ))
-            ->add('departamento', 'choice', array(
-              /*  'class' => 'miMoto\EntidadesBundle\Entity\Departamento', */
-                'choices' => $options['departamento'],
-                'empty_value' => 'Seleccione un Departamento',
-            ))
-            ->add('pais', 'choice', array(
+//            ->add('ciudad', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, array(
+//                /*'class' => 'miMoto\EntidadesBundle\Entity\Ciudad', */
+//                'choices' => $options['ciudad'],
+//                'placeholder' => 'Seleccione una Ciudad',
+//            ))
+//            ->add('departamento', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, array(
+//              /*  'class' => 'miMoto\EntidadesBundle\Entity\Departamento', */
+//                'choices' => $options['departamento'],
+//                'placeholder' => 'Seleccione un Departamento',
+//            ))
+            ->addEventSubscriber(new AddCiudadFieldSubscriber($builder->getFormFactory()))
+            ->addEventSubscriber(new AddDepartamentoFieldSubscriber($builder->getFormFactory()))
+            ->add('pais', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, array(
                 /*'class' => 'miMoto\EntidadesBundle\Entity\Pais', */
                 'choices' => $options['pais'],
-                'empty_value' => 'Seleccione un Pais',
+                'placeholder' => 'Seleccione un Pais',
             ))            
             ->add('identificacion')
-            ->add('tipoIdentificacion', 'choice', array(
+            ->add('tipoIdentificacion', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, array(
                 'choices' => array(
                     'CC' => 'Cedula',
                     'PA' => 'Pasaporte',
                     'RG' => 'Registro Civil',                                        
                     ),
-                'empty_value' => 'Seleccione tipo documento',
+                'placeholder' => 'Seleccione tipo documento',
                 ))
         ;
     }
@@ -57,9 +62,9 @@ class UsuarioEditarType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'miMoto\EntidadesBundle\Entity\Usuario',
-            'pais' => 'true',
-            'departamento' => 'true',
-            'ciudad' => 'true',
+            'pais' => null,
+            'departamento' => null,
+            'ciudad' => null,
         ));
     }
 

@@ -35,15 +35,15 @@ class AddCiudadFieldSubscriber implements EventSubscriberInterface
                 $qb = $repository->createQueryBuilder('Ciudad')
                     ->innerJoin('Ciudad.departamentoId', 'departamento');
                 if ($departamento instanceof Departamento) {
-                    echo 'en el if <br/>';
+//                    echo 'en el if en el addCiudadFieldSubscriber <br/>';
                     $qb->where('Ciudad.departamentoId = :departamentoId')
                     ->setParameter('departamentoId', $departamento);
                 } elseif (is_numeric($departamento)) {
-                    echo 'en el else if <br/>';
+//                    echo 'en el else if departamento '.$departamento.' en el addCiudadFieldSubscriber<br/> ';
                     $qb->where('departamento.id = :departamento')
                     ->setParameter('departamento', $departamento);
                 } else {
-                    echo 'en el else <br/>';
+//                    echo 'en el else el departamento es nulo en el addCiudadFieldSubscriber<br/>';
                     $qb->where('departamento.descripcion = :departamento')
                     ->setParameter('departamento', null);
                 }

@@ -26,12 +26,11 @@ class AddDepartamentoFieldSubscriber implements EventSubscriberInterface
         );
     }
  
-    private function addDepartamentoForm($form, $departamento)
+    private function addDepartamentoForm($form, $pais)
     {
-        $form->add($this->factory->createNamed('departamento', 'entity', $departamento, array(
-            'class'         => 'EntidadesBundle:Departamento',
-            'mapped'        => false,
-            'empty_value'   => 'Departamento',
+        $form->add($this->factory->createNamed('departamento', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, null, array(
+            'class'         => 'EntidadesBundle:Departamento',            
+            'placeholder'   => 'Departamento',
             'query_builder' => function (EntityRepository $repository) {
                 $qb = $repository->createQueryBuilder('Departamento');
  
@@ -49,9 +48,9 @@ class AddDepartamentoFieldSubscriber implements EventSubscriberInterface
         if (null === $data) {
             return;
         }
- 
-        $departamento= ($data->getCiudad()) ? $data->getCiudad()->getDepartamento() : null ;
-        $this->addDepartamentoForm($form, $departamento);
+ $pais = 1;
+//        $pais = ($data->getDepartamento()) ? $data->getDepartamento()->getPais() : null ;
+        $this->addDepartamentoForm($form, $pais);
     }
  
     public function preBind(FormEvent $event)
@@ -62,8 +61,8 @@ class AddDepartamentoFieldSubscriber implements EventSubscriberInterface
         if (null === $data) {
             return;
         }
- 
-        $departamento = array_key_exists('departamento', $data) ? $data['departamento'] : null;
-        $this->addDepartamentoForm($form, $departamento);
+ $pais = 1;
+//        $pais = array_key_exists('pais', $data) ? $data['pais'] : null;
+        $this->addDepartamentoForm($form, $pais);
     }
 }

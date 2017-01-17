@@ -45,15 +45,15 @@ class UsuarioProductoType extends AbstractType
 //                'choices' => $options['ciudad'],
 //                'empty_value' => 'Seleccione una Ciudad',
 //            ))
-//            ->add('departamento', 'choice', array(              
+//            ->add('departamento', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, array(              
 //                'choices' => $options['departamento'],
-//                'empty_value' => 'Seleccione un Departamento',
+//                'placeholder' => 'Seleccione un Departamento',
 //            ))
             ->addEventSubscriber(new EventListener\AddCiudadFieldSubscriber($builder->getFormFactory()))
             ->addEventSubscriber(new EventListener\AddDepartamentoFieldSubscriber($builder->getFormFactory()))
             ->add('pais', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, array(                
                 'choices' => $options['pais'],
-                'empty_value' => 'Seleccione un Pais',
+                'placeholder' => 'Seleccione un Pais',
             ))  
             ->add('identificacion')
             ->add('tipoIdentificacion', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, array(
@@ -62,9 +62,9 @@ class UsuarioProductoType extends AbstractType
                     'PA' => 'Pasaporte',
                     'RG' => 'Registro Civil',                                        
                     ),
-                'empty_value' => 'Seleccione tipo documento',
+                'placeholder' => 'Seleccione tipo documento',
                 ))
-            ->add('productsCollection', \Symfony\Component\Form\Extension\Core\Type\CollectionType::class, array('type' => new ProductsType(),
+            ->add('productsCollection', \Symfony\Component\Form\Extension\Core\Type\CollectionType::class, array('entry_type' => new ProductsType(),
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
@@ -127,10 +127,10 @@ class UsuarioProductoType extends AbstractType
             'fabricantes' => null,	    
 	    'cilindrajes' => null,	    
 	    'colores' => null,
-	    'opcionesProductos' => true,	    
-            'pais' => true,
-            'departamento' => true,
-            'ciudad' => true,
+	    'opcionesProductos' => null,
+            'pais' => null,
+            'departamento' => null,
+            'ciudad' => null,
         ));
     }
 
