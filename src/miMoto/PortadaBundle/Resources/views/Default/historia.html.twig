@@ -1,0 +1,82 @@
+{% extends '::frontend.html.twig' %}
+
+{% block id 'productos' %}
+    {% block title %}Quienes somos{% endblock %}
+
+    {% block content %}
+        <a href="{{ path('portada_producto_inicio') }}">Volver al inicio</a> | 
+        <h1>{{ block('title') }}</h1>    
+
+
+{#        <div style="padding-left: 0px">#}
+           {# <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Quienes somos</h3>
+                </div>
+                <div class="panel-body">  
+
+                </div>
+            </div>#}
+{#        </div>#}
+    <div class="rcorners2">
+        <div class="rcornersFull">
+            <b>Bienvenido a miMascota un proyecto creado con el corazon - Historia</b>
+        </div>
+        
+        <pre>
+            
+        Bueno, le voy a contar un poco de la historia de este proyecto, un día
+        cualquiera estaba conduciendo mi moto y observe en un local de venta 
+        de mascotas unos cachorros enjaulados dentro del local y fuera de este
+        mismo estaba la mamá de los cachorros con sus dueños (dos niños pequeños
+        que oscilaban entre los 7 y 10 años), como es lógico la perra madre de los
+        cachorros no queria estar lejos de ellos por lo tanto se quedo todo el tiempo
+        parada en dos patas traseras y sus dos patas delanteras recostadas contra el vidrio
+        para poder ver a sus cachorros por a travez del vidrio del almacen.
+        <br/><br/>
+        La perra aullaba y aullaba y los niños no podia tener una cara de tragedia peor 
+        a la que tenian en ese momento.
+        <br/><br/>
+        No se cuanto tiempo estuvieron alli, tal vez toda la mañana, tal vez la mañana y la tarde,
+        tal vez todo ese día y al otro día igual hasta que vendieran los cachorros o el almacen
+        les dijera que no puede tener mas los cachorros en esas condiciones (encerrados y lejos de su madre
+        y cualquier lazo afectivo que pudiese prestarles sus debidos cuidados) porque pueden enfermar y morir.
+        <br/><br/>
+        Por lo tanto haciendo uso de mis conocimientos en cuanto a gestion de proyectos, decidí 
+        darle ruedas y vida a esta plataforma que espera mitigar estos momentos tan malucos
+        por los cuales pasaron estos niños y que ademas se que pasan otras personas.
+        <br/><br/>
+        Adicionalmente esperamos que los cachorros no tengan que pasar por un lugar en el
+        cual pueden enfermarse por diferentes motivos o circunstancias.
+        <br/><br/>
+        Para poder que el proyecto funcione puedes aportar un grano de arena por medio de la donacion
+        con lo cual podremos realizar mejoras y mantener el sitio, agradecemos de antemano su ayuda.
+        <br/><br/>
+        Las donaciones se pueden realizar en la cuenta de davivienda # a nombre de Hector Andres Chabur Tabares
+        </pre>
+    </div>
+    <style>
+    .rcornersFull {
+        border-radius: 25px;
+        border: 3px solid #73AD21;
+        padding: 5px;
+        width: 100%;
+        color: #73AD21;
+        text-align: left;
+{#        margin: 13px;#}
+{#        width: 200px;#}
+{#        height: 150px;#}
+    }
+    .rcorners2 {
+        border-radius: 25px;
+        border: 2px solid blue;
+        padding: 25px;
+        width: 100%;
+        text-align: center;
+{#        margin-left: 5%;#}
+{#        color: red;#}
+{#        width: 200px;#}
+{#        height: 150px;#}
+    }
+    </style>
+    {% endblock %}

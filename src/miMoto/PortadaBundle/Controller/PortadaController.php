@@ -175,6 +175,10 @@ class PortadaController extends Controller
     public function tarifasAction(){
           return $this->render('PortadaBundle:Default:tarifas.html.twig');
     }
+
+    public function historiaAction(){
+          return $this->render('PortadaBundle:Default:historia.html.twig');
+    }
     
     public function modificarAnuncioAction(){
           return $this->render('PortadaBundle:Default:modificarAnuncio.html.twig');
