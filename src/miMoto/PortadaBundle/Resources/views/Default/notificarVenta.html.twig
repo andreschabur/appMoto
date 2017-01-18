@@ -1,18 +1,43 @@
 {% extends '::frontend.html.twig' %}
 
 {% block id 'productos' %}
-{% block title %}Notificar venta{% endblock %}
+{% block title %}Notificar Venta/Adopcion{% endblock %}
 
 {% block content %}
 <a href="{{ path('portada_producto_inicio') }}">Volver al inicio</a> | 
 <h1>{{ block('title') }}</h1>    
     
-    
-  
+  <br/>
+  <br/>
 
-Numero de anuncio **Donde encuentro el numero del anuncio?
+Para mantener una cartera real de mascotas en venta/adopcion y evitar que TuMascota se llene de mascotas ya vendidas/adoptadas, te solicitamos por favor notificarnos por este medio que ya no tienes la mascota disponible.
 <br/>
-Email --olvide el mail
-    
-              
+  <br/>
+Para inactivar tu anuncio, llena la siguiente planilla gratuita o contáctanos desde tu celular al 318 424 68 20.
+<br/>  
+  <br/>Numero de anuncio *
+  <input type="text" value="" placeholder="Número de anuncio" id="numAnuncio" name="numAnuncio" />
+  <br/>E-mail *
+  <input id="email" type="text" name="email" placeholder="Correo electrónico" /> 
+<br/>Imagen de Seguridad *
+{#<input type="text" value="" placeholder="captcha" id="ketchup" name="catsup" />#}
+
+<!-- **********************INICIO DEL CATSUP -->
+<p><img id="captcha" src="/captcha.php" width="160" height="45" border="1" alt="CAPTCHA">
+<small><a href="#" onclick="refrescarCaptcha()">actualizar</a></small></p>
+<p><input id="captcha_code" type="text" name="captcha" size="6" maxlength="5" onkeyup="this.value = this.value.replace(/[^\d]+/g, '');"> <small>copie los digitos de la imagen en la caja de texto</small></p>
+<!-- **********************FIN DEL CATSUP -->
+<br/>
+<input type="button" value="Notificar" id="btnNotificar" name="btnNotificar" onclick="notificar()" />
+
+  <br/>
+  <div id="errorMsjDiv" style="display: none">
+      <label id="errorMsjLbl" />
+  </div>
+ 
     {% endblock %}
+    
+    {% block javascript %}
+    <script type="text/javascript"  src="{{ asset('bundles/frontend/js/combos.js') }}" ></script>
+    {% endblock %}
+    

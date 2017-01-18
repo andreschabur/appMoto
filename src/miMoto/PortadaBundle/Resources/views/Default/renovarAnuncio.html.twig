@@ -1,39 +1,61 @@
 {% extends '::frontend.html.twig' %}
 
 {% block id 'productos' %}
-{% block title %}Tarifas y beneficios{% endblock %}
+{% block title %}Renovar anuncio{% endblock %}
 
 {% block content %}
 <a href="{{ path('portada_producto_inicio') }}">Volver al inicio</a> | 
 <h1>{{ block('title') }}</h1>    
     
-  Renueva tu Anuncio
   <br/>
   <br/>
 
-Para mantener una cartera real de vehículos en venta y evitar que TuMoto se llene de motos ya vendidas, te solicitamos renovar tu aviso mensualmente.
+Para mantener una cartera real de mascotas en venta/adopcion y evitar que TuMascota se llene de mascotas ya vendidas/adoptadas, te solicitamos renovar tu aviso mensualmente.
 <br/>
   <br/>
-Para renovar tu anuncio, llena la siguiente planilla gratuita o contáctanos gratis desde tu fijo nacional o local al 018000-522776 o desde tu celular al (1)-531-1099. Sólo podrás hacerlo hasta 15 días después de su vencimiento, si no, el mismo dejará de aparecer en la página.
+Para renovar tu anuncio, llena la siguiente planilla gratuita o contáctanos desde tu celular al 318 424 68 20. Sólo podrás hacerlo hasta 15 días después de su vencimiento, si no, el mismo dejará de aparecer en la página.
 <br/>
   <br/>
-Ten presente que a partir de la primera renovación, el número de anuncio cambiará cada vez que lo renueves.
+Ten presente que el número de anuncio no cambiará cada vez que lo renueves.
 <br/>
   <br/>Datos de la Publicación
+<br/>  
+  <br/>Numero de anuncio *
+  <input type="text" value="" placeholder="" id="numAnuncio" name="numAnuncio" />
+<br/>Tipo mascota *
+{#{{ dump(tiposMascotas) }}#}
+<select id="tipoMascota" name="tipoMascota" onchange="mascotaSeleccionada('tipoMascota', 'razaMascota')">
+    <option value="" selected="selected">Selecciona</option>
+    {% for tipoMascota in tiposMascotas %}
+        <option value="{{ tipoMascota.id }}">{{ tipoMascota.descripcion }}</option>    
+    {% endfor %}
+</select>
+<br/>Raza *
+<select placeholder="Seleccionar" id="razaMascota" name="razaMascota" >
+</select>
+<br/>Imagen de Seguridad *
+{#<input type="text" value="" placeholder="captcha" id="ketchup" name="catsup" />#}
+
+<!-- **********************INICIO DEL CATSUP -->
+<p><img id="captcha" src="/captcha.php" width="160" height="45" border="1" alt="CAPTCHA">
+<small><a href="#" onclick="refrescarCaptcha()">actualizar</a></small></p>
+<p><input id="captcha_code" type="text" name="captcha" size="6" maxlength="5" onkeyup="this.value = this.value.replace(/[^\d]+/g, '');"> <small>copie los digitos de la imagen en la caja de texto</small></p>
+<!-- **********************FIN DEL CATSUP -->
+
 <br/>
-  <br/>* Datos obligatorios
-<br/>
-Numero de anuncio
-<br/>Placa
-<br/>
-Imagen de Seguridad
-<br/>
+<input type="button" value="Renovar" id="btnRenovar" name="btnRenovar" onclick="renovar()" />
 <br/>
 Si tienes algún inconveniente para llenar esta solicitud, por favor comunícate con nosotros a los teléfonos:
-
 <br/>
-  <br/>- Gratis desde tu fijo nacional o local al 018000-5CARRO (22776)
-
-<br/>
-  <br/>- Desde tu celular al (1)-531-1099
+  <br/>- Desde tu celular al 318 424 68 20
+  <br/>
+  <div id="errorMsjDiv" style="display: none">
+      <label id="errorMsjLbl" />
+  </div>
+ 
     {% endblock %}
+    
+    {% block javascript %}
+    <script type="text/javascript"  src="{{ asset('bundles/frontend/js/combos.js') }}" ></script>
+    {% endblock %}
+    

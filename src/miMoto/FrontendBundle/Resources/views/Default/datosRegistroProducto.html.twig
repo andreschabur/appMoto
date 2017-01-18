@@ -44,7 +44,8 @@
                 {{ form_label(producto.manufacturersId, 'Tipo Mascota*', {'label_attr': {'class': 'control-label'}}) }}
             </div>
             <div class="col-md-3">
-                <span> {{ form_widget(producto.manufacturersId, {'attr': {'class': 'form-control', 'onchange': 'mascotaSeleccionada(\'products_manufacturersId\', \'products_cilindrajeId\')'}}) }} </span>
+{#                <span> {{ form_widget(producto.manufacturersId, {'attr': {'class': 'form-control', 'onchange': 'mascotaSeleccionada(\'usuario_producto_productsCollection_0_manufacturersId\', \'products_cilindrajeId\')'}}) }} </span>#}
+                <span> {{ form_widget(producto.manufacturersId, {'attr': {'class': 'form-control'}}) }} </span>
                 <div class="error">{{ form_errors(producto.manufacturersId) }}</div>
             </div>
             <div class="col-md-3">

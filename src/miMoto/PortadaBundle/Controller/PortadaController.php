@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 class PortadaController extends Controller
 {
@@ -181,13 +183,122 @@ class PortadaController extends Controller
     }
     
     public function modificarAnuncioAction(){
+        //***crear formulario
+        //***obtener el post y enviar a modificar anuncio
           return $this->render('PortadaBundle:Default:modificarAnuncio.html.twig');
     }
-    
+    /**
+     * Muestra la pagina de renovar anuncio
+     * @return type
+     */
     public function renovarAnuncioAction(){
-          return $this->render('PortadaBundle:Default:renovarAnuncio.html.twig');
-    }
+        //***cargar tipos de mascota
+        $em = $this->getDoctrine()->getManager(); 
+        $tiposMascotas = array();
+        $tiposMascotasEntitys = $em->getRepository('EntidadesBundle:Manufacturers')->findBy(array('estado' => 'A'));
+        foreach ($tiposMascotasEntitys as $tipoMascotaEntity){
+            $tiposMascotas[] = array('id'=>$tipoMascotaEntity->getManufacturersId(),
+            'descripcion'=>$tipoMascotaEntity->getManufacturersName());
+        }
     
+        return $this->render('PortadaBundle:Default:renovarAnuncio.html.twig', array('tiposMascotas'=>$tiposMascotas));
+    }
+    /**
+     * Metodo de actualizar datos mediante javascript y ajax
+     * @param Request $request
+     * @return \miMoto\PortadaBundle\Controller\JsonResponse
+     */
+    public function renovarAction(Request $request){
+        //***Recibir variables
+        $numAnuncio = $request->request->get('numeroAnuncio');
+        $tipoMascota = $request->request->get('tipoMascota');
+        $razaMascota = $request->request->get('raza');
+        $ketchup = $request->request->get('captcha_code');
+        //***con el ketchup valido que si sea un humanoide
+        if($ketchup != $_SESSION['digit']){ 
+//            ("Sorry, the CAPTCHA code entered was incorrect!"); 
+            $respuesta = array('codigo'=>'03', 'mensaje'=>'Sorry, the CAPTCHA code entered was incorrect!.');
+            return new JsonResponse($respuesta);
+        }
+        //***
+        $em = $this->getDoctrine()->getManager();
+        $respuesta = 'Sin definir';
+        //***Buscar Anuncio
+        $productsEntitys = $em->getRepository('EntidadesBundle:Products')->findBy(array(
+            'productsId' => $numAnuncio, 
+            'manufacturersId' => $tipoMascota,
+            'cilindrajeId' => $razaMascota, 
+            'productsStatus' => 1));
+        if($productsEntitys == null){
+            $respuesta = array('codigo'=>'02', 'mensaje'=>'Ha ocurrido un error actualizando su anuncio, por favor contactenos para ayudarle con esto.');
+            
+        }else{
+//            dump($productsEntitys);
+            //***Adicionar 30 dias mas al anuncio
+            $fechaHoy = new DateTime();
+            $product = $productsEntitys[0];
+//            dump('imagen '.$productsEntitys[0]->getProductsImage());
+//             dump('antes '.$product->getProductsDateAvailable()->format('Y-m-d'));
+            $product->asignarDisponibilidadPorUnMes($fechaHoy);
+//             dump('despues '.$product->getProductsDateAvailable()->format('Y-m-d'));
+            //***Actualizar datos
+            $em->persist($product);
+            $em->flush();
+            //***
+            $respuesta = array('codigo'=>'01', 'mensaje'=>'Actualizacion exitosa ahora su anuncio esta disponible hasta '.$product->getProductsDateAvailable()->format('Y-m-d').'.');
+        }
+        //***
+        return new JsonResponse($respuesta);
+    }
+    /**
+     * 2017-01-18
+     * Funcion utilizada para inactivar producto
+     * @return JsonResponse
+     */
+    public function notificarAction(Request $request){
+        //***Recibir variables
+        $numAnuncio = $request->request->get('numeroAnuncio');
+        $email = $request->request->get('email');        
+        $ketchup = $request->request->get('captcha_code');
+        //***con el ketchup valido que si sea un humanoide
+        if($ketchup != $_SESSION['digit']){ 
+//            ("Sorry, the CAPTCHA code entered was incorrect!"); 
+            $respuesta = array('codigo'=>'03', 'mensaje'=>'Sorry, the CAPTCHA code entered was incorrect!.');
+            return new JsonResponse($respuesta);
+        }
+        //***
+        $em = $this->getDoctrine()->getManager();
+        $respuesta = 'Sin definir';
+        //***Buscar Anuncio
+        $productsEntitys = $em->getRepository('EntidadesBundle:Products')->findBy(array(
+            'productsId' => $numAnuncio, 
+            'productsStatus' => 1));
+        if($productsEntitys == null){
+            $respuesta = array('codigo'=>'02', 'mensaje'=>'Ha ocurrido un error actualizando su anuncio, por favor contactenos para ayudarle con esto.');
+            
+        }else{
+//            dump($productsEntitys);
+            $product = $productsEntitys[0];
+            //***validar que el usuario del producto si tenga el correo indicado
+            if(trim($product->getUsuarioId()->getCorreo()) != trim($email)){
+                $respuesta = array('codigo'=>'04', 'mensaje'=>'Ha ocurrido un error actualizando su anuncio, por favor contactenos para ayudarle con esto.');
+            }else{
+                //***Inactivar producto
+                $product->setProductsStatus(0);
+                //***Actualizar datos
+                $em->persist($product);
+                $em->flush();
+                //***
+                $respuesta = array('codigo'=>'01', 'mensaje'=>'Actualizacion exitosa, hemos recibido su notificacion.');
+            }
+        }
+        //***
+        return new JsonResponse($respuesta);
+    }
+    /**
+     * Muestra la pagina para notificar la venta
+     * @return type
+     */
     public function notificarVentaAction(){
           return $this->render('PortadaBundle:Default:notificarVenta.html.twig');
     }

@@ -7,7 +7,89 @@
 <a href="{{ path('portada_producto_inicio') }}">Volver al inicio</a> | 
 <h1>{{ block('title') }}</h1>    
     
-   Numero de anuncio **Donde encuentro el numero del anuncio? --mostrar imagen
-<br/>
-Email --olvide el mail --digite el numero de anuncio para darle una pista
+    {#<b>Digite el # de anuncio</b>
+    <input value="" id="idAnuncio" name="idAnuncio" class="form-control" />   #}
+    Inicie sesion para acceder a sus anuncios.
+    <br/>
+    {% include 'LoginBundle:Default:loginComponent.html.twig' %} 
+        <br/>
+        <br/>
+    <a href="#" onclick="mostrarDialog('referenciaCodeudor')" >--Olvide el e-mail y/o contraseña </a>
+        
+    
+    
+    
+        <!--INICIO DEL DIALOG3 **Dialogs para recordar datos-->
+        <div id="referenciaCodeudor" 
+             class="divDialog" 
+             style="border: solid blueviolet; display: none">            
+            <!--            CABECERA DEL DIALOG-->
+            <table style="width: 100%">
+                <tr>
+                    <td>
+                        <div style="width: 350px;text-align: justify">
+                            <font color="#000568"><i><b>Recordar Datos</b></i></font>
+                        </div>
+                    </td>
+                    <td style="width: 30px">
+                        <div style="text-align: right;padding: 10px;width: 30px">
+                            <a onclick="cerrarDialog('referenciaCodeudor')" 
+                               style="color: #000568">X</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <div style="width: 100%; background-color: whitesmoke;" >
+            <!--            MENU DEL DIALOG-->  
+                <div style="text-align: left;border-style: solid; border-width: 1px;border-color: blue; width: 100%; background-color: #a6c9e2;padding-left: 20px;padding-right: 20px;">
+                    <font color="#000568"><i># Documento: </i></font>
+                    <input type="text" 
+                           placeholder="Recordar datos"
+                                   id="documentoRecordar" 
+                                   size="50" />
+                    <button class="btn btn-sm btn-primary" 
+                            type="submit">Solicitar datos</button>
+                    <label id="mensajeDialog" 
+                           style="color: brown"></label>
+                </div>
+            <!--            CONTENIDO DEL DIALOG--> 
+                <div class="divContenidoScrollVerticalDialog">
+                    <p style="color: #a6c9e2">                        
+                    **Digite el numero de documento y se enviara un mensaje con:
+                    <ul style="color: #a6c9e2">
+                        <li>Su correo</li>
+                        <li>Sus anuncios</li>
+                        <li>Un link para reestablecer la contraseña</li>
+                    </ul>
+                    </p>
+                    
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .divDialog{
+    width:900px;
+    height:300px;
+    position:fixed;
+    top:50%;
+    left:50%;
+    margin-left: -400px;
+    margin-top: -150px;
+    /*background: chartreuse center no-repeat transparent;*/
+    background-color: #1398ef;    
+}
+
+.divContenidoScrollVerticalDialog{
+    overflow: auto;
+    height: 200px;
+    padding: 20px;
+    background-color: #000568; 
+}
+        </style>       
+    {% endblock %}
+    
+    {% block javascript %}
+    <script type="text/javascript"  src="{{ asset('bundles/frontend/js/combos.js') }}" ></script>
     {% endblock %}

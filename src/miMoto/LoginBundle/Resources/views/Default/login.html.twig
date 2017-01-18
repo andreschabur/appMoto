@@ -8,9 +8,9 @@
         <div class="list-group">
             <a class="list-group-item" href="{{ path('usuario_producto_nuevo') }}">Vender/DarEnAdopcion a mascota</a>
             <a class="list-group-item" href="{{ path('portada_tarifas') }}">Tarifas</a>
-            <a class="list-group-item" href="{{ path('modificar_anuncio') }}">Modificar anuncio*</a>
-            <a class="list-group-item" href="{{ path('renovar_anuncio') }}">Renovar anuncio*</a>
-            <a class="list-group-item" href="{{ path('notificar_venta') }}">Notificar venta*</a>
+            <a class="list-group-item" href="{{ path('modificar_anuncio') }}">Modificar anuncio</a>
+            <a class="list-group-item" href="{{ path('renovar_anuncio') }}">Renovar anuncio</a>
+            <a class="list-group-item" href="{{ path('notificar_venta') }}">Notificar venta</a>
             <a class="list-group-item" href="{{ path('usuario_registro') }}">Regístrate como criadero</a>
         </div
 {#<li>
@@ -30,29 +30,7 @@
         Ingrese datos para iniciar sesion
     </p>    
 
-<form action="{{ path('usuario_login_check') }}" method="post">
-    {% if error is defined %}
-        {% if error.message is defined %}
-            <div>{{ error.message }}</div>
-        {% endif %}
-    {% endif %}
-
-    <label for="username" class="control-label">E-mail:</label><br/>
-    <input type="text" id="username" name="_username"
-    value="{%if(last_username is defined )%}{{ last_username }}{% endif %}{#hchabur@kpizk.com#}"  class="form-control"/><br/>
-    <label for="password" class="control-label">Contraseña:</label><br/>
-    <!--<input type="text" id="contrasena" name="contrasena" />-->
-    <input type="password" id="password" name="_password" value="{#xxx123#}" class="form-control"/><br/>
-    <!--<input type="submit" name="login" value="Acceder" />-->
-    <button type="submit" class="sf-button" >
-        <span class="border-l">
-        <span class="border-r">
-            <span class="btn-bg">Acceder</span>
-            </span>
-        </span>
-    </button>
-    <!--<input type="hidden" name="_target_path" value="/solicitud/listar" />-->
-</form>
+    {% include 'LoginBundle:Default:loginComponent.html.twig' %}
     </div>
 </div>
 

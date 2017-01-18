@@ -27,17 +27,20 @@ adicionalmente se incluye publicidad de otras empresas #}
             <div class="col-md-7" style="padding-left: 0">        
                 <div class="col-md-12" style="border: 1px solid #428BCA; padding: 20px;">
                    <font color="green">Categorias</font><br/>
-                   Espacio publicitario, marcas, chalecos, correas y accesorios, otras categorias y las mas buscadas  
+                   Item en construccion ...
+                   <!--Espacio publicitario, marcas, chalecos, correas y accesorios, otras categorias y las mas buscadas  -->
                </div>
                 <div class="col-md-12" style="border: 1px solid #428BCA; padding: 20px; margin-top: 20px">
                    <font color="green">Marcas</font><br/>
-                   Espacio publicitario, marcas, chalecos y accesorios, otras categorias y las mas buscadas  
+                   Item en construccion ...
+                   <!--Espacio publicitario, marcas, chalecos y accesorios, otras categorias y las mas buscadas  -->
                </div>
             </div>
             <div class="col-md-5" style="border: 1px solid #428BCA; text-align: right; padding: 2px">
                 <font color="green">Publicidad</font><br/>
                 {#<a target="_blank" href="{{app.request.basepath}}/uploads/publicidad/grande/pendonGranBretañaGrande.jpg"><img width="300" height="300"  src="{{app.request.basepath}}/uploads/publicidad/mini/pendonGranBretañaMini.jpg"></a>#}
-                <a target="_blank" href="{{ asset('bundles/frontend/publicidad/grande/pendonGranBretanaGrande.jpg') }}"><img width="300" height="300"  src="{{ asset('bundles/frontend/publicidad/mini/pendonGranBretanaMini.jpg') }}"></a>
+{#                <a target="_blank" href="{{ asset('bundles/frontend/publicidad/grande/pendonGranBretanaGrande.jpg') }}"><img width="300" height="300"  src="{{ asset('bundles/frontend/publicidad/mini/pendonGranBretanaMini.jpg') }}"></a>#}
+Item en construccion ...
             </div>
         </div>
             
@@ -49,9 +52,10 @@ adicionalmente se incluye publicidad de otras empresas #}
                     </div>
                     <div class="panel-body">  
                     <p>
-                        Peluqueria canica 13... publicidad
+                        Item en construccion ...
+                        <!--Peluqueria canica 13... publicidad
                         Guarderia canina
-                        servicio tecnopaseos
+                        servicio tecnopaseos-->
                     </p>    
                     </div>
                 </div>
@@ -63,7 +67,8 @@ adicionalmente se incluye publicidad de otras empresas #}
                     </div>
                     <div class="panel-body"> 
                     <p>
-                        Espacio para eventos que se realizan por grupos de dueños de mascotas de fb y que se quieran publicar aca
+                        Item en construccion ...
+                        <!--Espacio para eventos que se realizan por grupos de dueños de mascotas de fb y que se quieran publicar aca-->
                     </p>    
                     </div>
                 </div>
@@ -130,10 +135,7 @@ adicionalmente se incluye publicidad de otras empresas #}
         <td></td>
     </tr>
 </table>        #}
-{% endblock %}
-
-{% block javascript %}
-    {# Inicio Slider para la pagina principal 3 fotos corriendo automaticamente #}
+{# Inicio Slider para la pagina principal 3 fotos corriendo automaticamente #}
 
 <script>    
     (function() {     // function expression closure to contain variables
@@ -152,6 +154,29 @@ adicionalmente se incluye publicidad de otras empresas #}
         }
         setInterval(toggle, 3000);
     })();
+</script>
+{% endblock %}
+
+{% block javascript %}
+    {# Inicio Slider para la pagina principal 3 fotos corriendo automaticamente #}
+
+<script>    /*
+    (function() {     // function expression closure to contain variables
+        //var ruta = '/tests/appMoto/web/bundles/frontend/images/slider/'
+        //var ruta = 'http://public_html.kp/tests/appMoto/web/bundles/frontend/images/slider/';
+        var i = 0;
+        var pics = [ "slider0.jpg", "slider1.jpg", "slider2.jpg","slider3.jpg", "slider4.jpg" ];
+        var el = document.getElementById('img_to_flip');  // el doesn't change
+        var ruta = el.src;
+        ruta = ruta.replace("slider0.jpg","");
+{#        console.log(ruta);#}
+{#        console.log('>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');#}
+        function toggle() {
+            el.src = ruta + pics[i];           // set the image
+            i = (i + 1) % pics.length;  // update the counter
+        }
+        setInterval(toggle, 3000);
+    })();*/
 </script>
 
 {# Fin Slider para la pagina principal 3 fotos corriendo automaticamente #}

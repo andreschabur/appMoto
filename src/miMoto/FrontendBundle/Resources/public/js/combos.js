@@ -145,7 +145,7 @@ $(function(){
         };
         $.ajax({
            type: 'post',
-           url: 'razas',
+           url: '../producto/razas',
            data: data,
            success: function(data){
 
@@ -222,3 +222,152 @@ $(function(){
     });
     
 </script>*/
+
+
+/*ESTO SE UTILIZA EN LA PAGINA DE RENOVAR PortadaBundle/Default/renovarAnuncio.html.twig*/
+function renovar(){    
+          var numeroAnuncio = document.getElementById('numAnuncio');
+          var tipoMascota = document.getElementById('tipoMascota');
+          var raza = document.getElementById('razaMascota');
+          var captcha_code = document.getElementById('captcha_code');
+        var data = {          
+            numeroAnuncio : numeroAnuncio.value,
+            tipoMascota : tipoMascota.value,
+            raza : raza.value,
+            captcha_code : captcha_code.value,
+        };
+        if(validarCamposVacios(data)){
+            $.ajax({
+              type: 'post',
+              url: 'renovar',
+              data: data,
+              success: function(respuesta) {
+                  dibujarError(respuesta.mensaje);
+                  if(respuesta.codigo != '03'){
+                      //***Si ingreso bien el captcha pero ocurrio otro error (o ya actualizo bien) entonces vuelva a ingresar el captcha ketsup
+                      refrescarCaptcha();
+                  }
+              }
+            });
+        }else{
+            alert('Ha ocurrido un error validando los campos!');
+//            dibujarError('Ha ocurrido un error validando los campos!');
+        }
+      }
+      
+      function validarCamposVacios(data){
+          for (indice in data) {
+              if(data[indice] == '' || data[indice] == null){
+//                  alert('El dato '+indice+' esta vacío.');
+                  dibujarError('Existen datos que estan vacíos.');
+                  return false;
+              }
+              if(indice == 'captcha_code'){
+                  if(!data[indice].match(/^\d{5}$/)) {
+//                    alert('Please enter the CAPTCHA digits in the box provided');
+//                    alert('Por favor digite el CAPTCHA correctamente');
+                    dibujarError('Por favor digite el CAPTCHA correctamente');
+//                    form.captcha.focus();
+                    return false;
+              }
+          }
+      }
+          return true;
+  }
+      
+      
+/*Esto se utiliza en la ventana de modificarAnuncio y renovarAnuncio para mostar unos divs y ocultarlos*/
+ function mostrarDialog(idDialog,titulo) {
+
+    //***Para que no aparezca undefined en el campo de titulo del div (Dialog)
+    if(titulo == null){
+        titulo = '';
+    }
+    if(document.getElementById(idDialog+'Titulo') != null){                
+        document.getElementById(idDialog+'Titulo').value = titulo;        
+    }
+    
+    var div = document.getElementById(idDialog);
+
+    div.style.display = '';
+
+}
+
+function cerrarDialog(idDialog) {
+
+    var div = document.getElementById(idDialog);
+
+    div.style.display='none';
+
+}
+/**
+ * 2017-01-19
+ * La funcion se crea para incluir el texto de error en el renovar anuncio,
+ * recordar que esto se esta haciendo sin formulario symfony, y con javascript
+ * @param {type} idDiv
+ * @param {type} texto
+ * @returns {undefined}
+ */
+function adicionarTextoDiv(idDiv, texto){
+    texto = '<b><font color = \'blue\' size=\'15\'>'+texto+'</font></b>';
+    var div = document.getElementById(idDiv);
+//    div.innerHTML = div.innerHTML + texto;    
+    div.innerHTML = texto;    
+}
+
+
+function dibujarError(texto){
+    var idDiv = 'errorMsjDiv';
+    var divTemp = document.getElementById(idDiv);
+    if(divTemp != null){
+          mostrarDialog(idDiv);
+          adicionarTextoDiv(idDiv, texto);
+      }else{
+          alert(texto);
+      }
+}
+/**
+ * 2017-01-18
+ * funcion para refrescar el ketsup
+ * @returns {undefined}
+ */
+function refrescarCaptcha(){    
+  document.getElementById('captcha').src = '/captcha.php?' + Math.random();
+  document.getElementById('captcha_code').value = '';
+  return false;
+}
+
+/**
+ * 2017-01-18
+ * Funcion para inactivar un anuncio 
+ * @returns {undefined}
+ */
+function notificar(){
+    
+          var numeroAnuncio = document.getElementById('numAnuncio');
+          var email = document.getElementById('email'); 
+          var captcha_code = document.getElementById('captcha_code');
+        var data = {          
+            numeroAnuncio : numeroAnuncio.value,
+            email : email.value,
+            captcha_code : captcha_code.value
+        };
+        if(validarCamposVacios(data)){
+            $.ajax({
+              type: 'post',
+              url: 'notificar',
+              data: data,
+              success: function(respuesta) {
+                  dibujarError(respuesta.mensaje);
+                  if(respuesta.codigo != '03'){
+                      //***Si ingreso bien el captcha pero ocurrio otro error (o ya actualizo bien) entonces vuelva a ingresar el captcha ketsup
+                      refrescarCaptcha();
+                  }
+              }
+            });
+        }else{
+            alert('Ha ocurrido un error validando los campos!');
+//            dibujarError('Ha ocurrido un error validando los campos!');
+        }
+      
+}

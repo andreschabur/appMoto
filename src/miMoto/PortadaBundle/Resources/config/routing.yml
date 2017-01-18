@@ -1,6 +1,6 @@
-portada_homepage:
-    path:  /hello/{name}
-    defaults: { _controller: PortadaBundle:Default:index }
+#portada_homepage:
+#    path:  /hello/{name}
+#    defaults: { _controller: PortadaBundle:Default:index }
     
 #portada_producto_buscar:
 #    path: /portada_producto_buscar
@@ -30,10 +30,20 @@ modificar_anuncio:
     path: /modificar_anuncio
     defaults: { _controller: PortadaBundle:Portada:modificarAnuncio }
 
+#Muestra la pagina para renovar el anuncio
 renovar_anuncio:
     path: /renovar_anuncio
     defaults: { _controller: PortadaBundle:Portada:renovarAnuncio }
 
+#Actualiza el anuncio por 30 dias mas apartir de hoy, se utiliza con javascript+ajax
+renovar:
+    path: /renovar
+    defaults: { _controller: PortadaBundle:Portada:renovar }
+
 notificar_venta:
     path: /notificar_venta
     defaults: { _controller: PortadaBundle:Portada:notificarVenta }
+    
+notificar:
+    path: /notificar
+    defaults: { _controller: PortadaBundle:Portada:notificar }    
