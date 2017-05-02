@@ -99,11 +99,11 @@
                 </div>
                 
                 
-                <div class="col-md-3">
-                    {{ form_label(formulario.password, 'Contraseña', {'label_attr': {'class': 'control-label'}}) }}
-                </div>
-                <div class="col-md-3">
-                    <span> {{ form_widget(formulario.password, {'attr': {'class': 'form-control'}}) }} </span>
+                <div class="col-md-6">
+{#                    {{ form_label(formulario.password, 'Contraseña', {'label_attr': {'class': 'control-label'}}) }}#}
+                
+                    {{ form_widget(formulario.password) }} 
+{#                    <span> {{ form_widget(formulario.password, {'attr': {'class': 'form-control'}}) }} </span>#}
                     <div class="error">{{ form_errors(formulario.password) }}</div>
                 </div>                           
         
