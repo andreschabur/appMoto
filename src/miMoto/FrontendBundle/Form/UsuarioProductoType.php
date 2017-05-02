@@ -69,6 +69,19 @@ class UsuarioProductoType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 ))
+//                ->add('password')
+//                ->add('plainPassword', RepeatedType::class, array(
+            ->add('password', \Symfony\Component\Form\Extension\Core\Type\RepeatedType::class, array(
+                'type' => \Symfony\Component\Form\Extension\Core\Type\PasswordType::class,
+                'first_options'  => array('label' => 'Password'),
+                'second_options' => array('label' => 'Repita Password'),
+            ))
+                
+                
+            /*->add('termsAccepted', CheckboxType::class, array(
+                'mapped' => false,
+                'constraints' => new IsTrue(),
+            ))*/
         ;
         
         /*$ff = $builder->getFormFactory();

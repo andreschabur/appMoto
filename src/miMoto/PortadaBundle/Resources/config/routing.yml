@@ -14,9 +14,9 @@ portada_producto_ver:
     path: /portada_producto_ver/{id}
     defaults: { _controller: PortadaBundle:Portada:ver }
 
-portada_producto_inicio:
-    path: /portada_producto_inicio
-    defaults: { _controller: PortadaBundle:Portada:inicio }
+#portada_producto_inicio:
+#    path: /portada_producto_inicio
+#    defaults: { _controller: PortadaBundle:Portada:inicio }
 
 portada_tarifas:
     path: /portada_tarifas

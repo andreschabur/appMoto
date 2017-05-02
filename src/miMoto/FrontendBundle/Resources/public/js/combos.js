@@ -121,17 +121,19 @@ $(function(){
          };
         $.ajax({
            type: 'post',
-           url: 'ciudades',
+           url: 'producto/ciudades',
            data: data,
            success: function(data){
 
 //               var $ciudad_selector = $('#products_filtro_ciudadId');
 //               var $ciudad_selector = $('#');
                var $ciudad_selector = $('#'+idCiudadName);
+//               console.log(idCiudadName);
                
                $ciudad_selector.html('<option value="">Selecciona...</option>');
                
                for(var i= 0, total = data.length; i< total; i++){
+//                    console.log(data[i].descripcion);
                    $ciudad_selector.append('<option value="' + data[i].id + '">' + data[i].descripcion + '</option>');
                }
            }
@@ -145,16 +147,17 @@ $(function(){
         };
         $.ajax({
            type: 'post',
-           url: '../producto/razas',
+           url: 'producto/razas',
            data: data,
            success: function(data){
 
 //               var $raza_selector = $('#products_filtro_cilindrajeIdFilter');
                var $raza_selector = $('#'+idRazaName);
-               
+               console.log(idRazaName);
                $raza_selector.html('<option value="">Selecciona...</option>');
                
                for(var i= 0, total = data.length; i< total; i++){
+                    console.log(data[i].descripcion);
                    $raza_selector.append('<option value="' + data[i].id + '">' + data[i].descripcion + '</option>');
                }
            }

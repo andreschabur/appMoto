@@ -26,7 +26,8 @@ security:
           pattern: ^/
           anonymous: ~
           form_login: 
-            login_path: portada_producto_inicio
+#            login_path: portada_producto_inicio
+            login_path: inicio
             check_path: usuario_login_check
             default_target_path: usuario_hello
             #default_target_path: usuario_producto_ver

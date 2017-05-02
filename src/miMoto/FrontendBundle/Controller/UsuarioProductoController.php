@@ -461,6 +461,10 @@ class UsuarioProductoController extends Controller
         $departamento_id = $request->request->get('departamento_id');
 //        $departamento_id = 66;
 
+        if($departamento_id == ''){
+            $departamento_id = 66;
+//            return new JsonResponse('No se ha asignado id de mascota para buscar razas');
+        }
         $em = $this->getDoctrine()->getManager();
         $cities = $em->getRepository('EntidadesBundle:Ciudad')->findBy(array('departamentoId' => $departamento_id));
         
@@ -469,7 +473,7 @@ class UsuarioProductoController extends Controller
         $ciudades = array();
         foreach ($cities as $citi) {
             $ciudad['id'] = $citi->getId();
-            $ciudad['descripcion'] = $citi->getDescripcion();
+            $ciudad['descripcion'] = trim($citi->getDescripcion());
             $ciudades[] = $ciudad;
         }        
         return new JsonResponse($ciudades);
@@ -482,6 +486,10 @@ class UsuarioProductoController extends Controller
      */
     public function razasAction(Request $request){
         $manufacturers_id = $request->request->get('mascota_id');
+        if($manufacturers_id == ''){
+            $manufacturers_id = 11;
+//            return new JsonResponse('No se ha asignado id de mascota para buscar razas');
+        }
         $em = $this->getDoctrine()->getManager();
         $cilindrajes = $em->getRepository('EntidadesBundle:Cilindraje')->findBy(array('manufacturersId' => $manufacturers_id));
         $cilindrajesJson = array();

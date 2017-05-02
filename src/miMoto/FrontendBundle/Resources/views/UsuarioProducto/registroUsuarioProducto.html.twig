@@ -5,7 +5,7 @@
 
 {% block article %}
     
-<a href="{{ path('usuario_hello') }}">Cancelar el registro - Volver al inicio</a>
+<a href="{{ path('inicio') }}">Cancelar el registro - Volver al inicio</a>
 <h1>{{ block('title') }}</h1>
 
 <form action="{{ path('usuario_producto_nuevo') }}" method="post" {{ form_enctype(formulario) }}>
@@ -100,17 +100,36 @@
                 
                 
                 <div class="col-md-3">
-                    {{ form_label(formulario.direccion, 'Direccion', {'label_attr': {'class': 'control-label'}}) }}
+                    {{ form_label(formulario.password, 'Contraseña', {'label_attr': {'class': 'control-label'}}) }}
                 </div>
                 <div class="col-md-3">
-                    <span> {{ form_widget(formulario.direccion, {'attr': {'class': 'form-control'}}) }} </span>
-                    <div class="error">{{ form_errors(formulario.direccion) }}</div>
+                    <span> {{ form_widget(formulario.password, {'attr': {'class': 'form-control'}}) }} </span>
+                    <div class="error">{{ form_errors(formulario.password) }}</div>
                 </div>                           
         
         </div>            
         <div class="row">
             
+             <div class="col-md-3">
+                    {{ form_label(formulario.direccion, 'Direccion', {'label_attr': {'class': 'control-label'}}) }}
+                </div>
+                <div class="col-md-3">
+                    <span> {{ form_widget(formulario.direccion, {'attr': {'class': 'form-control'}}) }} </span>
+                    <div class="error">{{ form_errors(formulario.direccion) }}</div>
+                </div>   
+            
             <div class="col-md-3">
+                    {{ form_label(formulario.pais, 'Pais*', {'label_attr': {'class': 'control-label'}}) }}
+                </div>
+                <div class="col-md-3">
+                    <span> {{ form_widget(formulario.pais, {'attr': {'class': 'form-control'}}) }} </span>
+                    <div class="error">{{ form_errors(formulario.pais) }}</div>
+                </div>                
+                
+        </div>            
+        <div class="row">
+            
+             <div class="col-md-3">
                     {{ form_label(formulario.departamento, 'Departamento*', {'label_attr': {'class': 'control-label'}}) }}
                 </div>
                 <div class="col-md-3">
@@ -126,17 +145,8 @@
                     <span> {{ form_widget(formulario.ciudad, {'attr': {'class': 'form-control'}}) }} </span>
                     <div class="error">{{ form_errors(formulario.ciudad) }}</div>
                 </div> 
-                
-        </div>            
-        <div class="row">
                                            
-            <div class="col-md-3">
-                    {{ form_label(formulario.pais, 'Pais*', {'label_attr': {'class': 'control-label'}}) }}
-                </div>
-                <div class="col-md-3">
-                    <span> {{ form_widget(formulario.pais, {'attr': {'class': 'form-control'}}) }} </span>
-                    <div class="error">{{ form_errors(formulario.pais) }}</div>
-                </div>                
+           
                 
             
         </div>                                       
