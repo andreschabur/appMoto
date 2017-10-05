@@ -299,7 +299,7 @@ class UsuarioProductoController extends Controller
                 
                 
                 //***
-                $usuario->setPassword('kpizk');
+//                $usuario->setPassword('kpizk');
                 
                 //***
                 $em->persist($usuario);

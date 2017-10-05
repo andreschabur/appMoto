@@ -19,19 +19,38 @@ adicionalmente se incluye publicidad de otras empresas #}
     <div class="col-md-8">        
         <div class="row">            
             {# Filtros para busqueda de productos#}
-            {% include 'PortadaBundle:Portada:producto_buscar.html.twig' %}            
+            {% include 'PortadaBundle:Portada:producto_buscar.html.twig' %}  
+Si no encuentras el tipo de animal o raza por favor comunicamelo para adicionarla.          
         </div>
         
         <div class="row">
             {#        <br/>#}
             <div class="col-md-7" style="padding-left: 0">        
                 <div class="col-md-12" style="border: 1px solid #428BCA; padding: 20px;">
-                   <font color="green">Categorias</font><br/>
-                   Item en construccion ...
+                   <font color="green">Tipo de animal</font><br/>
                    <!--Espacio publicitario, marcas, chalecos, correas y accesorios, otras categorias y las mas buscadas  -->
+                    {# TODO: HACER ESTO CON RANDOM Y MOSTRAR LISTADOS DIFERENTES EN CADA INGRESO A LA PAGINA #}
+                    <ul>
+                        <li>Perro</li>
+                        <li>Gato</li>
+                        <li>Caballo</li>
+                        <li>Bobinos</li>
+                        <li>Pajaros Ornamentales</li>
+                        <li>Peces</li>
+                        <li>Gallinas</li>
+                    </ul>
+                   Item en construccion ...
                </div>
                 <div class="col-md-12" style="border: 1px solid #428BCA; padding: 20px; margin-top: 20px">
-                   <font color="green">Marcas</font><br/>
+                   <font color="green">Razas</font><br/>
+                    {# TODO: HACER ESTO CON RANDOM Y MOSTRAR LISTADOS DIFERENTES EN CADA INGRESO A LA PAGINA #}
+                   <ul>
+                        <li>Perro Fox terrier</li>
+                        <li>Perro Schanuzer</li>
+                        <li>Gato Persa</li>
+                        <li>Pajaro Canario</li>
+                        <li>Pajaro Loro</li>
+                   </ul>
                    Item en construccion ...
                    <!--Espacio publicitario, marcas, chalecos y accesorios, otras categorias y las mas buscadas  -->
                </div>
@@ -39,8 +58,12 @@ adicionalmente se incluye publicidad de otras empresas #}
             <div class="col-md-5" style="border: 1px solid #428BCA; text-align: right; padding: 2px">
                 <font color="green">Publicidad</font><br/>
                 {#<a target="_blank" href="{{app.request.basepath}}/uploads/publicidad/grande/pendonGranBretañaGrande.jpg"><img width="300" height="300"  src="{{app.request.basepath}}/uploads/publicidad/mini/pendonGranBretañaMini.jpg"></a>#}
-{#                <a target="_blank" href="{{ asset('bundles/frontend/publicidad/grande/pendonGranBretanaGrande.jpg') }}"><img width="300" height="300"  src="{{ asset('bundles/frontend/publicidad/mini/pendonGranBretanaMini.jpg') }}"></a>#}
-Item en construccion ...
+                {#<a target="_blank" href="{{ asset('bundles/frontend/publicidad/grande/pendonGranBretanaGrande.jpg') }}"><img width="300" height="300"  src="{{ asset('bundles/frontend/publicidad/mini/pendonGranBretanaMini.jpg') }}"></a>#}
+                <!--Item en construccion ...-->
+                Pauta con nosotros, contactanos al cel: 318 424 6820
+                ó escríbenos al correo: andres_chabur@hotmail.com,
+                esperamos Peluqerias caninas, Guarderias, Tiendas de mascotas, Criaderos, Fabricantes de productos para animales y otros.
+                y tu logo y el nombre de tu empresa se mostrara en este lugar.
             </div>
         </div>
             
@@ -68,6 +91,7 @@ Item en construccion ...
                     <div class="panel-body"> 
                     <p>
                         Item en construccion ...
+Loading  .  .  .
                         <!--Espacio para eventos que se realizan por grupos de dueños de mascotas de fb y que se quieran publicar aca-->
                     </p>    
                     </div>
@@ -101,11 +125,11 @@ Item en construccion ...
 
                         <br/>
 
-                        <a href="#">MiCarro</a> |
+                        <!--<a href="#">MiCarro</a> |
                         <a href="#">MiMercado</a> |
                         <a href="#">MiInmueble</a> |
                         <a href="#">MiLancha</a> |
-                        <a href="#">MiAvion</a> |
+                        <a href="#">MiAvion</a> |-->
                     <hr/>
                     <b>MiMercado Colombia SAS</b>. no asume ninguna responsabilidad por la información contenida en los avisos clasificados, ya que ha sido suministrada y corroborada por los clientes. <b>MiMercado Colombia SAS</b>. no participa en ninguna negociación, venta o perfeccionamiento de operación alguna, sino que sólo se limita a la publicaciÓn y/o alojamiento de avisos clasificados en los términos contratados por cada cliente, por ello no será responsable por daños o perjuicios que pudiere sufrir el usuario o visitante por operaciones sobre anuncios publicados en el sitio.
                     <br/><br/>

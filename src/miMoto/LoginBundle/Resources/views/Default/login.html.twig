@@ -3,15 +3,26 @@
         <h3 class="panel-title">Vendiendo/DandoEnAdopcion a mascota</h3>
     </div>
     <div class="panel-body">  
-        
+
+    {% set usuario = app.user %}
+    {#{% if usuario %}
+    {% endif %}#}        
         
         <div class="list-group">
-            <a class="list-group-item" href="{{ path('usuario_producto_nuevo') }}">Vender/DarEnAdopcion a mascota</a>
-            <a class="list-group-item" href="{{ path('portada_tarifas') }}">Tarifas</a>
+            {% if not is_granted('ROLE_USUARIO') %}
+                <a class="list-group-item" href="{{ path('usuario_producto_nuevo') }}">Vender/DarEnAdopcion a mascota</a>
             <a class="list-group-item" href="{{ path('modificar_anuncio') }}">Modificar anuncio</a>
+            {% else %}
+                <a class="list-group-item" href="{{ path('usuario_hello') }}"><b>Administración - Configuración {{ usuario.nombre ~ ' ' ~ usuario.apellido }}</b></a>
+            {% endif %}
             <a class="list-group-item" href="{{ path('renovar_anuncio') }}">Renovar anuncio</a>
             <a class="list-group-item" href="{{ path('notificar_venta') }}">Notificar venta</a>
-            <a class="list-group-item" href="{{ path('usuario_registro') }}">Regístrate como criadero</a>
+            <a class="list-group-item" href="{{ path('portada_tarifas') }}">Tarifas</a>
+            {% if not is_granted('ROLE_USUARIO') %}
+                <a class="list-group-item" href="{{ path('usuario_registro') }}">Regístrate como criadero</a>
+            {% else %}
+                <a class="list-group-item" href="{{ path('cerrar_sesion') }}">Cerrar sesión</a>
+            {% endif %}
         </div
 {#<li>
     <ul><a href="{{ path('usuario_producto_nuevo') }}">Vender mi moto</a></ul>
@@ -26,11 +37,14 @@
     <!--<ul><a href="{ { path('producto_carrusel', { 'id': 1 }) }}">Carrusel</a> </ul>-->
     <hr>
     </li>#}
-    <p>
-        Ingrese datos para iniciar sesion
-    </p>    
 
-    {% include 'LoginBundle:Default:loginComponent.html.twig' %}
+    {% if not is_granted('ROLE_USUARIO') %}
+        <p>
+            Ingrese datos para iniciar sesion
+        </p>    
+        {% include 'LoginBundle:Default:loginComponent.html.twig' %}
+    {% else %}
+    {% endif %}
     </div>
 </div>
 

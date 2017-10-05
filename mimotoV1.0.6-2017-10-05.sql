@@ -1,23 +1,23 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu2
+-- version 3.5.8.2
 -- http://www.phpmyadmin.net
 --
--- Servidor: localhost
--- Tiempo de generación: 27-01-2017 a las 09:23:03
--- Versión del servidor: 5.7.17-0ubuntu0.16.04.1
--- Versión de PHP: 7.0.13-0ubuntu0.16.04.1
+-- Servidor: sql206.byetcluster.com
+-- Tiempo de generación: 05-10-2017 a las 09:30:31
+-- Versión del servidor: 5.6.35-81.0
+-- Versión de PHP: 5.3.3
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
--- Base de datos: `mimoto`
+-- Base de datos: `0fe_19393870_mimoto`
 --
 
 -- --------------------------------------------------------
@@ -26,15 +26,20 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `action_recorder`
 --
 
-CREATE TABLE `action_recorder` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `action_recorder` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `module` varchar(255) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `user_name` varchar(255) DEFAULT NULL,
   `identifier` varchar(255) NOT NULL,
   `success` char(1) DEFAULT NULL,
-  `date_added` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_action_recorder_module` (`module`),
+  KEY `idx_action_recorder_user_id` (`user_id`),
+  KEY `idx_action_recorder_identifier` (`identifier`),
+  KEY `idx_action_recorder_date_added` (`date_added`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Volcado de datos para la tabla `action_recorder`
@@ -55,8 +60,8 @@ INSERT INTO `action_recorder` (`id`, `module`, `user_id`, `user_name`, `identifi
 -- Estructura de tabla para la tabla `address_book`
 --
 
-CREATE TABLE `address_book` (
-  `address_book_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `address_book` (
+  `address_book_id` int(11) NOT NULL AUTO_INCREMENT,
   `customers_id` int(11) NOT NULL,
   `entry_gender` char(1) DEFAULT NULL,
   `entry_company` varchar(255) DEFAULT NULL,
@@ -68,8 +73,10 @@ CREATE TABLE `address_book` (
   `entry_city` varchar(255) NOT NULL,
   `entry_state` varchar(255) DEFAULT NULL,
   `entry_country_id` int(11) NOT NULL DEFAULT '0',
-  `entry_zone_id` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `entry_zone_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`address_book_id`),
+  KEY `idx_address_book_customers_id` (`customers_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -77,11 +84,12 @@ CREATE TABLE `address_book` (
 -- Estructura de tabla para la tabla `address_format`
 --
 
-CREATE TABLE `address_format` (
-  `address_format_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `address_format` (
+  `address_format_id` int(11) NOT NULL AUTO_INCREMENT,
   `address_format` varchar(128) NOT NULL,
-  `address_summary` varchar(48) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `address_summary` varchar(48) NOT NULL,
+  PRIMARY KEY (`address_format_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Volcado de datos para la tabla `address_format`
@@ -100,8 +108,8 @@ INSERT INTO `address_format` (`address_format_id`, `address_format`, `address_su
 -- Estructura de tabla para la tabla `admin`
 --
 
-CREATE TABLE `admin` (
-  `admin_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `admin` (
+  `admin_id` int(11) NOT NULL AUTO_INCREMENT,
   `admin_groups_id` int(11) DEFAULT NULL,
   `admin_firstname` varchar(32) NOT NULL DEFAULT '',
   `admin_lastname` varchar(32) DEFAULT NULL,
@@ -112,8 +120,10 @@ CREATE TABLE `admin` (
   `admin_logdate` datetime DEFAULT NULL,
   `admin_lognum` int(11) NOT NULL DEFAULT '0',
   `admin_cat_access` text NOT NULL,
-  `admin_right_access` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `admin_right_access` text NOT NULL,
+  PRIMARY KEY (`admin_id`),
+  UNIQUE KEY `admin_email_address` (`admin_email_address`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `admin`
@@ -128,11 +138,12 @@ INSERT INTO `admin` (`admin_id`, `admin_groups_id`, `admin_firstname`, `admin_la
 -- Estructura de tabla para la tabla `administrators`
 --
 
-CREATE TABLE `administrators` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `administrators` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
-  `user_password` varchar(60) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `user_password` varchar(60) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `administrators`
@@ -147,13 +158,14 @@ INSERT INTO `administrators` (`id`, `user_name`, `user_password`) VALUES
 -- Estructura de tabla para la tabla `admin_files`
 --
 
-CREATE TABLE `admin_files` (
-  `admin_files_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `admin_files` (
+  `admin_files_id` int(11) NOT NULL AUTO_INCREMENT,
   `admin_files_name` varchar(64) NOT NULL DEFAULT '',
   `admin_files_is_boxes` tinyint(5) NOT NULL DEFAULT '0',
   `admin_files_to_boxes` int(11) NOT NULL DEFAULT '0',
-  `admin_groups_id` set('1','2') NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `admin_groups_id` set('1','2') NOT NULL DEFAULT '1',
+  PRIMARY KEY (`admin_files_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=43 ;
 
 --
 -- Volcado de datos para la tabla `admin_files`
@@ -209,10 +221,12 @@ INSERT INTO `admin_files` (`admin_files_id`, `admin_files_name`, `admin_files_is
 -- Estructura de tabla para la tabla `admin_groups`
 --
 
-CREATE TABLE `admin_groups` (
-  `admin_groups_id` int(11) NOT NULL,
-  `admin_groups_name` varchar(64) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE IF NOT EXISTS `admin_groups` (
+  `admin_groups_id` int(11) NOT NULL AUTO_INCREMENT,
+  `admin_groups_name` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`admin_groups_id`),
+  UNIQUE KEY `admin_groups_name` (`admin_groups_name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Volcado de datos para la tabla `admin_groups`
@@ -228,8 +242,8 @@ INSERT INTO `admin_groups` (`admin_groups_id`, `admin_groups_name`) VALUES
 -- Estructura de tabla para la tabla `banners`
 --
 
-CREATE TABLE `banners` (
-  `banners_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `banners` (
+  `banners_id` int(11) NOT NULL AUTO_INCREMENT,
   `banners_title` varchar(64) NOT NULL,
   `banners_url` varchar(255) NOT NULL,
   `banners_image` varchar(64) NOT NULL,
@@ -240,8 +254,10 @@ CREATE TABLE `banners` (
   `date_scheduled` datetime DEFAULT NULL,
   `date_added` datetime NOT NULL,
   `date_status_change` datetime DEFAULT NULL,
-  `status` int(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `status` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`banners_id`),
+  KEY `idx_banners_group` (`banners_group`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `banners`
@@ -256,13 +272,15 @@ INSERT INTO `banners` (`banners_id`, `banners_title`, `banners_url`, `banners_im
 -- Estructura de tabla para la tabla `banners_history`
 --
 
-CREATE TABLE `banners_history` (
-  `banners_history_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `banners_history` (
+  `banners_history_id` int(11) NOT NULL AUTO_INCREMENT,
   `banners_id` int(11) NOT NULL,
   `banners_shown` int(5) NOT NULL DEFAULT '0',
   `banners_clicked` int(5) NOT NULL DEFAULT '0',
-  `banners_history_date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `banners_history_date` datetime NOT NULL,
+  PRIMARY KEY (`banners_history_id`),
+  KEY `idx_banners_history_banners_id` (`banners_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `banners_history`
@@ -277,14 +295,16 @@ INSERT INTO `banners_history` (`banners_history_id`, `banners_id`, `banners_show
 -- Estructura de tabla para la tabla `categories`
 --
 
-CREATE TABLE `categories` (
-  `categories_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `categories` (
+  `categories_id` int(11) NOT NULL AUTO_INCREMENT,
   `categories_image` varchar(64) DEFAULT NULL,
   `parent_id` int(11) NOT NULL DEFAULT '0',
   `sort_order` int(3) DEFAULT NULL,
   `date_added` datetime DEFAULT NULL,
-  `last_modified` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `last_modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`categories_id`),
+  KEY `idx_categories_parent_id` (`parent_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
 
 --
 -- Volcado de datos para la tabla `categories`
@@ -319,11 +339,13 @@ INSERT INTO `categories` (`categories_id`, `categories_image`, `parent_id`, `sor
 -- Estructura de tabla para la tabla `categories_description`
 --
 
-CREATE TABLE `categories_description` (
+CREATE TABLE IF NOT EXISTS `categories_description` (
   `categories_id` int(11) NOT NULL DEFAULT '0',
   `language_id` int(11) NOT NULL DEFAULT '1',
-  `categories_name` varchar(32) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `categories_name` varchar(32) NOT NULL,
+  PRIMARY KEY (`categories_id`,`language_id`),
+  KEY `idx_categories_name` (`categories_name`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `categories_description`
@@ -358,11 +380,12 @@ INSERT INTO `categories_description` (`categories_id`, `language_id`, `categorie
 -- Estructura de tabla para la tabla `category`
 --
 
-CREATE TABLE `category` (
+CREATE TABLE IF NOT EXISTS `category` (
   `id` int(11) NOT NULL,
   `label` varchar(255) NOT NULL,
-  `estado` varchar(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `estado` varchar(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `category`
@@ -381,11 +404,12 @@ INSERT INTO `category` (`id`, `label`, `estado`) VALUES
 -- Estructura de tabla para la tabla `cilindraje`
 --
 
-CREATE TABLE `cilindraje` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `cilindraje` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(20) NOT NULL,
-  `manufacturers_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `manufacturers_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Volcado de datos para la tabla `cilindraje`
@@ -404,12 +428,13 @@ INSERT INTO `cilindraje` (`id`, `descripcion`, `manufacturers_id`) VALUES
 -- Estructura de tabla para la tabla `ciudad`
 --
 
-CREATE TABLE `ciudad` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `ciudad` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(255) NOT NULL,
   `departamento_id` int(11) NOT NULL,
-  `ciudad_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `ciudad_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2221 ;
 
 --
 -- Volcado de datos para la tabla `ciudad`
@@ -1439,9 +1464,9 @@ INSERT INTO `ciudad` (`id`, `descripcion`, `departamento_id`, `ciudad_id`) VALUE
 (2184, 'VIJES                         ', 76, 869),
 (2185, 'VILLA CARO                    ', 54, 871),
 (2186, 'VILLA DE LEYVA                ', 15, 407),
-(2187, 'VILLA DEL ROSARIO             ', 54, 874),
-(2188, 'VILLAGARZON                   ', 86, 885);
+(2187, 'VILLA DEL ROSARIO             ', 54, 874);
 INSERT INTO `ciudad` (`id`, `descripcion`, `departamento_id`, `ciudad_id`) VALUES
+(2188, 'VILLAGARZON                   ', 86, 885),
 (2189, 'VILLAGOMEZ                    ', 25, 871),
 (2190, 'VILLAHERMOSA                  ', 73, 870),
 (2191, 'VILLAMARIA                    ', 17, 873),
@@ -1481,10 +1506,11 @@ INSERT INTO `ciudad` (`id`, `descripcion`, `departamento_id`, `ciudad_id`) VALUE
 -- Estructura de tabla para la tabla `color`
 --
 
-CREATE TABLE `color` (
+CREATE TABLE IF NOT EXISTS `color` (
   `id` int(11) NOT NULL,
-  `label` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `label` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `color`
@@ -1503,8 +1529,8 @@ INSERT INTO `color` (`id`, `label`) VALUES
 -- Estructura de tabla para la tabla `configuration`
 --
 
-CREATE TABLE `configuration` (
-  `configuration_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `configuration` (
+  `configuration_id` int(11) NOT NULL AUTO_INCREMENT,
   `configuration_title` varchar(255) NOT NULL,
   `configuration_key` varchar(255) NOT NULL,
   `configuration_value` text NOT NULL,
@@ -1514,8 +1540,9 @@ CREATE TABLE `configuration` (
   `last_modified` datetime DEFAULT NULL,
   `date_added` datetime NOT NULL,
   `use_function` varchar(255) DEFAULT NULL,
-  `set_function` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `set_function` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`configuration_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=259 ;
 
 --
 -- Volcado de datos para la tabla `configuration`
@@ -1528,18 +1555,18 @@ INSERT INTO `configuration` (`configuration_id`, `configuration_title`, `configu
 (4, 'E-Mail From', 'EMAIL_FROM', '"Andres Chabur" <andres_chabur@hotmail.com>', 'The e-mail address used in (sent) e-mails', 1, 4, NULL, '2014-04-16 16:34:51', NULL, NULL),
 (5, 'Country', 'STORE_COUNTRY', '223', 'The country my store is located in <br /><br /><strong>Note: Please remember to update the store zone.</strong>', 1, 6, NULL, '2014-04-16 16:34:51', 'tep_get_country_name', 'tep_cfg_pull_down_country_list('),
 (6, 'Zone', 'STORE_ZONE', '18', 'The zone my store is located in', 1, 7, NULL, '2014-04-16 16:34:51', 'tep_cfg_get_zone_name', 'tep_cfg_pull_down_zone_list('),
-(7, 'Expected Sort Order', 'EXPECTED_PRODUCTS_SORT', 'desc', 'This is the sort order used in the expected products box.', 1, 8, NULL, '2014-04-16 16:34:51', NULL, 'tep_cfg_select_option(array(\'asc\', \'desc\'), '),
-(8, 'Expected Sort Field', 'EXPECTED_PRODUCTS_FIELD', 'date_expected', 'The column to sort by in the expected products box.', 1, 9, NULL, '2014-04-16 16:34:51', NULL, 'tep_cfg_select_option(array(\'products_name\', \'date_expected\'), '),
-(9, 'Switch To Default Language Currency', 'USE_DEFAULT_LANGUAGE_CURRENCY', 'false', 'Automatically switch to the language\'s currency when it is changed', 1, 10, NULL, '2014-04-16 16:34:51', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
+(7, 'Expected Sort Order', 'EXPECTED_PRODUCTS_SORT', 'desc', 'This is the sort order used in the expected products box.', 1, 8, NULL, '2014-04-16 16:34:51', NULL, 'tep_cfg_select_option(array(''asc'', ''desc''), '),
+(8, 'Expected Sort Field', 'EXPECTED_PRODUCTS_FIELD', 'date_expected', 'The column to sort by in the expected products box.', 1, 9, NULL, '2014-04-16 16:34:51', NULL, 'tep_cfg_select_option(array(''products_name'', ''date_expected''), '),
+(9, 'Switch To Default Language Currency', 'USE_DEFAULT_LANGUAGE_CURRENCY', 'false', 'Automatically switch to the language''s currency when it is changed', 1, 10, NULL, '2014-04-16 16:34:51', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
 (10, 'Send Extra Order Emails To', 'SEND_EXTRA_ORDER_EMAILS_TO', '', 'Send extra order emails to the following email addresses, in this format: Name 1 &lt;email@address1&gt;, Name 2 &lt;email@address2&gt;', 1, 11, NULL, '2014-04-16 16:34:51', NULL, NULL),
-(11, 'Use Search-Engine Safe URLs', 'SEARCH_ENGINE_FRIENDLY_URLS', 'false', 'Use search-engine safe urls for all site links', 1, 12, NULL, '2014-04-16 16:34:51', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
-(12, 'Display Cart After Adding Product', 'DISPLAY_CART', 'true', 'Display the shopping cart after adding a product (or return back to their origin)', 1, 14, NULL, '2014-04-16 16:34:51', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
-(13, 'Allow Guest To Tell A Friend', 'ALLOW_GUEST_TO_TELL_A_FRIEND', 'false', 'Allow guests to tell a friend about a product', 1, 15, NULL, '2014-04-16 16:34:51', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
-(14, 'Default Search Operator', 'ADVANCED_SEARCH_DEFAULT_OPERATOR', 'and', 'Default search operators', 1, 17, NULL, '2014-04-16 16:34:51', NULL, 'tep_cfg_select_option(array(\'and\', \'or\'), '),
+(11, 'Use Search-Engine Safe URLs', 'SEARCH_ENGINE_FRIENDLY_URLS', 'false', 'Use search-engine safe urls for all site links', 1, 12, NULL, '2014-04-16 16:34:51', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
+(12, 'Display Cart After Adding Product', 'DISPLAY_CART', 'true', 'Display the shopping cart after adding a product (or return back to their origin)', 1, 14, NULL, '2014-04-16 16:34:51', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
+(13, 'Allow Guest To Tell A Friend', 'ALLOW_GUEST_TO_TELL_A_FRIEND', 'false', 'Allow guests to tell a friend about a product', 1, 15, NULL, '2014-04-16 16:34:51', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
+(14, 'Default Search Operator', 'ADVANCED_SEARCH_DEFAULT_OPERATOR', 'and', 'Default search operators', 1, 17, NULL, '2014-04-16 16:34:51', NULL, 'tep_cfg_select_option(array(''and'', ''or''), '),
 (15, 'Store Address and Phone', 'STORE_NAME_ADDRESS', 'Store Name\nAddress\nCountry\nPhone', 'This is the Store Name, Address and Phone used on printable documents and displayed online', 1, 18, NULL, '2014-04-16 16:34:51', NULL, 'tep_cfg_textarea('),
-(16, 'Show Category Counts', 'SHOW_COUNTS', 'true', 'Count recursively how many products are in each category', 1, 19, NULL, '2014-04-16 16:34:51', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
+(16, 'Show Category Counts', 'SHOW_COUNTS', 'true', 'Count recursively how many products are in each category', 1, 19, NULL, '2014-04-16 16:34:51', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
 (17, 'Tax Decimal Places', 'TAX_DECIMAL_PLACES', '0', 'Pad the tax value this amount of decimal places', 1, 20, NULL, '2014-04-16 16:34:51', NULL, NULL),
-(18, 'Display Prices with Tax', 'DISPLAY_PRICE_WITH_TAX', 'false', 'Display prices with tax included (true) or add the tax at the end (false)', 1, 21, NULL, '2014-04-16 16:34:51', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
+(18, 'Display Prices with Tax', 'DISPLAY_PRICE_WITH_TAX', 'false', 'Display prices with tax included (true) or add the tax at the end (false)', 1, 21, NULL, '2014-04-16 16:34:51', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
 (19, 'First Name', 'ENTRY_FIRST_NAME_MIN_LENGTH', '2', 'Minimum length of first name', 2, 1, NULL, '2014-04-16 16:34:51', NULL, NULL),
 (20, 'Last Name', 'ENTRY_LAST_NAME_MIN_LENGTH', '2', 'Minimum length of last name', 2, 2, NULL, '2014-04-16 16:34:51', NULL, NULL),
 (21, 'Date of Birth', 'ENTRY_DOB_MIN_LENGTH', '10', 'Minimum length of date of birth', 2, 3, NULL, '2014-04-16 16:34:52', NULL, NULL),
@@ -1555,15 +1582,15 @@ INSERT INTO `configuration` (`configuration_id`, `configuration_title`, `configu
 (31, 'Credit Card Number', 'CC_NUMBER_MIN_LENGTH', '10', 'Minimum length of credit card number', 2, 13, NULL, '2014-04-16 16:34:52', NULL, NULL),
 (32, 'Review Text', 'REVIEW_TEXT_MIN_LENGTH', '50', 'Minimum length of review text', 2, 14, NULL, '2014-04-16 16:34:52', NULL, NULL),
 (33, 'Best Sellers', 'MIN_DISPLAY_BESTSELLERS', '1', 'Minimum number of best sellers to display', 2, 15, NULL, '2014-04-16 16:34:52', NULL, NULL),
-(34, 'Also Purchased', 'MIN_DISPLAY_ALSO_PURCHASED', '1', 'Minimum number of products to display in the \'This Customer Also Purchased\' box', 2, 16, NULL, '2014-04-16 16:34:52', NULL, NULL),
+(34, 'Also Purchased', 'MIN_DISPLAY_ALSO_PURCHASED', '1', 'Minimum number of products to display in the ''This Customer Also Purchased'' box', 2, 16, NULL, '2014-04-16 16:34:52', NULL, NULL),
 (35, 'Address Book Entries', 'MAX_ADDRESS_BOOK_ENTRIES', '5', 'Maximum address book entries a customer is allowed to have', 3, 1, NULL, '2014-04-16 16:34:52', NULL, NULL),
 (36, 'Search Results', 'MAX_DISPLAY_SEARCH_RESULTS', '20', 'Amount of products to list', 3, 2, NULL, '2014-04-16 16:34:52', NULL, NULL),
-(37, 'Page Links', 'MAX_DISPLAY_PAGE_LINKS', '5', 'Number of \'number\' links use for page-sets', 3, 3, NULL, '2014-04-16 16:34:52', NULL, NULL),
+(37, 'Page Links', 'MAX_DISPLAY_PAGE_LINKS', '5', 'Number of ''number'' links use for page-sets', 3, 3, NULL, '2014-04-16 16:34:52', NULL, NULL),
 (38, 'Special Products', 'MAX_DISPLAY_SPECIAL_PRODUCTS', '9', 'Maximum number of products on special to display', 3, 4, NULL, '2014-04-16 16:34:52', NULL, NULL),
 (39, 'New Products Module', 'MAX_DISPLAY_NEW_PRODUCTS', '9', 'Maximum number of new products to display in a category', 3, 5, NULL, '2014-04-16 16:34:52', NULL, NULL),
 (40, 'Products Expected', 'MAX_DISPLAY_UPCOMING_PRODUCTS', '10', 'Maximum number of products expected to display', 3, 6, NULL, '2014-04-16 16:34:52', NULL, NULL),
 (41, 'Manufacturers List', 'MAX_DISPLAY_MANUFACTURERS_IN_A_LIST', '0', 'Used in manufacturers box; when the number of manufacturers exceeds this number, a drop-down list will be displayed instead of the default list', 3, 7, NULL, '2014-04-16 16:34:52', NULL, NULL),
-(42, 'Manufacturers Select Size', 'MAX_MANUFACTURERS_LIST', '1', 'Used in manufacturers box; when this value is \'1\' the classic drop-down list will be used for the manufacturers box. Otherwise, a list-box with the specified number of rows will be displayed.', 3, 7, NULL, '2014-04-16 16:34:52', NULL, NULL),
+(42, 'Manufacturers Select Size', 'MAX_MANUFACTURERS_LIST', '1', 'Used in manufacturers box; when this value is ''1'' the classic drop-down list will be used for the manufacturers box. Otherwise, a list-box with the specified number of rows will be displayed.', 3, 7, NULL, '2014-04-16 16:34:52', NULL, NULL),
 (43, 'Length of Manufacturers Name', 'MAX_DISPLAY_MANUFACTURER_NAME_LEN', '15', 'Used in manufacturers box; maximum length of manufacturers name to display', 3, 8, NULL, '2014-04-16 16:34:52', NULL, NULL),
 (44, 'New Reviews', 'MAX_DISPLAY_NEW_REVIEWS', '6', 'Maximum number of new reviews to display', 3, 9, NULL, '2014-04-16 16:34:52', NULL, NULL),
 (45, 'Selection of Random Reviews', 'MAX_RANDOM_SELECT_REVIEWS', '10', 'How many records to select from to choose one random product review', 3, 10, NULL, '2014-04-16 16:34:52', NULL, NULL),
@@ -1572,7 +1599,7 @@ INSERT INTO `configuration` (`configuration_id`, `configuration_title`, `configu
 (48, 'Categories To List Per Row', 'MAX_DISPLAY_CATEGORIES_PER_ROW', '3', 'How many categories to list per row', 3, 13, NULL, '2014-04-16 16:34:52', NULL, NULL),
 (49, 'New Products Listing', 'MAX_DISPLAY_PRODUCTS_NEW', '10', 'Maximum number of new products to display in new products page', 3, 14, NULL, '2014-04-16 16:34:52', NULL, NULL),
 (50, 'Best Sellers', 'MAX_DISPLAY_BESTSELLERS', '10', 'Maximum number of best sellers to display', 3, 15, NULL, '2014-04-16 16:34:53', NULL, NULL),
-(51, 'Also Purchased', 'MAX_DISPLAY_ALSO_PURCHASED', '6', 'Maximum number of products to display in the \'This Customer Also Purchased\' box', 3, 16, NULL, '2014-04-16 16:34:53', NULL, NULL),
+(51, 'Also Purchased', 'MAX_DISPLAY_ALSO_PURCHASED', '6', 'Maximum number of products to display in the ''This Customer Also Purchased'' box', 3, 16, NULL, '2014-04-16 16:34:53', NULL, NULL),
 (52, 'Customer Order History Box', 'MAX_DISPLAY_PRODUCTS_IN_ORDER_HISTORY_BOX', '6', 'Maximum number of products to display in the customer order history box', 3, 17, NULL, '2014-04-16 16:34:53', NULL, NULL),
 (53, 'Order History', 'MAX_DISPLAY_ORDER_HISTORY', '10', 'Maximum number of orders to display in the order history page', 3, 18, NULL, '2014-04-16 16:34:53', NULL, NULL),
 (54, 'Product Quantities In Shopping Cart', 'MAX_QTY_IN_CART', '99', 'Maximum number of product quantities that can be added to the shopping cart (0 for no limit)', 3, 19, NULL, '2014-04-16 16:34:53', NULL, NULL),
@@ -1582,23 +1609,23 @@ INSERT INTO `configuration` (`configuration_id`, `configuration_title`, `configu
 (58, 'Heading Image Height', 'HEADING_IMAGE_HEIGHT', '40', 'The pixel height of heading images', 4, 4, NULL, '2014-04-16 16:34:53', NULL, NULL),
 (59, 'Subcategory Image Width', 'SUBCATEGORY_IMAGE_WIDTH', '100', 'The pixel width of subcategory images', 4, 5, NULL, '2014-04-16 16:34:53', NULL, NULL),
 (60, 'Subcategory Image Height', 'SUBCATEGORY_IMAGE_HEIGHT', '57', 'The pixel height of subcategory images', 4, 6, NULL, '2014-04-16 16:34:53', NULL, NULL),
-(61, 'Calculate Image Size', 'CONFIG_CALCULATE_IMAGE_SIZE', 'true', 'Calculate the size of images?', 4, 7, NULL, '2014-04-16 16:34:53', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
-(62, 'Image Required', 'IMAGE_REQUIRED', 'true', 'Enable to display broken images. Good for development.', 4, 8, NULL, '2014-04-16 16:34:53', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
-(63, 'Gender', 'ACCOUNT_GENDER', 'true', 'Display gender in the customers account', 5, 1, NULL, '2014-04-16 16:34:53', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
-(64, 'Date of Birth', 'ACCOUNT_DOB', 'true', 'Display date of birth in the customers account', 5, 2, NULL, '2014-04-16 16:34:53', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
-(65, 'Company', 'ACCOUNT_COMPANY', 'true', 'Display company in the customers account', 5, 3, NULL, '2014-04-16 16:34:53', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
-(66, 'Suburb', 'ACCOUNT_SUBURB', 'true', 'Display suburb in the customers account', 5, 4, NULL, '2014-04-16 16:34:53', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
-(67, 'State', 'ACCOUNT_STATE', 'true', 'Display state in the customers account', 5, 5, NULL, '2014-04-16 16:34:53', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
+(61, 'Calculate Image Size', 'CONFIG_CALCULATE_IMAGE_SIZE', 'true', 'Calculate the size of images?', 4, 7, NULL, '2014-04-16 16:34:53', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
+(62, 'Image Required', 'IMAGE_REQUIRED', 'true', 'Enable to display broken images. Good for development.', 4, 8, NULL, '2014-04-16 16:34:53', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
+(63, 'Gender', 'ACCOUNT_GENDER', 'true', 'Display gender in the customers account', 5, 1, NULL, '2014-04-16 16:34:53', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
+(64, 'Date of Birth', 'ACCOUNT_DOB', 'true', 'Display date of birth in the customers account', 5, 2, NULL, '2014-04-16 16:34:53', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
+(65, 'Company', 'ACCOUNT_COMPANY', 'true', 'Display company in the customers account', 5, 3, NULL, '2014-04-16 16:34:53', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
+(66, 'Suburb', 'ACCOUNT_SUBURB', 'true', 'Display suburb in the customers account', 5, 4, NULL, '2014-04-16 16:34:53', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
+(67, 'State', 'ACCOUNT_STATE', 'true', 'Display state in the customers account', 5, 5, NULL, '2014-04-16 16:34:53', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
 (68, 'Installed Modules', 'MODULE_PAYMENT_INSTALLED', 'cod.php;paypal_express.php', 'List of payment module filenames separated by a semi-colon. This is automatically updated. No need to edit. (Example: cod.php;paypal_express.php)', 6, 0, NULL, '2014-04-16 16:34:53', NULL, NULL),
 (69, 'Installed Modules', 'MODULE_ORDER_TOTAL_INSTALLED', 'ot_subtotal.php;ot_tax.php;ot_shipping.php;ot_total.php', 'List of order_total module filenames separated by a semi-colon. This is automatically updated. No need to edit. (Example: ot_subtotal.php;ot_tax.php;ot_shipping.php;ot_total.php)', 6, 0, NULL, '2014-04-16 16:34:53', NULL, NULL),
 (70, 'Installed Modules', 'MODULE_SHIPPING_INSTALLED', 'flat.php', 'List of shipping module filenames separated by a semi-colon. This is automatically updated. No need to edit. (Example: ups.php;flat.php;item.php)', 6, 0, NULL, '2014-04-16 16:34:53', NULL, NULL),
 (71, 'Installed Modules', 'MODULE_ACTION_RECORDER_INSTALLED', 'ar_admin_login.php;ar_contact_us.php;ar_reset_password.php;ar_tell_a_friend.php', 'List of action recorder module filenames separated by a semi-colon. This is automatically updated. No need to edit.', 6, 0, NULL, '2014-04-16 16:34:53', NULL, NULL),
 (72, 'Installed Modules', 'MODULE_SOCIAL_BOOKMARKS_INSTALLED', 'sb_email.php;sb_facebook.php;sb_google_plus_share.php;sb_pinterest.php;sb_twitter.php', 'List of social bookmark module filenames separated by a semi-colon. This is automatically updated. No need to edit.', 6, 0, NULL, '2014-04-16 16:34:53', NULL, NULL),
-(73, 'Enable Cash On Delivery Module', 'MODULE_PAYMENT_COD_STATUS', 'True', 'Do you want to accept Cash On Delevery payments?', 6, 1, NULL, '2014-04-16 16:34:53', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
+(73, 'Enable Cash On Delivery Module', 'MODULE_PAYMENT_COD_STATUS', 'True', 'Do you want to accept Cash On Delevery payments?', 6, 1, NULL, '2014-04-16 16:34:53', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
 (74, 'Payment Zone', 'MODULE_PAYMENT_COD_ZONE', '0', 'If a zone is selected, only enable this payment method for that zone.', 6, 2, NULL, '2014-04-16 16:34:53', 'tep_get_zone_class_title', 'tep_cfg_pull_down_zone_classes('),
 (75, 'Sort order of display.', 'MODULE_PAYMENT_COD_SORT_ORDER', '0', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:34:53', NULL, NULL),
 (76, 'Set Order Status', 'MODULE_PAYMENT_COD_ORDER_STATUS_ID', '0', 'Set the status of orders made with this payment module to this value', 6, 0, NULL, '2014-04-16 16:34:53', 'tep_get_order_status_name', 'tep_cfg_pull_down_order_statuses('),
-(77, 'Enable Flat Shipping', 'MODULE_SHIPPING_FLAT_STATUS', 'True', 'Do you want to offer flat rate shipping?', 6, 0, NULL, '2014-04-16 16:34:53', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
+(77, 'Enable Flat Shipping', 'MODULE_SHIPPING_FLAT_STATUS', 'True', 'Do you want to offer flat rate shipping?', 6, 0, NULL, '2014-04-16 16:34:53', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
 (78, 'Shipping Cost', 'MODULE_SHIPPING_FLAT_COST', '5.00', 'The shipping cost for all orders using this shipping method.', 6, 0, NULL, '2014-04-16 16:34:54', NULL, NULL),
 (79, 'Tax Class', 'MODULE_SHIPPING_FLAT_TAX_CLASS', '0', 'Use the following tax class on the shipping fee.', 6, 0, NULL, '2014-04-16 16:34:54', 'tep_get_tax_class_title', 'tep_cfg_pull_down_tax_classes('),
 (80, 'Shipping Zone', 'MODULE_SHIPPING_FLAT_ZONE', '0', 'If a zone is selected, only enable this shipping method for that zone.', 6, 0, NULL, '2014-04-16 16:34:54', 'tep_get_zone_class_title', 'tep_cfg_pull_down_zone_classes('),
@@ -1606,16 +1633,16 @@ INSERT INTO `configuration` (`configuration_id`, `configuration_title`, `configu
 (82, 'Default Currency', 'DEFAULT_CURRENCY', 'USD', 'Default Currency', 6, 0, NULL, '2014-04-16 16:34:54', NULL, NULL),
 (83, 'Default Language', 'DEFAULT_LANGUAGE', 'en', 'Default Language', 6, 0, NULL, '2014-04-16 16:34:54', NULL, NULL),
 (84, 'Default Order Status For New Orders', 'DEFAULT_ORDERS_STATUS_ID', '1', 'When a new order is created, this order status will be assigned to it.', 6, 0, NULL, '2014-04-16 16:34:54', NULL, NULL),
-(85, 'Display Shipping', 'MODULE_ORDER_TOTAL_SHIPPING_STATUS', 'true', 'Do you want to display the order shipping cost?', 6, 1, NULL, '2014-04-16 16:34:54', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
+(85, 'Display Shipping', 'MODULE_ORDER_TOTAL_SHIPPING_STATUS', 'true', 'Do you want to display the order shipping cost?', 6, 1, NULL, '2014-04-16 16:34:54', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
 (86, 'Sort Order', 'MODULE_ORDER_TOTAL_SHIPPING_SORT_ORDER', '2', 'Sort order of display.', 6, 2, NULL, '2014-04-16 16:34:54', NULL, NULL),
-(87, 'Allow Free Shipping', 'MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING', 'false', 'Do you want to allow free shipping?', 6, 3, NULL, '2014-04-16 16:34:54', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
+(87, 'Allow Free Shipping', 'MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING', 'false', 'Do you want to allow free shipping?', 6, 3, NULL, '2014-04-16 16:34:54', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
 (88, 'Free Shipping For Orders Over', 'MODULE_ORDER_TOTAL_SHIPPING_FREE_SHIPPING_OVER', '50', 'Provide free shipping for orders over the set amount.', 6, 4, NULL, '2014-04-16 16:34:54', 'currencies->format', NULL),
-(89, 'Provide Free Shipping For Orders Made', 'MODULE_ORDER_TOTAL_SHIPPING_DESTINATION', 'national', 'Provide free shipping for orders sent to the set destination.', 6, 5, NULL, '2014-04-16 16:34:54', NULL, 'tep_cfg_select_option(array(\'national\', \'international\', \'both\'), '),
-(90, 'Display Sub-Total', 'MODULE_ORDER_TOTAL_SUBTOTAL_STATUS', 'true', 'Do you want to display the order sub-total cost?', 6, 1, NULL, '2014-04-16 16:34:54', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
+(89, 'Provide Free Shipping For Orders Made', 'MODULE_ORDER_TOTAL_SHIPPING_DESTINATION', 'national', 'Provide free shipping for orders sent to the set destination.', 6, 5, NULL, '2014-04-16 16:34:54', NULL, 'tep_cfg_select_option(array(''national'', ''international'', ''both''), '),
+(90, 'Display Sub-Total', 'MODULE_ORDER_TOTAL_SUBTOTAL_STATUS', 'true', 'Do you want to display the order sub-total cost?', 6, 1, NULL, '2014-04-16 16:34:54', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
 (91, 'Sort Order', 'MODULE_ORDER_TOTAL_SUBTOTAL_SORT_ORDER', '1', 'Sort order of display.', 6, 2, NULL, '2014-04-16 16:34:54', NULL, NULL),
-(92, 'Display Tax', 'MODULE_ORDER_TOTAL_TAX_STATUS', 'true', 'Do you want to display the order tax value?', 6, 1, NULL, '2014-04-16 16:34:54', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
+(92, 'Display Tax', 'MODULE_ORDER_TOTAL_TAX_STATUS', 'true', 'Do you want to display the order tax value?', 6, 1, NULL, '2014-04-16 16:34:54', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
 (93, 'Sort Order', 'MODULE_ORDER_TOTAL_TAX_SORT_ORDER', '3', 'Sort order of display.', 6, 2, NULL, '2014-04-16 16:34:54', NULL, NULL),
-(94, 'Display Total', 'MODULE_ORDER_TOTAL_TOTAL_STATUS', 'true', 'Do you want to display the total order value?', 6, 1, NULL, '2014-04-16 16:34:54', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
+(94, 'Display Total', 'MODULE_ORDER_TOTAL_TOTAL_STATUS', 'true', 'Do you want to display the total order value?', 6, 1, NULL, '2014-04-16 16:34:54', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
 (95, 'Sort Order', 'MODULE_ORDER_TOTAL_TOTAL_SORT_ORDER', '4', 'Sort order of display.', 6, 2, NULL, '2014-04-16 16:34:54', NULL, NULL),
 (96, 'Minimum Minutes Per E-Mail', 'MODULE_ACTION_RECORDER_CONTACT_US_EMAIL_MINUTES', '15', 'Minimum number of minutes to allow 1 e-mail to be sent (eg, 15 for 1 e-mail every 15 minutes)', 6, 0, NULL, '2014-04-16 16:34:54', NULL, NULL),
 (97, 'Minimum Minutes Per E-Mail', 'MODULE_ACTION_RECORDER_TELL_A_FRIEND_EMAIL_MINUTES', '15', 'Minimum number of minutes to allow 1 e-mail to be sent (eg, 15 for 1 e-mail every 15 minutes)', 6, 0, NULL, '2014-04-16 16:34:54', NULL, NULL),
@@ -1623,20 +1650,20 @@ INSERT INTO `configuration` (`configuration_id`, `configuration_title`, `configu
 (99, 'Allowed Attempts', 'MODULE_ACTION_RECORDER_ADMIN_LOGIN_ATTEMPTS', '3', 'Number of login attempts to allow within the specified period.', 6, 0, NULL, '2014-04-16 16:34:55', NULL, NULL),
 (100, 'Allowed Minutes', 'MODULE_ACTION_RECORDER_RESET_PASSWORD_MINUTES', '5', 'Number of minutes to allow password resets to occur.', 6, 0, NULL, '2014-04-16 16:34:55', NULL, NULL),
 (101, 'Allowed Attempts', 'MODULE_ACTION_RECORDER_RESET_PASSWORD_ATTEMPTS', '1', 'Number of password reset attempts to allow within the specified period.', 6, 0, NULL, '2014-04-16 16:34:55', NULL, NULL),
-(102, 'Enable E-Mail Module', 'MODULE_SOCIAL_BOOKMARKS_EMAIL_STATUS', 'True', 'Do you want to allow products to be shared through e-mail?', 6, 1, NULL, '2014-04-16 16:34:55', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
+(102, 'Enable E-Mail Module', 'MODULE_SOCIAL_BOOKMARKS_EMAIL_STATUS', 'True', 'Do you want to allow products to be shared through e-mail?', 6, 1, NULL, '2014-04-16 16:34:55', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
 (103, 'Sort Order', 'MODULE_SOCIAL_BOOKMARKS_EMAIL_SORT_ORDER', '10', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:34:55', NULL, NULL),
-(104, 'Enable Google+ Share Module', 'MODULE_SOCIAL_BOOKMARKS_GOOGLE_PLUS_SHARE_STATUS', 'True', 'Do you want to allow products to be shared through Google+?', 6, 1, NULL, '2014-04-16 16:34:55', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-(105, 'Annotation', 'MODULE_SOCIAL_BOOKMARKS_GOOGLE_PLUS_SHARE_ANNOTATION', 'None', 'The annotation to display next to the button.', 6, 1, NULL, '2014-04-16 16:34:55', NULL, 'tep_cfg_select_option(array(\'Inline\', \'Bubble\', \'Vertical-Bubble\', \'None\'), '),
+(104, 'Enable Google+ Share Module', 'MODULE_SOCIAL_BOOKMARKS_GOOGLE_PLUS_SHARE_STATUS', 'True', 'Do you want to allow products to be shared through Google+?', 6, 1, NULL, '2014-04-16 16:34:55', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
+(105, 'Annotation', 'MODULE_SOCIAL_BOOKMARKS_GOOGLE_PLUS_SHARE_ANNOTATION', 'None', 'The annotation to display next to the button.', 6, 1, NULL, '2014-04-16 16:34:55', NULL, 'tep_cfg_select_option(array(''Inline'', ''Bubble'', ''Vertical-Bubble'', ''None''), '),
 (106, 'Width', 'MODULE_SOCIAL_BOOKMARKS_GOOGLE_PLUS_SHARE_WIDTH', '', 'The maximum width of the button.', 6, 0, NULL, '2014-04-16 16:34:55', NULL, NULL),
-(107, 'Height', 'MODULE_SOCIAL_BOOKMARKS_GOOGLE_PLUS_SHARE_HEIGHT', '15', 'Sets the height of the button.', 6, 1, NULL, '2014-04-16 16:34:55', NULL, 'tep_cfg_select_option(array(\'15\', \'20\', \'24\', \'60\'), '),
-(108, 'Alignment', 'MODULE_SOCIAL_BOOKMARKS_GOOGLE_PLUS_SHARE_ALIGN', 'Left', 'The alignment of the button assets.', 6, 1, NULL, '2014-04-16 16:34:55', NULL, 'tep_cfg_select_option(array(\'Left\', \'Right\'), '),
+(107, 'Height', 'MODULE_SOCIAL_BOOKMARKS_GOOGLE_PLUS_SHARE_HEIGHT', '15', 'Sets the height of the button.', 6, 1, NULL, '2014-04-16 16:34:55', NULL, 'tep_cfg_select_option(array(''15'', ''20'', ''24'', ''60''), '),
+(108, 'Alignment', 'MODULE_SOCIAL_BOOKMARKS_GOOGLE_PLUS_SHARE_ALIGN', 'Left', 'The alignment of the button assets.', 6, 1, NULL, '2014-04-16 16:34:55', NULL, 'tep_cfg_select_option(array(''Left'', ''Right''), '),
 (109, 'Sort Order', 'MODULE_SOCIAL_BOOKMARKS_GOOGLE_PLUS_SHARE_SORT_ORDER', '20', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:34:55', NULL, NULL),
-(110, 'Enable Facebook Module', 'MODULE_SOCIAL_BOOKMARKS_FACEBOOK_STATUS', 'True', 'Do you want to allow products to be shared through Facebook?', 6, 1, NULL, '2014-04-16 16:34:55', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
+(110, 'Enable Facebook Module', 'MODULE_SOCIAL_BOOKMARKS_FACEBOOK_STATUS', 'True', 'Do you want to allow products to be shared through Facebook?', 6, 1, NULL, '2014-04-16 16:34:55', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
 (111, 'Sort Order', 'MODULE_SOCIAL_BOOKMARKS_FACEBOOK_SORT_ORDER', '30', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:34:55', NULL, NULL),
-(112, 'Enable Twitter Module', 'MODULE_SOCIAL_BOOKMARKS_TWITTER_STATUS', 'True', 'Do you want to allow products to be shared through Twitter?', 6, 1, NULL, '2014-04-16 16:34:55', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
+(112, 'Enable Twitter Module', 'MODULE_SOCIAL_BOOKMARKS_TWITTER_STATUS', 'True', 'Do you want to allow products to be shared through Twitter?', 6, 1, NULL, '2014-04-16 16:34:55', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
 (113, 'Sort Order', 'MODULE_SOCIAL_BOOKMARKS_TWITTER_SORT_ORDER', '40', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:34:55', NULL, NULL),
-(114, 'Enable Pinterest Module', 'MODULE_SOCIAL_BOOKMARKS_PINTEREST_STATUS', 'True', 'Do you want to allow Pinterest Button?', 6, 1, NULL, '2014-04-16 16:34:55', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-(115, 'Layout Position', 'MODULE_SOCIAL_BOOKMARKS_PINTEREST_BUTTON_COUNT_POSITION', 'None', 'Horizontal or Vertical or None', 6, 2, NULL, '2014-04-16 16:34:55', NULL, 'tep_cfg_select_option(array(\'Horizontal\', \'Vertical\', \'None\'), '),
+(114, 'Enable Pinterest Module', 'MODULE_SOCIAL_BOOKMARKS_PINTEREST_STATUS', 'True', 'Do you want to allow Pinterest Button?', 6, 1, NULL, '2014-04-16 16:34:55', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
+(115, 'Layout Position', 'MODULE_SOCIAL_BOOKMARKS_PINTEREST_BUTTON_COUNT_POSITION', 'None', 'Horizontal or Vertical or None', 6, 2, NULL, '2014-04-16 16:34:55', NULL, 'tep_cfg_select_option(array(''Horizontal'', ''Vertical'', ''None''), '),
 (116, 'Sort Order', 'MODULE_SOCIAL_BOOKMARKS_PINTEREST_SORT_ORDER', '50', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:34:55', NULL, NULL),
 (117, 'Country of Origin', 'SHIPPING_ORIGIN_COUNTRY', '223', 'Select the country of origin to be used in shipping quotes.', 7, 1, NULL, '2014-04-16 16:34:55', 'tep_get_country_name', 'tep_cfg_pull_down_country_list('),
 (118, 'Postal Code', 'SHIPPING_ORIGIN_ZIP', 'NONE', 'Enter the Postal Code (ZIP) of the Store to be used in shipping quotes.', 7, 2, NULL, '2014-04-16 16:34:55', NULL, NULL),
@@ -1653,47 +1680,47 @@ INSERT INTO `configuration` (`configuration_id`, `configuration_title`, `configu
 (129, 'Display Buy Now column', 'PRODUCT_LIST_BUY_NOW', '4', 'Do you want to display the Buy Now column?', 8, 8, NULL, '2014-04-16 16:34:55', NULL, NULL),
 (130, 'Display Category/Manufacturer Filter (0=disable; 1=enable)', 'PRODUCT_LIST_FILTER', '1', 'Do you want to display the Category/Manufacturer Filter?', 8, 9, NULL, '2014-04-16 16:34:55', NULL, NULL),
 (131, 'Location of Prev/Next Navigation Bar (1-top, 2-bottom, 3-both)', 'PREV_NEXT_BAR_LOCATION', '2', 'Sets the location of the Prev/Next Navigation Bar (1-top, 2-bottom, 3-both)', 8, 10, NULL, '2014-04-16 16:34:55', NULL, NULL),
-(132, 'Check stock level', 'STOCK_CHECK', 'true', 'Check to see if sufficent stock is available', 9, 1, NULL, '2014-04-16 16:34:55', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
-(133, 'Subtract stock', 'STOCK_LIMITED', 'true', 'Subtract product in stock by product orders', 9, 2, NULL, '2014-04-16 16:34:55', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
-(134, 'Allow Checkout', 'STOCK_ALLOW_CHECKOUT', 'true', 'Allow customer to checkout even if there is insufficient stock', 9, 3, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
+(132, 'Check stock level', 'STOCK_CHECK', 'true', 'Check to see if sufficent stock is available', 9, 1, NULL, '2014-04-16 16:34:55', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
+(133, 'Subtract stock', 'STOCK_LIMITED', 'true', 'Subtract product in stock by product orders', 9, 2, NULL, '2014-04-16 16:34:55', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
+(134, 'Allow Checkout', 'STOCK_ALLOW_CHECKOUT', 'true', 'Allow customer to checkout even if there is insufficient stock', 9, 3, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
 (135, 'Mark product out of stock', 'STOCK_MARK_PRODUCT_OUT_OF_STOCK', '***', 'Display something on screen so customer can see which product has insufficient stock', 9, 4, NULL, '2014-04-16 16:34:56', NULL, NULL),
 (136, 'Stock Re-order level', 'STOCK_REORDER_LEVEL', '5', 'Define when stock needs to be re-ordered', 9, 5, NULL, '2014-04-16 16:34:56', NULL, NULL),
-(137, 'Store Page Parse Time', 'STORE_PAGE_PARSE_TIME', 'false', 'Store the time it takes to parse a page', 10, 1, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
+(137, 'Store Page Parse Time', 'STORE_PAGE_PARSE_TIME', 'false', 'Store the time it takes to parse a page', 10, 1, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
 (138, 'Log Destination', 'STORE_PAGE_PARSE_TIME_LOG', '/var/log/www/tep/page_parse_time.log', 'Directory and filename of the page parse time log', 10, 2, NULL, '2014-04-16 16:34:56', NULL, NULL),
 (139, 'Log Date Format', 'STORE_PARSE_DATE_TIME_FORMAT', '%d/%m/%Y %H:%M:%S', 'The date format', 10, 3, NULL, '2014-04-16 16:34:56', NULL, NULL),
-(140, 'Display The Page Parse Time', 'DISPLAY_PAGE_PARSE_TIME', 'true', 'Display the page parse time (store page parse time must be enabled)', 10, 4, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
-(141, 'Store Database Queries', 'STORE_DB_TRANSACTIONS', 'false', 'Store the database queries in the page parse time log', 10, 5, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
-(142, 'Use Cache', 'USE_CACHE', 'false', 'Use caching features', 11, 1, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
+(140, 'Display The Page Parse Time', 'DISPLAY_PAGE_PARSE_TIME', 'true', 'Display the page parse time (store page parse time must be enabled)', 10, 4, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
+(141, 'Store Database Queries', 'STORE_DB_TRANSACTIONS', 'false', 'Store the database queries in the page parse time log', 10, 5, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
+(142, 'Use Cache', 'USE_CACHE', 'false', 'Use caching features', 11, 1, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
 (143, 'Cache Directory', 'DIR_FS_CACHE', '/var/www/testProyectos/mimoto/catalog/includes/work/', 'The directory where the cached files are saved', 11, 2, NULL, '2014-04-16 16:34:56', NULL, NULL),
-(144, 'E-Mail Transport Method', 'EMAIL_TRANSPORT', 'sendmail', 'Defines if this server uses a local connection to sendmail or uses an SMTP connection via TCP/IP. Servers running on Windows and MacOS should change this setting to SMTP.', 12, 1, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(\'sendmail\', \'smtp\'),'),
-(145, 'E-Mail Linefeeds', 'EMAIL_LINEFEED', 'LF', 'Defines the character sequence used to separate mail headers.', 12, 2, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(\'LF\', \'CRLF\'),'),
-(146, 'Use MIME HTML When Sending Emails', 'EMAIL_USE_HTML', 'false', 'Send e-mails in HTML format', 12, 3, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'),'),
-(147, 'Verify E-Mail Addresses Through DNS', 'ENTRY_EMAIL_ADDRESS_CHECK', 'false', 'Verify e-mail address through a DNS server', 12, 4, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
-(148, 'Send E-Mails', 'SEND_EMAILS', 'true', 'Send out e-mails', 12, 5, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
-(149, 'Enable download', 'DOWNLOAD_ENABLED', 'false', 'Enable the products download functions.', 13, 1, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
-(150, 'Download by redirect', 'DOWNLOAD_BY_REDIRECT', 'false', 'Use browser redirection for download. Disable on non-Unix systems.', 13, 2, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
+(144, 'E-Mail Transport Method', 'EMAIL_TRANSPORT', 'sendmail', 'Defines if this server uses a local connection to sendmail or uses an SMTP connection via TCP/IP. Servers running on Windows and MacOS should change this setting to SMTP.', 12, 1, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(''sendmail'', ''smtp''),'),
+(145, 'E-Mail Linefeeds', 'EMAIL_LINEFEED', 'LF', 'Defines the character sequence used to separate mail headers.', 12, 2, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(''LF'', ''CRLF''),'),
+(146, 'Use MIME HTML When Sending Emails', 'EMAIL_USE_HTML', 'false', 'Send e-mails in HTML format', 12, 3, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(''true'', ''false''),'),
+(147, 'Verify E-Mail Addresses Through DNS', 'ENTRY_EMAIL_ADDRESS_CHECK', 'false', 'Verify e-mail address through a DNS server', 12, 4, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
+(148, 'Send E-Mails', 'SEND_EMAILS', 'true', 'Send out e-mails', 12, 5, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
+(149, 'Enable download', 'DOWNLOAD_ENABLED', 'false', 'Enable the products download functions.', 13, 1, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
+(150, 'Download by redirect', 'DOWNLOAD_BY_REDIRECT', 'false', 'Use browser redirection for download. Disable on non-Unix systems.', 13, 2, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
 (151, 'Expiry delay (days)', 'DOWNLOAD_MAX_DAYS', '7', 'Set number of days before the download link expires. 0 means no limit.', 13, 3, NULL, '2014-04-16 16:34:56', NULL, ''),
 (152, 'Maximum number of downloads', 'DOWNLOAD_MAX_COUNT', '5', 'Set the maximum number of downloads. 0 means no download authorized.', 13, 4, NULL, '2014-04-16 16:34:56', NULL, ''),
-(153, 'Enable GZip Compression', 'GZIP_COMPRESSION', 'false', 'Enable HTTP GZip compression.', 14, 1, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(\'true\', \'false\'), '),
+(153, 'Enable GZip Compression', 'GZIP_COMPRESSION', 'false', 'Enable HTTP GZip compression.', 14, 1, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(''true'', ''false''), '),
 (154, 'Compression Level', 'GZIP_LEVEL', '5', 'Use this compression level 0-9 (0 = minimum, 9 = maximum).', 14, 2, NULL, '2014-04-16 16:34:56', NULL, NULL),
 (155, 'Session Directory', 'SESSION_WRITE_DIRECTORY', '/var/www/testProyectos/mimoto/catalog/includes/work/', 'If sessions are file based, store them in this directory.', 15, 1, NULL, '2014-04-16 16:34:56', NULL, NULL),
-(156, 'Force Cookie Use', 'SESSION_FORCE_COOKIE_USE', 'False', 'Force the use of sessions when cookies are only enabled.', 15, 2, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-(157, 'Check SSL Session ID', 'SESSION_CHECK_SSL_SESSION_ID', 'False', 'Validate the SSL_SESSION_ID on every secure HTTPS page request.', 15, 3, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-(158, 'Check User Agent', 'SESSION_CHECK_USER_AGENT', 'False', 'Validate the clients browser user agent on every page request.', 15, 4, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-(159, 'Check IP Address', 'SESSION_CHECK_IP_ADDRESS', 'False', 'Validate the clients IP address on every page request.', 15, 5, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-(160, 'Prevent Spider Sessions', 'SESSION_BLOCK_SPIDERS', 'True', 'Prevent known spiders from starting a session.', 15, 6, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-(161, 'Recreate Session', 'SESSION_RECREATE', 'True', 'Recreate the session to generate a new session ID when the customer logs on or creates an account (PHP >=4.1 needed).', 15, 7, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
+(156, 'Force Cookie Use', 'SESSION_FORCE_COOKIE_USE', 'False', 'Force the use of sessions when cookies are only enabled.', 15, 2, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
+(157, 'Check SSL Session ID', 'SESSION_CHECK_SSL_SESSION_ID', 'False', 'Validate the SSL_SESSION_ID on every secure HTTPS page request.', 15, 3, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
+(158, 'Check User Agent', 'SESSION_CHECK_USER_AGENT', 'False', 'Validate the clients browser user agent on every page request.', 15, 4, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
+(159, 'Check IP Address', 'SESSION_CHECK_IP_ADDRESS', 'False', 'Validate the clients IP address on every page request.', 15, 5, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
+(160, 'Prevent Spider Sessions', 'SESSION_BLOCK_SPIDERS', 'True', 'Prevent known spiders from starting a session.', 15, 6, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
+(161, 'Recreate Session', 'SESSION_RECREATE', 'True', 'Recreate the session to generate a new session ID when the customer logs on or creates an account (PHP >=4.1 needed).', 15, 7, NULL, '2014-04-16 16:34:56', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
 (162, 'Last Update Check Time', 'LAST_UPDATE_CHECK_TIME', '', 'Last time a check for new versions of osCommerce was run', 6, 0, NULL, '2014-04-16 16:34:56', NULL, NULL),
-(163, 'Enable PayPal Express Checkout', 'MODULE_PAYMENT_PAYPAL_EXPRESS_STATUS', 'True', 'Do you want to accept PayPal Express Checkout payments?', 6, 1, NULL, '2014-04-16 16:35:16', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
+(163, 'Enable PayPal Express Checkout', 'MODULE_PAYMENT_PAYPAL_EXPRESS_STATUS', 'True', 'Do you want to accept PayPal Express Checkout payments?', 6, 1, NULL, '2014-04-16 16:35:16', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
 (164, 'Seller Account', 'MODULE_PAYMENT_PAYPAL_EXPRESS_SELLER_ACCOUNT', 'andres_chabur@hotmail.com', 'The email address of the seller account if no API credentials has been setup.', 6, 0, NULL, '2014-04-16 16:35:16', NULL, NULL),
 (165, 'API Username', 'MODULE_PAYMENT_PAYPAL_EXPRESS_API_USERNAME', '', 'The username to use for the PayPal API service', 6, 0, NULL, '2014-04-16 16:35:16', NULL, NULL),
 (166, 'API Password', 'MODULE_PAYMENT_PAYPAL_EXPRESS_API_PASSWORD', '', 'The password to use for the PayPal API service', 6, 0, NULL, '2014-04-16 16:35:16', NULL, NULL),
 (167, 'API Signature', 'MODULE_PAYMENT_PAYPAL_EXPRESS_API_SIGNATURE', '', 'The signature to use for the PayPal API service', 6, 0, NULL, '2014-04-16 16:35:16', NULL, NULL),
-(168, 'Transaction Server', 'MODULE_PAYMENT_PAYPAL_EXPRESS_TRANSACTION_SERVER', 'Live', 'Use the live or testing (sandbox) gateway server to process transactions?', 6, 0, NULL, '2014-04-16 16:35:16', NULL, 'tep_cfg_select_option(array(\'Live\', \'Sandbox\'), '),
-(169, 'Transaction Method', 'MODULE_PAYMENT_PAYPAL_EXPRESS_TRANSACTION_METHOD', 'Sale', 'The processing method to use for each transaction.', 6, 0, NULL, '2014-04-16 16:35:16', NULL, 'tep_cfg_select_option(array(\'Authorization\', \'Sale\'), '),
-(170, 'PayPal Account Optional', 'MODULE_PAYMENT_PAYPAL_EXPRESS_ACCOUNT_OPTIONAL', 'False', 'This must also be enabled in your PayPal account, in Profile > Website Payment Preferences.', 6, 0, NULL, '2014-04-16 16:35:16', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-(171, 'PayPal Instant Update', 'MODULE_PAYMENT_PAYPAL_EXPRESS_INSTANT_UPDATE', 'True', 'Support PayPal shipping and tax calculations on the PayPal.com site during Express Checkout.', 6, 0, NULL, '2014-04-16 16:35:16', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-(172, 'PayPal Checkout Image', 'MODULE_PAYMENT_PAYPAL_EXPRESS_CHECKOUT_IMAGE', 'Static', 'Use static or dynamic Express Checkout image buttons. Dynamic images are used with PayPal campaigns.', 6, 0, NULL, '2014-04-16 16:35:16', NULL, 'tep_cfg_select_option(array(\'Static\', \'Dynamic\'), '),
+(168, 'Transaction Server', 'MODULE_PAYMENT_PAYPAL_EXPRESS_TRANSACTION_SERVER', 'Live', 'Use the live or testing (sandbox) gateway server to process transactions?', 6, 0, NULL, '2014-04-16 16:35:16', NULL, 'tep_cfg_select_option(array(''Live'', ''Sandbox''), '),
+(169, 'Transaction Method', 'MODULE_PAYMENT_PAYPAL_EXPRESS_TRANSACTION_METHOD', 'Sale', 'The processing method to use for each transaction.', 6, 0, NULL, '2014-04-16 16:35:16', NULL, 'tep_cfg_select_option(array(''Authorization'', ''Sale''), '),
+(170, 'PayPal Account Optional', 'MODULE_PAYMENT_PAYPAL_EXPRESS_ACCOUNT_OPTIONAL', 'False', 'This must also be enabled in your PayPal account, in Profile > Website Payment Preferences.', 6, 0, NULL, '2014-04-16 16:35:16', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
+(171, 'PayPal Instant Update', 'MODULE_PAYMENT_PAYPAL_EXPRESS_INSTANT_UPDATE', 'True', 'Support PayPal shipping and tax calculations on the PayPal.com site during Express Checkout.', 6, 0, NULL, '2014-04-16 16:35:16', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
+(172, 'PayPal Checkout Image', 'MODULE_PAYMENT_PAYPAL_EXPRESS_CHECKOUT_IMAGE', 'Static', 'Use static or dynamic Express Checkout image buttons. Dynamic images are used with PayPal campaigns.', 6, 0, NULL, '2014-04-16 16:35:16', NULL, 'tep_cfg_select_option(array(''Static'', ''Dynamic''), '),
 (173, 'Debug E-Mail Address', 'MODULE_PAYMENT_PAYPAL_EXPRESS_DEBUG_EMAIL', '', 'All parameters of an invalid transaction will be sent to this email address.', 6, 0, NULL, '2014-04-16 16:35:16', NULL, NULL),
 (174, 'Payment Zone', 'MODULE_PAYMENT_PAYPAL_EXPRESS_ZONE', '0', 'If a zone is selected, only enable this payment method for that zone.', 6, 2, NULL, '2014-04-16 16:35:16', 'tep_get_zone_class_title', 'tep_cfg_pull_down_zone_classes('),
 (175, 'Sort order of display.', 'MODULE_PAYMENT_PAYPAL_EXPRESS_SORT_ORDER', '0', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:16', NULL, NULL),
@@ -1701,84 +1728,84 @@ INSERT INTO `configuration` (`configuration_id`, `configuration_title`, `configu
 (177, 'PayPal Transactions Order Status Level', 'MODULE_PAYMENT_PAYPAL_EXPRESS_TRANSACTIONS_ORDER_STATUS_ID', '4', 'Include PayPal transaction information in this order status level', 6, 0, NULL, '2014-04-16 16:35:16', 'tep_get_order_status_name', 'tep_cfg_pull_down_order_statuses('),
 (178, 'cURL Program Location', 'MODULE_PAYMENT_PAYPAL_EXPRESS_CURL', '/usr/bin/curl', 'The location to the cURL program application.', 6, 0, NULL, '2014-04-16 16:35:16', NULL, NULL),
 (179, 'Installed Modules', 'MODULE_HEADER_TAGS_INSTALLED', 'ht_canonical.php;ht_manufacturer_title.php;ht_category_title.php;ht_product_title.php;ht_robot_noindex.php', 'List of header tag module filenames separated by a semi-colon. This is automatically updated. No need to edit.', 6, 0, NULL, '2014-04-16 16:35:16', NULL, NULL),
-(180, 'Enable Category Title Module', 'MODULE_HEADER_TAGS_CATEGORY_TITLE_STATUS', 'True', 'Do you want to allow category titles to be added to the page title?', 6, 1, NULL, '2014-04-16 16:35:16', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
+(180, 'Enable Category Title Module', 'MODULE_HEADER_TAGS_CATEGORY_TITLE_STATUS', 'True', 'Do you want to allow category titles to be added to the page title?', 6, 1, NULL, '2014-04-16 16:35:16', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
 (181, 'Sort Order', 'MODULE_HEADER_TAGS_CATEGORY_TITLE_SORT_ORDER', '200', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:17', NULL, NULL),
-(182, 'Enable Manufacturer Title Module', 'MODULE_HEADER_TAGS_MANUFACTURER_TITLE_STATUS', 'True', 'Do you want to allow manufacturer titles to be added to the page title?', 6, 1, NULL, '2014-04-16 16:35:17', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
+(182, 'Enable Manufacturer Title Module', 'MODULE_HEADER_TAGS_MANUFACTURER_TITLE_STATUS', 'True', 'Do you want to allow manufacturer titles to be added to the page title?', 6, 1, NULL, '2014-04-16 16:35:17', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
 (183, 'Sort Order', 'MODULE_HEADER_TAGS_MANUFACTURER_TITLE_SORT_ORDER', '100', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:17', NULL, NULL),
-(184, 'Enable Product Title Module', 'MODULE_HEADER_TAGS_PRODUCT_TITLE_STATUS', 'True', 'Do you want to allow product titles to be added to the page title?', 6, 1, NULL, '2014-04-16 16:35:17', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
+(184, 'Enable Product Title Module', 'MODULE_HEADER_TAGS_PRODUCT_TITLE_STATUS', 'True', 'Do you want to allow product titles to be added to the page title?', 6, 1, NULL, '2014-04-16 16:35:17', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
 (185, 'Sort Order', 'MODULE_HEADER_TAGS_PRODUCT_TITLE_SORT_ORDER', '300', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:17', NULL, NULL),
-(186, 'Enable Canonical Module', 'MODULE_HEADER_TAGS_CANONICAL_STATUS', 'True', 'Do you want to enable the Canonical module?', 6, 1, NULL, '2014-04-16 16:35:17', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
+(186, 'Enable Canonical Module', 'MODULE_HEADER_TAGS_CANONICAL_STATUS', 'True', 'Do you want to enable the Canonical module?', 6, 1, NULL, '2014-04-16 16:35:17', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
 (187, 'Sort Order', 'MODULE_HEADER_TAGS_CANONICAL_SORT_ORDER', '400', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:17', NULL, NULL),
-(188, 'Enable Robot NoIndex Module', 'MODULE_HEADER_TAGS_ROBOT_NOINDEX_STATUS', 'True', 'Do you want to enable the Robot NoIndex module?', 6, 1, NULL, '2014-04-16 16:35:17', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
+(188, 'Enable Robot NoIndex Module', 'MODULE_HEADER_TAGS_ROBOT_NOINDEX_STATUS', 'True', 'Do you want to enable the Robot NoIndex module?', 6, 1, NULL, '2014-04-16 16:35:17', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
 (189, 'Pages', 'MODULE_HEADER_TAGS_ROBOT_NOINDEX_PAGES', 'account.php;account_edit.php;account_history.php;account_history_info.php;account_newsletters.php;account_notifications.php;account_password.php;address_book.php;address_book_process.php;checkout_confirmation.php;checkout_payment.php;checkout_payment_address.php;checkout_process.php;checkout_shipping.php;checkout_shipping_address.php;checkout_success.php;cookie_usage.php;create_account.php;create_account_success.php;login.php;logoff.php;password_forgotten.php;password_reset.php;product_reviews_write.php;shopping_cart.php;ssl_check.php;tell_a_friend.php', 'The pages to add the meta robot noindex tag to.', 6, 0, NULL, '2014-04-16 16:35:17', 'ht_robot_noindex_show_pages', 'ht_robot_noindex_edit_pages('),
 (190, 'Sort Order', 'MODULE_HEADER_TAGS_ROBOT_NOINDEX_SORT_ORDER', '500', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:17', NULL, NULL),
 (191, 'Installed Modules', 'MODULE_ADMIN_DASHBOARD_INSTALLED', 'd_total_revenue.php;d_total_customers.php;d_orders.php;d_customers.php;d_admin_logins.php;d_security_checks.php;d_latest_news.php;d_latest_addons.php;d_version_check.php;d_reviews.php', 'List of Administration Tool Dashboard module filenames separated by a semi-colon. This is automatically updated. No need to edit.', 6, 0, NULL, '2014-04-16 16:35:17', NULL, NULL),
-(192, 'Enable Administrator Logins Module', 'MODULE_ADMIN_DASHBOARD_ADMIN_LOGINS_STATUS', 'True', 'Do you want to show the latest administrator logins on the dashboard?', 6, 1, NULL, '2014-04-16 16:35:17', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
+(192, 'Enable Administrator Logins Module', 'MODULE_ADMIN_DASHBOARD_ADMIN_LOGINS_STATUS', 'True', 'Do you want to show the latest administrator logins on the dashboard?', 6, 1, NULL, '2014-04-16 16:35:17', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
 (193, 'Sort Order', 'MODULE_ADMIN_DASHBOARD_ADMIN_LOGINS_SORT_ORDER', '500', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:17', NULL, NULL),
-(194, 'Enable Customers Module', 'MODULE_ADMIN_DASHBOARD_CUSTOMERS_STATUS', 'True', 'Do you want to show the newest customers on the dashboard?', 6, 1, NULL, '2014-04-16 16:35:17', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
+(194, 'Enable Customers Module', 'MODULE_ADMIN_DASHBOARD_CUSTOMERS_STATUS', 'True', 'Do you want to show the newest customers on the dashboard?', 6, 1, NULL, '2014-04-16 16:35:17', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
 (195, 'Sort Order', 'MODULE_ADMIN_DASHBOARD_CUSTOMERS_SORT_ORDER', '400', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:17', NULL, NULL),
-(196, 'Enable Latest Add-Ons Module', 'MODULE_ADMIN_DASHBOARD_LATEST_ADDONS_STATUS', 'True', 'Do you want to show the latest osCommerce Add-Ons on the dashboard?', 6, 1, NULL, '2014-04-16 16:35:17', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
+(196, 'Enable Latest Add-Ons Module', 'MODULE_ADMIN_DASHBOARD_LATEST_ADDONS_STATUS', 'True', 'Do you want to show the latest osCommerce Add-Ons on the dashboard?', 6, 1, NULL, '2014-04-16 16:35:17', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
 (197, 'Sort Order', 'MODULE_ADMIN_DASHBOARD_LATEST_ADDONS_SORT_ORDER', '800', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:17', NULL, NULL),
-(198, 'Enable Latest News Module', 'MODULE_ADMIN_DASHBOARD_LATEST_NEWS_STATUS', 'True', 'Do you want to show the latest osCommerce News on the dashboard?', 6, 1, NULL, '2014-04-16 16:35:17', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
+(198, 'Enable Latest News Module', 'MODULE_ADMIN_DASHBOARD_LATEST_NEWS_STATUS', 'True', 'Do you want to show the latest osCommerce News on the dashboard?', 6, 1, NULL, '2014-04-16 16:35:17', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
 (199, 'Sort Order', 'MODULE_ADMIN_DASHBOARD_LATEST_NEWS_SORT_ORDER', '700', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:17', NULL, NULL),
-(200, 'Enable Orders Module', 'MODULE_ADMIN_DASHBOARD_ORDERS_STATUS', 'True', 'Do you want to show the latest orders on the dashboard?', 6, 1, NULL, '2014-04-16 16:35:17', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
+(200, 'Enable Orders Module', 'MODULE_ADMIN_DASHBOARD_ORDERS_STATUS', 'True', 'Do you want to show the latest orders on the dashboard?', 6, 1, NULL, '2014-04-16 16:35:17', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
 (201, 'Sort Order', 'MODULE_ADMIN_DASHBOARD_ORDERS_SORT_ORDER', '300', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:17', NULL, NULL),
-(202, 'Enable Security Checks Module', 'MODULE_ADMIN_DASHBOARD_SECURITY_CHECKS_STATUS', 'True', 'Do you want to run the security checks for this installation?', 6, 1, NULL, '2014-04-16 16:35:17', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
+(202, 'Enable Security Checks Module', 'MODULE_ADMIN_DASHBOARD_SECURITY_CHECKS_STATUS', 'True', 'Do you want to run the security checks for this installation?', 6, 1, NULL, '2014-04-16 16:35:17', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
 (203, 'Sort Order', 'MODULE_ADMIN_DASHBOARD_SECURITY_CHECKS_SORT_ORDER', '600', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:17', NULL, NULL),
-(204, 'Enable Total Customers Module', 'MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_STATUS', 'True', 'Do you want to show the total customers chart on the dashboard?', 6, 1, NULL, '2014-04-16 16:35:17', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
+(204, 'Enable Total Customers Module', 'MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_STATUS', 'True', 'Do you want to show the total customers chart on the dashboard?', 6, 1, NULL, '2014-04-16 16:35:17', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
 (205, 'Sort Order', 'MODULE_ADMIN_DASHBOARD_TOTAL_CUSTOMERS_SORT_ORDER', '200', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:18', NULL, NULL),
-(206, 'Enable Total Revenue Module', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_STATUS', 'True', 'Do you want to show the total revenue chart on the dashboard?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
+(206, 'Enable Total Revenue Module', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_STATUS', 'True', 'Do you want to show the total revenue chart on the dashboard?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
 (207, 'Sort Order', 'MODULE_ADMIN_DASHBOARD_TOTAL_REVENUE_SORT_ORDER', '100', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:18', NULL, NULL),
-(208, 'Enable Version Check Module', 'MODULE_ADMIN_DASHBOARD_VERSION_CHECK_STATUS', 'True', 'Do you want to show the version check results on the dashboard?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
+(208, 'Enable Version Check Module', 'MODULE_ADMIN_DASHBOARD_VERSION_CHECK_STATUS', 'True', 'Do you want to show the version check results on the dashboard?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
 (209, 'Sort Order', 'MODULE_ADMIN_DASHBOARD_VERSION_CHECK_SORT_ORDER', '900', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:18', NULL, NULL),
-(210, 'Enable Latest Reviews Module', 'MODULE_ADMIN_DASHBOARD_REVIEWS_STATUS', 'True', 'Do you want to show the latest reviews on the dashboard?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
+(210, 'Enable Latest Reviews Module', 'MODULE_ADMIN_DASHBOARD_REVIEWS_STATUS', 'True', 'Do you want to show the latest reviews on the dashboard?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
 (211, 'Sort Order', 'MODULE_ADMIN_DASHBOARD_REVIEWS_SORT_ORDER', '1000', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:18', NULL, NULL),
 (212, 'Installed Modules', 'MODULE_BOXES_INSTALLED', 'bm_categories.php;bm_manufacturers.php;bm_search.php;bm_whats_new.php;bm_information.php;bm_shopping_cart.php;bm_manufacturer_info.php;bm_order_history.php;bm_best_sellers.php;bm_product_notifications.php;bm_product_social_bookmarks.php;bm_specials.php;bm_reviews.php;bm_languages.php;bm_currencies.php', 'List of box module filenames separated by a semi-colon. This is automatically updated. No need to edit.', 6, 0, NULL, '2014-04-16 16:35:18', NULL, NULL),
-(213, 'Enable Best Sellers Module', 'MODULE_BOXES_BEST_SELLERS_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-(214, 'Content Placement', 'MODULE_BOXES_BEST_SELLERS_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(\'Left Column\', \'Right Column\'), '),
+(213, 'Enable Best Sellers Module', 'MODULE_BOXES_BEST_SELLERS_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
+(214, 'Content Placement', 'MODULE_BOXES_BEST_SELLERS_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(''Left Column'', ''Right Column''), '),
 (215, 'Sort Order', 'MODULE_BOXES_BEST_SELLERS_SORT_ORDER', '5030', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:18', NULL, NULL),
-(216, 'Enable Categories Module', 'MODULE_BOXES_CATEGORIES_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-(217, 'Content Placement', 'MODULE_BOXES_CATEGORIES_CONTENT_PLACEMENT', 'Left Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(\'Left Column\', \'Right Column\'), '),
+(216, 'Enable Categories Module', 'MODULE_BOXES_CATEGORIES_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
+(217, 'Content Placement', 'MODULE_BOXES_CATEGORIES_CONTENT_PLACEMENT', 'Left Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(''Left Column'', ''Right Column''), '),
 (218, 'Sort Order', 'MODULE_BOXES_CATEGORIES_SORT_ORDER', '1000', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:18', NULL, NULL),
-(219, 'Enable Currencies Module', 'MODULE_BOXES_CURRENCIES_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-(220, 'Content Placement', 'MODULE_BOXES_CURRENCIES_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(\'Left Column\', \'Right Column\'), '),
+(219, 'Enable Currencies Module', 'MODULE_BOXES_CURRENCIES_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
+(220, 'Content Placement', 'MODULE_BOXES_CURRENCIES_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(''Left Column'', ''Right Column''), '),
 (221, 'Sort Order', 'MODULE_BOXES_CURRENCIES_SORT_ORDER', '5090', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:18', NULL, NULL),
-(222, 'Enable Information Module', 'MODULE_BOXES_INFORMATION_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-(223, 'Content Placement', 'MODULE_BOXES_INFORMATION_CONTENT_PLACEMENT', 'Left Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(\'Left Column\', \'Right Column\'), '),
+(222, 'Enable Information Module', 'MODULE_BOXES_INFORMATION_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
+(223, 'Content Placement', 'MODULE_BOXES_INFORMATION_CONTENT_PLACEMENT', 'Left Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(''Left Column'', ''Right Column''), '),
 (224, 'Sort Order', 'MODULE_BOXES_INFORMATION_SORT_ORDER', '1050', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:18', NULL, NULL),
-(225, 'Enable Languages Module', 'MODULE_BOXES_LANGUAGES_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-(226, 'Content Placement', 'MODULE_BOXES_LANGUAGES_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(\'Left Column\', \'Right Column\'), '),
+(225, 'Enable Languages Module', 'MODULE_BOXES_LANGUAGES_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
+(226, 'Content Placement', 'MODULE_BOXES_LANGUAGES_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(''Left Column'', ''Right Column''), '),
 (227, 'Sort Order', 'MODULE_BOXES_LANGUAGES_SORT_ORDER', '5080', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:18', NULL, NULL),
-(228, 'Enable Manufacturer Info Module', 'MODULE_BOXES_MANUFACTURER_INFO_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-(229, 'Content Placement', 'MODULE_BOXES_MANUFACTURER_INFO_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(\'Left Column\', \'Right Column\'), '),
+(228, 'Enable Manufacturer Info Module', 'MODULE_BOXES_MANUFACTURER_INFO_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
+(229, 'Content Placement', 'MODULE_BOXES_MANUFACTURER_INFO_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(''Left Column'', ''Right Column''), '),
 (230, 'Sort Order', 'MODULE_BOXES_MANUFACTURER_INFO_SORT_ORDER', '5010', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:18', NULL, NULL),
-(231, 'Enable Manufacturers Module', 'MODULE_BOXES_MANUFACTURERS_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-(232, 'Content Placement', 'MODULE_BOXES_MANUFACTURERS_CONTENT_PLACEMENT', 'Left Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(\'Left Column\', \'Right Column\'), '),
+(231, 'Enable Manufacturers Module', 'MODULE_BOXES_MANUFACTURERS_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
+(232, 'Content Placement', 'MODULE_BOXES_MANUFACTURERS_CONTENT_PLACEMENT', 'Left Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(''Left Column'', ''Right Column''), '),
 (233, 'Sort Order', 'MODULE_BOXES_MANUFACTURERS_SORT_ORDER', '1020', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:18', NULL, NULL),
-(234, 'Enable Order History Module', 'MODULE_BOXES_ORDER_HISTORY_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-(235, 'Content Placement', 'MODULE_BOXES_ORDER_HISTORY_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(\'Left Column\', \'Right Column\'), '),
+(234, 'Enable Order History Module', 'MODULE_BOXES_ORDER_HISTORY_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
+(235, 'Content Placement', 'MODULE_BOXES_ORDER_HISTORY_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(''Left Column'', ''Right Column''), '),
 (236, 'Sort Order', 'MODULE_BOXES_ORDER_HISTORY_SORT_ORDER', '5020', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:18', NULL, NULL),
-(237, 'Enable Product Notifications Module', 'MODULE_BOXES_PRODUCT_NOTIFICATIONS_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-(238, 'Content Placement', 'MODULE_BOXES_PRODUCT_NOTIFICATIONS_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(\'Left Column\', \'Right Column\'), '),
+(237, 'Enable Product Notifications Module', 'MODULE_BOXES_PRODUCT_NOTIFICATIONS_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
+(238, 'Content Placement', 'MODULE_BOXES_PRODUCT_NOTIFICATIONS_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(''Left Column'', ''Right Column''), '),
 (239, 'Sort Order', 'MODULE_BOXES_PRODUCT_NOTIFICATIONS_SORT_ORDER', '5040', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:18', NULL, NULL),
-(240, 'Enable Product Social Bookmarks Module', 'MODULE_BOXES_PRODUCT_SOCIAL_BOOKMARKS_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-(241, 'Content Placement', 'MODULE_BOXES_PRODUCT_SOCIAL_BOOKMARKS_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:19', NULL, 'tep_cfg_select_option(array(\'Left Column\', \'Right Column\'), '),
+(240, 'Enable Product Social Bookmarks Module', 'MODULE_BOXES_PRODUCT_SOCIAL_BOOKMARKS_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:18', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
+(241, 'Content Placement', 'MODULE_BOXES_PRODUCT_SOCIAL_BOOKMARKS_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:19', NULL, 'tep_cfg_select_option(array(''Left Column'', ''Right Column''), '),
 (242, 'Sort Order', 'MODULE_BOXES_PRODUCT_SOCIAL_BOOKMARKS_SORT_ORDER', '5050', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:19', NULL, NULL),
-(243, 'Enable Reviews Module', 'MODULE_BOXES_REVIEWS_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:19', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), ');
+(243, 'Enable Reviews Module', 'MODULE_BOXES_REVIEWS_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:19', NULL, 'tep_cfg_select_option(array(''True'', ''False''), ');
 INSERT INTO `configuration` (`configuration_id`, `configuration_title`, `configuration_key`, `configuration_value`, `configuration_description`, `configuration_group_id`, `sort_order`, `last_modified`, `date_added`, `use_function`, `set_function`) VALUES
-(244, 'Content Placement', 'MODULE_BOXES_REVIEWS_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:19', NULL, 'tep_cfg_select_option(array(\'Left Column\', \'Right Column\'), '),
+(244, 'Content Placement', 'MODULE_BOXES_REVIEWS_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:19', NULL, 'tep_cfg_select_option(array(''Left Column'', ''Right Column''), '),
 (245, 'Sort Order', 'MODULE_BOXES_REVIEWS_SORT_ORDER', '5070', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:19', NULL, NULL),
-(246, 'Enable Search Module', 'MODULE_BOXES_SEARCH_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:19', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-(247, 'Content Placement', 'MODULE_BOXES_SEARCH_CONTENT_PLACEMENT', 'Left Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:19', NULL, 'tep_cfg_select_option(array(\'Left Column\', \'Right Column\'), '),
+(246, 'Enable Search Module', 'MODULE_BOXES_SEARCH_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:19', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
+(247, 'Content Placement', 'MODULE_BOXES_SEARCH_CONTENT_PLACEMENT', 'Left Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:19', NULL, 'tep_cfg_select_option(array(''Left Column'', ''Right Column''), '),
 (248, 'Sort Order', 'MODULE_BOXES_SEARCH_SORT_ORDER', '1030', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:19', NULL, NULL),
-(249, 'Enable Shopping Cart Module', 'MODULE_BOXES_SHOPPING_CART_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:19', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-(250, 'Content Placement', 'MODULE_BOXES_SHOPPING_CART_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:19', NULL, 'tep_cfg_select_option(array(\'Left Column\', \'Right Column\'), '),
+(249, 'Enable Shopping Cart Module', 'MODULE_BOXES_SHOPPING_CART_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:19', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
+(250, 'Content Placement', 'MODULE_BOXES_SHOPPING_CART_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:19', NULL, 'tep_cfg_select_option(array(''Left Column'', ''Right Column''), '),
 (251, 'Sort Order', 'MODULE_BOXES_SHOPPING_CART_SORT_ORDER', '5000', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:19', NULL, NULL),
-(252, 'Enable Specials Module', 'MODULE_BOXES_SPECIALS_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:19', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-(253, 'Content Placement', 'MODULE_BOXES_SPECIALS_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:19', NULL, 'tep_cfg_select_option(array(\'Left Column\', \'Right Column\'), '),
+(252, 'Enable Specials Module', 'MODULE_BOXES_SPECIALS_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:19', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
+(253, 'Content Placement', 'MODULE_BOXES_SPECIALS_CONTENT_PLACEMENT', 'Right Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:19', NULL, 'tep_cfg_select_option(array(''Left Column'', ''Right Column''), '),
 (254, 'Sort Order', 'MODULE_BOXES_SPECIALS_SORT_ORDER', '5060', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:19', NULL, NULL),
-(255, 'Enable What\'s New Module', 'MODULE_BOXES_WHATS_NEW_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:19', NULL, 'tep_cfg_select_option(array(\'True\', \'False\'), '),
-(256, 'Content Placement', 'MODULE_BOXES_WHATS_NEW_CONTENT_PLACEMENT', 'Left Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:19', NULL, 'tep_cfg_select_option(array(\'Left Column\', \'Right Column\'), '),
+(255, 'Enable What''s New Module', 'MODULE_BOXES_WHATS_NEW_STATUS', 'True', 'Do you want to add the module to your shop?', 6, 1, NULL, '2014-04-16 16:35:19', NULL, 'tep_cfg_select_option(array(''True'', ''False''), '),
+(256, 'Content Placement', 'MODULE_BOXES_WHATS_NEW_CONTENT_PLACEMENT', 'Left Column', 'Should the module be loaded in the left or right column?', 6, 1, NULL, '2014-04-16 16:35:19', NULL, 'tep_cfg_select_option(array(''Left Column'', ''Right Column''), '),
 (257, 'Sort Order', 'MODULE_BOXES_WHATS_NEW_SORT_ORDER', '1040', 'Sort order of display. Lowest is displayed first.', 6, 0, NULL, '2014-04-16 16:35:19', NULL, NULL),
 (258, 'Installed Template Block Groups', 'TEMPLATE_BLOCK_GROUPS', 'boxes;header_tags', 'This is automatically updated. No need to edit.', 6, 0, NULL, '2014-04-16 16:35:19', NULL, NULL);
 
@@ -1788,13 +1815,14 @@ INSERT INTO `configuration` (`configuration_id`, `configuration_title`, `configu
 -- Estructura de tabla para la tabla `configuration_group`
 --
 
-CREATE TABLE `configuration_group` (
-  `configuration_group_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `configuration_group` (
+  `configuration_group_id` int(11) NOT NULL AUTO_INCREMENT,
   `configuration_group_title` varchar(64) NOT NULL,
   `configuration_group_description` varchar(255) NOT NULL,
   `sort_order` int(5) DEFAULT NULL,
-  `visible` int(1) DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `visible` int(1) DEFAULT '1',
+  PRIMARY KEY (`configuration_group_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
 --
 -- Volcado de datos para la tabla `configuration_group`
@@ -1823,11 +1851,12 @@ INSERT INTO `configuration_group` (`configuration_group_id`, `configuration_grou
 -- Estructura de tabla para la tabla `counter`
 --
 
-CREATE TABLE `counter` (
+CREATE TABLE IF NOT EXISTS `counter` (
   `startdate` char(8) DEFAULT NULL,
   `counter` int(12) DEFAULT NULL,
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `counter`
@@ -1842,11 +1871,12 @@ INSERT INTO `counter` (`startdate`, `counter`, `id`) VALUES
 -- Estructura de tabla para la tabla `counter_history`
 --
 
-CREATE TABLE `counter_history` (
+CREATE TABLE IF NOT EXISTS `counter_history` (
   `month` char(8) DEFAULT NULL,
   `counter` int(12) DEFAULT NULL,
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1854,13 +1884,15 @@ CREATE TABLE `counter_history` (
 -- Estructura de tabla para la tabla `countries`
 --
 
-CREATE TABLE `countries` (
-  `countries_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `countries` (
+  `countries_id` int(11) NOT NULL AUTO_INCREMENT,
   `countries_name` varchar(255) NOT NULL,
   `countries_iso_code_2` char(2) NOT NULL,
   `countries_iso_code_3` char(3) NOT NULL,
-  `address_format_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `address_format_id` int(11) NOT NULL,
+  PRIMARY KEY (`countries_id`),
+  KEY `IDX_COUNTRIES_NAME` (`countries_name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=240 ;
 
 --
 -- Volcado de datos para la tabla `countries`
@@ -1918,7 +1950,7 @@ INSERT INTO `countries` (`countries_id`, `countries_name`, `countries_iso_code_2
 (49, 'Congo', 'CG', 'COG', 1),
 (50, 'Cook Islands', 'CK', 'COK', 1),
 (51, 'Costa Rica', 'CR', 'CRI', 1),
-(52, 'Cote D\'Ivoire', 'CI', 'CIV', 1),
+(52, 'Cote D''Ivoire', 'CI', 'CIV', 1),
 (53, 'Croatia', 'HR', 'HRV', 1),
 (54, 'Cuba', 'CU', 'CUB', 1),
 (55, 'Cyprus', 'CY', 'CYP', 1),
@@ -1978,11 +2010,11 @@ INSERT INTO `countries` (`countries_id`, `countries_name`, `countries_iso_code_2
 (109, 'Kazakhstan', 'KZ', 'KAZ', 1),
 (110, 'Kenya', 'KE', 'KEN', 1),
 (111, 'Kiribati', 'KI', 'KIR', 1),
-(112, 'Korea, Democratic People\'s Republic of', 'KP', 'PRK', 1),
+(112, 'Korea, Democratic People''s Republic of', 'KP', 'PRK', 1),
 (113, 'Korea, Republic of', 'KR', 'KOR', 1),
 (114, 'Kuwait', 'KW', 'KWT', 1),
 (115, 'Kyrgyzstan', 'KG', 'KGZ', 1),
-(116, 'Lao People\'s Democratic Republic', 'LA', 'LAO', 1),
+(116, 'Lao People''s Democratic Republic', 'LA', 'LAO', 1),
 (117, 'Latvia', 'LV', 'LVA', 1),
 (118, 'Lebanon', 'LB', 'LBN', 1),
 (119, 'Lesotho', 'LS', 'LSO', 1),
@@ -2113,8 +2145,8 @@ INSERT INTO `countries` (`countries_id`, `countries_name`, `countries_iso_code_2
 -- Estructura de tabla para la tabla `currencies`
 --
 
-CREATE TABLE `currencies` (
-  `currencies_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `currencies` (
+  `currencies_id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(32) NOT NULL,
   `code` char(3) NOT NULL,
   `symbol_left` varchar(12) DEFAULT NULL,
@@ -2123,8 +2155,10 @@ CREATE TABLE `currencies` (
   `thousands_point` char(1) DEFAULT NULL,
   `decimal_places` char(1) DEFAULT NULL,
   `value` float(13,8) DEFAULT NULL,
-  `last_updated` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `last_updated` datetime DEFAULT NULL,
+  PRIMARY KEY (`currencies_id`),
+  KEY `idx_currencies_code` (`code`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Volcado de datos para la tabla `currencies`
@@ -2140,8 +2174,8 @@ INSERT INTO `currencies` (`currencies_id`, `title`, `code`, `symbol_left`, `symb
 -- Estructura de tabla para la tabla `customers`
 --
 
-CREATE TABLE `customers` (
-  `customers_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `customers` (
+  `customers_id` int(11) NOT NULL AUTO_INCREMENT,
   `customers_gender` char(1) DEFAULT NULL,
   `customers_firstname` varchar(255) NOT NULL,
   `customers_lastname` varchar(255) NOT NULL,
@@ -2151,8 +2185,10 @@ CREATE TABLE `customers` (
   `customers_telephone` varchar(255) NOT NULL,
   `customers_fax` varchar(255) DEFAULT NULL,
   `customers_password` varchar(60) NOT NULL,
-  `customers_newsletter` char(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `customers_newsletter` char(1) DEFAULT NULL,
+  PRIMARY KEY (`customers_id`),
+  KEY `idx_customers_email_address` (`customers_email_address`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -2160,14 +2196,16 @@ CREATE TABLE `customers` (
 -- Estructura de tabla para la tabla `customers_basket`
 --
 
-CREATE TABLE `customers_basket` (
-  `customers_basket_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `customers_basket` (
+  `customers_basket_id` int(11) NOT NULL AUTO_INCREMENT,
   `customers_id` int(11) NOT NULL,
   `products_id` tinytext NOT NULL,
   `customers_basket_quantity` int(2) NOT NULL,
   `final_price` decimal(15,4) DEFAULT NULL,
-  `customers_basket_date_added` char(8) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `customers_basket_date_added` char(8) DEFAULT NULL,
+  PRIMARY KEY (`customers_basket_id`),
+  KEY `idx_customers_basket_customers_id` (`customers_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -2175,13 +2213,15 @@ CREATE TABLE `customers_basket` (
 -- Estructura de tabla para la tabla `customers_basket_attributes`
 --
 
-CREATE TABLE `customers_basket_attributes` (
-  `customers_basket_attributes_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `customers_basket_attributes` (
+  `customers_basket_attributes_id` int(11) NOT NULL AUTO_INCREMENT,
   `customers_id` int(11) NOT NULL,
   `products_id` tinytext NOT NULL,
   `products_options_id` int(11) NOT NULL,
-  `products_options_value_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `products_options_value_id` int(11) NOT NULL,
+  PRIMARY KEY (`customers_basket_attributes_id`),
+  KEY `idx_customers_basket_att_customers_id` (`customers_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -2189,7 +2229,7 @@ CREATE TABLE `customers_basket_attributes` (
 -- Estructura de tabla para la tabla `customers_info`
 --
 
-CREATE TABLE `customers_info` (
+CREATE TABLE IF NOT EXISTS `customers_info` (
   `customers_info_id` int(11) NOT NULL,
   `customers_info_date_of_last_logon` datetime DEFAULT NULL,
   `customers_info_number_of_logons` int(5) DEFAULT NULL,
@@ -2197,8 +2237,9 @@ CREATE TABLE `customers_info` (
   `customers_info_date_account_last_modified` datetime DEFAULT NULL,
   `global_product_notifications` int(1) DEFAULT '0',
   `password_reset_key` char(40) DEFAULT NULL,
-  `password_reset_date` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `password_reset_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`customers_info_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2206,12 +2247,13 @@ CREATE TABLE `customers_info` (
 -- Estructura de tabla para la tabla `departamento`
 --
 
-CREATE TABLE `departamento` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `departamento` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(255) NOT NULL,
   `pais_id` int(11) DEFAULT NULL,
-  `departamento_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `departamento_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=100 ;
 
 --
 -- Volcado de datos para la tabla `departamento`
@@ -2258,13 +2300,14 @@ INSERT INTO `departamento` (`id`, `descripcion`, `pais_id`, `departamento_id`) V
 -- Estructura de tabla para la tabla `geo_zones`
 --
 
-CREATE TABLE `geo_zones` (
-  `geo_zone_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `geo_zones` (
+  `geo_zone_id` int(11) NOT NULL AUTO_INCREMENT,
   `geo_zone_name` varchar(32) NOT NULL,
   `geo_zone_description` varchar(255) NOT NULL,
   `last_modified` datetime DEFAULT NULL,
-  `date_added` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`geo_zone_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `geo_zones`
@@ -2279,14 +2322,16 @@ INSERT INTO `geo_zones` (`geo_zone_id`, `geo_zone_name`, `geo_zone_description`,
 -- Estructura de tabla para la tabla `languages`
 --
 
-CREATE TABLE `languages` (
-  `languages_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `languages` (
+  `languages_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) NOT NULL,
   `code` char(2) NOT NULL,
   `image` varchar(64) DEFAULT NULL,
   `directory` varchar(32) DEFAULT NULL,
-  `sort_order` int(3) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `sort_order` int(3) DEFAULT NULL,
+  PRIMARY KEY (`languages_id`),
+  KEY `IDX_LANGUAGES_NAME` (`name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `languages`
@@ -2301,14 +2346,16 @@ INSERT INTO `languages` (`languages_id`, `name`, `code`, `image`, `directory`, `
 -- Estructura de tabla para la tabla `manufacturers`
 --
 
-CREATE TABLE `manufacturers` (
-  `manufacturers_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `manufacturers` (
+  `manufacturers_id` int(11) NOT NULL AUTO_INCREMENT,
   `manufacturers_name` varchar(32) NOT NULL,
   `manufacturers_image` varchar(64) DEFAULT NULL,
   `date_added` datetime DEFAULT NULL,
   `last_modified` datetime DEFAULT NULL,
-  `estado` varchar(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `estado` varchar(1) NOT NULL,
+  PRIMARY KEY (`manufacturers_id`),
+  KEY `IDX_MANUFACTURERS_NAME` (`manufacturers_name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
 
 --
 -- Volcado de datos para la tabla `manufacturers`
@@ -2331,13 +2378,14 @@ INSERT INTO `manufacturers` (`manufacturers_id`, `manufacturers_name`, `manufact
 -- Estructura de tabla para la tabla `manufacturers_info`
 --
 
-CREATE TABLE `manufacturers_info` (
+CREATE TABLE IF NOT EXISTS `manufacturers_info` (
   `manufacturers_id` int(11) NOT NULL,
   `languages_id` int(11) NOT NULL,
   `manufacturers_url` varchar(255) NOT NULL,
   `url_clicked` int(5) NOT NULL DEFAULT '0',
-  `date_last_click` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `date_last_click` datetime DEFAULT NULL,
+  PRIMARY KEY (`manufacturers_id`,`languages_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `manufacturers_info`
@@ -2361,16 +2409,17 @@ INSERT INTO `manufacturers_info` (`manufacturers_id`, `languages_id`, `manufactu
 -- Estructura de tabla para la tabla `newsletters`
 --
 
-CREATE TABLE `newsletters` (
-  `newsletters_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `newsletters` (
+  `newsletters_id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `content` text NOT NULL,
   `module` varchar(255) NOT NULL,
   `date_added` datetime NOT NULL,
   `date_sent` datetime DEFAULT NULL,
   `status` int(1) DEFAULT NULL,
-  `locked` int(1) DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `locked` int(1) DEFAULT '0',
+  PRIMARY KEY (`newsletters_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -2378,8 +2427,8 @@ CREATE TABLE `newsletters` (
 -- Estructura de tabla para la tabla `orders`
 --
 
-CREATE TABLE `orders` (
-  `orders_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `orders` (
+  `orders_id` int(11) NOT NULL AUTO_INCREMENT,
   `customers_id` int(11) NOT NULL,
   `customers_name` varchar(255) NOT NULL,
   `customers_company` varchar(255) DEFAULT NULL,
@@ -2420,8 +2469,10 @@ CREATE TABLE `orders` (
   `orders_status` int(5) NOT NULL,
   `orders_date_finished` datetime DEFAULT NULL,
   `currency` char(3) DEFAULT NULL,
-  `currency_value` decimal(14,6) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `currency_value` decimal(14,6) DEFAULT NULL,
+  PRIMARY KEY (`orders_id`),
+  KEY `idx_orders_customers_id` (`customers_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -2429,8 +2480,8 @@ CREATE TABLE `orders` (
 -- Estructura de tabla para la tabla `orders_products`
 --
 
-CREATE TABLE `orders_products` (
-  `orders_products_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `orders_products` (
+  `orders_products_id` int(11) NOT NULL AUTO_INCREMENT,
   `orders_id` int(11) NOT NULL,
   `products_id` int(11) NOT NULL,
   `products_model` varchar(12) DEFAULT NULL,
@@ -2438,8 +2489,11 @@ CREATE TABLE `orders_products` (
   `products_price` decimal(15,4) NOT NULL,
   `final_price` decimal(15,4) NOT NULL,
   `products_tax` decimal(7,4) NOT NULL,
-  `products_quantity` int(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `products_quantity` int(2) NOT NULL,
+  PRIMARY KEY (`orders_products_id`),
+  KEY `idx_orders_products_orders_id` (`orders_id`),
+  KEY `idx_orders_products_products_id` (`products_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -2447,15 +2501,17 @@ CREATE TABLE `orders_products` (
 -- Estructura de tabla para la tabla `orders_products_attributes`
 --
 
-CREATE TABLE `orders_products_attributes` (
-  `orders_products_attributes_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `orders_products_attributes` (
+  `orders_products_attributes_id` int(11) NOT NULL AUTO_INCREMENT,
   `orders_id` int(11) NOT NULL,
   `orders_products_id` int(11) NOT NULL,
   `products_options` varchar(32) NOT NULL,
   `products_options_values` varchar(32) NOT NULL,
   `options_values_price` decimal(15,4) NOT NULL,
-  `price_prefix` char(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `price_prefix` char(1) NOT NULL,
+  PRIMARY KEY (`orders_products_attributes_id`),
+  KEY `idx_orders_products_att_orders_id` (`orders_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -2463,14 +2519,16 @@ CREATE TABLE `orders_products_attributes` (
 -- Estructura de tabla para la tabla `orders_products_download`
 --
 
-CREATE TABLE `orders_products_download` (
-  `orders_products_download_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `orders_products_download` (
+  `orders_products_download_id` int(11) NOT NULL AUTO_INCREMENT,
   `orders_id` int(11) NOT NULL DEFAULT '0',
   `orders_products_id` int(11) NOT NULL DEFAULT '0',
   `orders_products_filename` varchar(255) NOT NULL DEFAULT '',
   `download_maxdays` int(2) NOT NULL DEFAULT '0',
-  `download_count` int(2) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `download_count` int(2) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`orders_products_download_id`),
+  KEY `idx_orders_products_download_orders_id` (`orders_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -2478,13 +2536,15 @@ CREATE TABLE `orders_products_download` (
 -- Estructura de tabla para la tabla `orders_status`
 --
 
-CREATE TABLE `orders_status` (
+CREATE TABLE IF NOT EXISTS `orders_status` (
   `orders_status_id` int(11) NOT NULL DEFAULT '0',
   `language_id` int(11) NOT NULL DEFAULT '1',
   `orders_status_name` varchar(32) NOT NULL,
   `public_flag` int(11) DEFAULT '1',
-  `downloads_flag` int(11) DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `downloads_flag` int(11) DEFAULT '0',
+  PRIMARY KEY (`orders_status_id`,`language_id`),
+  KEY `idx_orders_status_name` (`orders_status_name`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `orders_status`
@@ -2502,14 +2562,16 @@ INSERT INTO `orders_status` (`orders_status_id`, `language_id`, `orders_status_n
 -- Estructura de tabla para la tabla `orders_status_history`
 --
 
-CREATE TABLE `orders_status_history` (
-  `orders_status_history_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `orders_status_history` (
+  `orders_status_history_id` int(11) NOT NULL AUTO_INCREMENT,
   `orders_id` int(11) NOT NULL,
   `orders_status_id` int(5) NOT NULL,
   `date_added` datetime NOT NULL,
   `customer_notified` int(1) DEFAULT '0',
-  `comments` text
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `comments` text,
+  PRIMARY KEY (`orders_status_history_id`),
+  KEY `idx_orders_status_history_orders_id` (`orders_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -2517,15 +2579,17 @@ CREATE TABLE `orders_status_history` (
 -- Estructura de tabla para la tabla `orders_total`
 --
 
-CREATE TABLE `orders_total` (
-  `orders_total_id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `orders_total` (
+  `orders_total_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `orders_id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `text` varchar(255) NOT NULL,
   `value` decimal(15,4) NOT NULL,
   `class` varchar(32) NOT NULL,
-  `sort_order` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `sort_order` int(11) NOT NULL,
+  PRIMARY KEY (`orders_total_id`),
+  KEY `idx_orders_total_orders_id` (`orders_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -2533,10 +2597,11 @@ CREATE TABLE `orders_total` (
 -- Estructura de tabla para la tabla `pais`
 --
 
-CREATE TABLE `pais` (
+CREATE TABLE IF NOT EXISTS `pais` (
   `id` int(11) NOT NULL,
-  `descripcion` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `descripcion` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `pais`
@@ -2552,10 +2617,8 @@ INSERT INTO `pais` (`id`, `descripcion`) VALUES
 -- Estructura de tabla para la tabla `products`
 --
 
-use mimoto;
-
-CREATE TABLE `products` (
-  `products_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `products` (
+  `products_id` int(11) NOT NULL AUTO_INCREMENT,
   `products_quantity` int(6) DEFAULT NULL,
   `products_model` varchar(12) DEFAULT NULL,
   `products_image` varchar(64) NOT NULL,
@@ -2580,33 +2643,36 @@ CREATE TABLE `products` (
   `tipo_producto_id` int(11) DEFAULT NULL,
   `ciudad_id` int(11) NOT NULL,
   `departamento_id` int(11) NOT NULL,
-  `pais_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `pais_id` int(11) NOT NULL,
+  PRIMARY KEY (`products_id`),
+  KEY `idx_products_model` (`products_model`),
+  KEY `idx_products_date_added` (`products_date_added`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=76 ;
 
 --
 -- Volcado de datos para la tabla `products`
 --
 
 INSERT INTO `products` (`products_id`, `products_quantity`, `products_model`, `products_image`, `products_price`, `products_date_added`, `products_last_modified`, `products_date_available`, `products_weight`, `products_status`, `products_tax_class_id`, `manufacturers_id`, `products_ordered`, `cilindraje_id`, `placa`, `observacion`, `color_id`, `negociable`, `usuario_id`, `products_file_image`, `path`, `anio`, `tipo_producto_id`, `ciudad_id`, `departamento_id`, `pais_id`) VALUES
-(47, 50000, '2008', 'IMG-20140120-WA0000.jpg', '1400000.0000', '2014-05-08 14:22:33', '2014-05-08 14:22:33', '2014-05-08 14:22:33', NULL, 1, NULL, 11, 0, 2, 'VBZ54A', 'xx', 1, 'SI', 1, '', 'IMG-20140120-WA0000.jpg', 2010, 0, 0, 0, 0),
-(48, 50000, '2008', 'IMG-20140219-WA0002.jpg', '2400000.0000', '2014-05-08 14:27:30', '2014-05-08 14:27:30', '2014-05-08 14:27:30', NULL, 1, NULL, 11, 0, 1, 'VBZ54A', 'xxx', 2, 'NO', 1, '', 'IMG-20140219-WA0002.jpg', 2010, 0, 0, 0, 0),
-(50, 123456, '1999', '2014-02-20 21.44.22.jpg', '2000000.0000', '2014-05-12 16:06:52', '2014-05-12 16:06:52', '2014-05-12 16:06:52', NULL, 1, NULL, 12, 0, 1, 'SAP50S', 'rr', 1, 'NO', 1, '', '2014-02-20 21.44.22.jpg', 2013, 0, 0, 0, 0),
-(56, 123456, 'eco delux', 'IMG-20140206-WA0002.jpg', '456789.0000', '2014-05-13 07:38:06', '2014-05-13 07:38:06', '2014-05-13 07:38:06', NULL, 1, NULL, 12, 0, 1, 'ght89u', '1', 1, 'NO', 19, '', 'IMG-20140206-WA0002.jpg', 2012, 0, 0, 0, 0),
-(57, 123456, 'eco delux', 'IMG-20140117-WA0001.jpg', '456789.0000', '2014-05-13 07:43:03', '2014-05-13 07:43:03', '2014-05-13 07:43:03', NULL, 1, NULL, 11, 0, 1, 'ght89u', '1', 1, 'NO', 21, '', 'IMG-20140117-WA0001.jpg', 0, 0, 0, 0, 0),
-(58, 123456, 'eco delux', 'IMG-20140118-WA0001.jpg', '456789.0000', '2014-05-13 07:48:27', '2014-05-13 07:48:27', '2014-05-13 07:48:27', NULL, 1, NULL, 11, 0, 1, 'ght89u', '1', 1, 'NO', 22, '', 'IMG-20140118-WA0001.jpg', 0, 0, 0, 0, 0),
-(59, 123456, 'eco delux', 'IMG-20140118-WA0001.jpg', '456789.0000', '2014-05-13 07:49:06', '2014-05-13 07:49:06', '2014-05-13 07:49:06', NULL, 1, NULL, 11, 0, 1, 'ght89u', '1', 1, 'NO', 23, '', 'IMG-20140118-WA0001.jpg', 0, 0, 0, 0, 0),
-(60, 123456, 'eco delux', 'IMG-20140118-WA0001.jpg', '456789.0000', '2014-05-13 07:49:33', '2014-05-13 07:49:33', '2014-05-13 07:49:33', NULL, 1, NULL, 11, 0, 1, 'ght89u', '1', 1, 'NO', 24, '', 'IMG-20140118-WA0001.jpg', 0, 0, 0, 0, 0),
-(61, 123456, 'eco delux', 'IMG-20140118-WA0001.jpg', '456789.0000', '2014-05-13 07:51:48', '2014-05-13 07:51:48', '2014-05-13 07:51:48', NULL, 1, NULL, 11, 0, 1, 'ght89u', '1', 1, 'NO', 25, '', 'IMG-20140118-WA0001.jpg', 0, 0, 0, 0, 0),
-(62, 123456, 'eco delux', 'IMG-20140118-WA0001.jpg', '456789.0000', '2014-05-13 07:54:37', '2014-05-13 07:54:37', '2014-05-13 07:54:37', NULL, 1, NULL, 11, 0, 1, 'ght89u', '1', 1, 'NO', 26, '', 'IMG-20140118-WA0001.jpg', 0, 0, 0, 0, 0),
-(63, 123456, 'eco delux', 'IMG-20140118-WA0001.jpg', '456789.0000', '2014-05-13 07:55:25', '2014-05-13 07:55:25', '2014-05-13 07:55:25', NULL, 1, NULL, 11, 0, 1, 'ght89u', '1', 1, 'NO', 27, '', 'IMG-20140118-WA0001.jpg', 0, 0, 0, 0, 0),
-(64, 123456, 'eco delux', 'IMG-20140118-WA0001.jpg', '456789.0000', '2014-05-13 07:57:35', '2014-05-13 07:57:35', '2014-05-13 07:57:35', NULL, 1, NULL, 11, 0, 1, 'ght89u', '1', 1, 'NO', 28, '', 'IMG-20140118-WA0001.jpg', 0, 0, 0, 0, 0),
-(65, 123456, 'eco delux', 'IMG-20140118-WA0001.jpg', '456789.0000', '2014-05-13 07:58:25', '2014-05-13 07:58:25', '2014-05-13 07:58:25', NULL, 1, NULL, 11, 0, 1, 'ght89u', '1', 1, 'NO', 29, '', 'IMG-20140118-WA0001.jpg', 0, 0, 0, 0, 0),
-(66, 123456, 'eco delux', 'IMG-20140118-WA0001.jpg', '456789.0000', '2014-05-13 08:07:38', '2014-05-13 08:07:38', '2014-05-13 08:07:38', NULL, 1, NULL, 11, 0, 1, 'ght89u', '1', 1, 'NO', 30, '', 'IMG-20140118-WA0001.jpg', 0, 0, 0, 0, 0),
-(67, 25000, 'Señoritera', '20140511_162559.jpg', '2550000.0000', '2014-05-14 15:39:13', '2014-05-14 15:39:13', '2014-05-14 15:39:13', NULL, 1, NULL, 15, 0, 2, 'NSI21B', NULL, 1, 'SI', 33, '', '20140511_162559.jpg', 2010, 8, 0, 66, 0),
-(70, 19000, 'Discovery', '20140511_155020.jpg', '2600000.0000', '2014-05-14 17:13:26', '2014-05-14 17:13:26', '2014-05-14 17:13:26', NULL, 1, NULL, 15, 0, 3, 'BCK78C', NULL, 1, 'SI', 33, '', '20140511_155020.jpg', 2011, 4, 0, 66, 1),
-(71, 35000, 'rx', '20140511_155020.jpg', '3000000.0000', '2014-05-15 07:41:41', '2014-05-15 07:41:41', '2014-05-15 07:41:41', NULL, 1, NULL, 12, 0, 2, 'SPD82C', 'Leydi', 1, 'SI', 34, '', '20140511_155020.jpg', 2006, 4, 0, 66, 0),
-(73, NULL, NULL, '20150513_122709.jpg', '0.0000', '2017-01-17 09:19:22', '2017-01-17 09:19:22', '2017-01-17 09:19:22', NULL, 0, NULL, 11, 0, 1, NULL, 'SalYPimienta', 1, 'NO', 38, NULL, '20150513_122709.jpg', 1, NULL, 1818, 66, 1),
-(74, NULL, NULL, '20150513_122812.jpg', '0.0000', '2017-01-17 15:48:33', '2017-01-17 15:48:33', '2017-02-17 16:50:20', NULL, 0, NULL, 11, 0, 4, NULL, 'oijtes mi negdo', 1, 'SI', 38, NULL, '20150513_122812.jpg', 1, NULL, 1818, 66, 1),
+(47, 50000, '2008', 'IMG-20140120-WA0000.jpg', '1400000.0000', '2014-05-08 14:22:33', '2014-05-08 14:22:33', '2014-05-08 14:22:33', NULL, 2, NULL, 11, 0, 2, 'VBZ54A', 'xx', 1, 'SI', 1, '', 'IMG-20140120-WA0000.jpg', 2010, 0, 0, 0, 0),
+(48, 50000, '2008', 'IMG-20140219-WA0002.jpg', '2400000.0000', '2014-05-08 14:27:30', '2014-05-08 14:27:30', '2014-05-08 14:27:30', NULL, 2, NULL, 11, 0, 1, 'VBZ54A', 'xxx', 2, 'NO', 1, '', 'IMG-20140219-WA0002.jpg', 2010, 0, 0, 0, 0),
+(50, 123456, '1999', '2014-02-20 21.44.22.jpg', '2000000.0000', '2014-05-12 16:06:52', '2014-05-12 16:06:52', '2014-05-12 16:06:52', NULL, 2, NULL, 12, 0, 1, 'SAP50S', 'rr', 1, 'NO', 1, '', '2014-02-20 21.44.22.jpg', 2013, 0, 0, 0, 0),
+(56, 123456, 'eco delux', 'IMG-20140206-WA0002.jpg', '456789.0000', '2014-05-13 07:38:06', '2014-05-13 07:38:06', '2014-05-13 07:38:06', NULL, 2, NULL, 12, 0, 1, 'ght89u', '1', 1, 'NO', 19, '', 'IMG-20140206-WA0002.jpg', 2012, 0, 0, 0, 0),
+(57, 123456, 'eco delux', 'IMG-20140117-WA0001.jpg', '456789.0000', '2014-05-13 07:43:03', '2014-05-13 07:43:03', '2014-05-13 07:43:03', NULL, 2, NULL, 11, 0, 1, 'ght89u', '1', 1, 'NO', 21, '', 'IMG-20140117-WA0001.jpg', 0, 0, 0, 0, 0),
+(58, 123456, 'eco delux', 'IMG-20140118-WA0001.jpg', '456789.0000', '2014-05-13 07:48:27', '2014-05-13 07:48:27', '2014-05-13 07:48:27', NULL, 2, NULL, 11, 0, 1, 'ght89u', '1', 1, 'NO', 22, '', 'IMG-20140118-WA0001.jpg', 0, 0, 0, 0, 0),
+(59, 123456, 'eco delux', 'IMG-20140118-WA0001.jpg', '456789.0000', '2014-05-13 07:49:06', '2014-05-13 07:49:06', '2014-05-13 07:49:06', NULL, 2, NULL, 11, 0, 1, 'ght89u', '1', 1, 'NO', 23, '', 'IMG-20140118-WA0001.jpg', 0, 0, 0, 0, 0),
+(60, 123456, 'eco delux', 'IMG-20140118-WA0001.jpg', '456789.0000', '2014-05-13 07:49:33', '2014-05-13 07:49:33', '2014-05-13 07:49:33', NULL, 2, NULL, 11, 0, 1, 'ght89u', '1', 1, 'NO', 24, '', 'IMG-20140118-WA0001.jpg', 0, 0, 0, 0, 0),
+(61, 123456, 'eco delux', 'IMG-20140118-WA0001.jpg', '456789.0000', '2014-05-13 07:51:48', '2014-05-13 07:51:48', '2014-05-13 07:51:48', NULL, 2, NULL, 11, 0, 1, 'ght89u', '1', 1, 'NO', 25, '', 'IMG-20140118-WA0001.jpg', 0, 0, 0, 0, 0),
+(62, 123456, 'eco delux', 'IMG-20140118-WA0001.jpg', '456789.0000', '2014-05-13 07:54:37', '2014-05-13 07:54:37', '2014-05-13 07:54:37', NULL, 2, NULL, 11, 0, 1, 'ght89u', '1', 1, 'NO', 26, '', 'IMG-20140118-WA0001.jpg', 0, 0, 0, 0, 0),
+(63, 123456, 'eco delux', 'IMG-20140118-WA0001.jpg', '456789.0000', '2014-05-13 07:55:25', '2014-05-13 07:55:25', '2014-05-13 07:55:25', NULL, 2, NULL, 11, 0, 1, 'ght89u', '1', 1, 'NO', 27, '', 'IMG-20140118-WA0001.jpg', 0, 0, 0, 0, 0),
+(64, 123456, 'eco delux', 'IMG-20140118-WA0001.jpg', '456789.0000', '2014-05-13 07:57:35', '2014-05-13 07:57:35', '2014-05-13 07:57:35', NULL, 2, NULL, 11, 0, 1, 'ght89u', '1', 1, 'NO', 28, '', 'IMG-20140118-WA0001.jpg', 0, 0, 0, 0, 0),
+(65, 123456, 'eco delux', 'IMG-20140118-WA0001.jpg', '456789.0000', '2014-05-13 07:58:25', '2014-05-13 07:58:25', '2014-05-13 07:58:25', NULL, 2, NULL, 11, 0, 1, 'ght89u', '1', 1, 'NO', 29, '', 'IMG-20140118-WA0001.jpg', 0, 0, 0, 0, 0),
+(66, 123456, 'eco delux', 'IMG-20140118-WA0001.jpg', '456789.0000', '2014-05-13 08:07:38', '2014-05-13 08:07:38', '2014-05-13 08:07:38', NULL, 2, NULL, 11, 0, 1, 'ght89u', '1', 1, 'NO', 30, '', 'IMG-20140118-WA0001.jpg', 0, 0, 0, 0, 0),
+(67, 25000, 'Señoritera', '20140511_162559.jpg', '2550000.0000', '2014-05-14 15:39:13', '2014-05-14 15:39:13', '2014-05-14 15:39:13', NULL, 2, NULL, 15, 0, 2, 'NSI21B', NULL, 1, 'SI', 33, '', '20140511_162559.jpg', 2010, 8, 0, 66, 0),
+(70, 19000, 'Discovery', '20140511_155020.jpg', '2600000.0000', '2014-05-14 17:13:26', '2014-05-14 17:13:26', '2014-05-14 17:13:26', NULL, 2, NULL, 15, 0, 3, 'BCK78C', NULL, 1, 'SI', 33, '', '20140511_155020.jpg', 2011, 4, 0, 66, 1),
+(71, 35000, 'rx', '20140511_155020.jpg', '3000000.0000', '2014-05-15 07:41:41', '2014-05-15 07:41:41', '2014-05-15 07:41:41', NULL, 2, NULL, 12, 0, 2, 'SPD82C', 'Leydi', 1, 'SI', 34, '', '20140511_155020.jpg', 2006, 4, 0, 66, 0),
+(73, NULL, NULL, '20150513_122709.jpg', '0.0000', '2017-01-17 09:19:22', '2017-01-17 09:19:22', '2017-01-17 09:19:22', NULL, 1, NULL, 11, 0, 1, NULL, 'SalYPimienta', 1, 'NO', 38, NULL, '20150513_122709.jpg', 1, NULL, 1818, 66, 1),
+(74, NULL, NULL, '20150513_122812.jpg', '0.0000', '2017-01-17 15:48:33', '2017-01-17 15:48:33', '2017-02-17 16:50:20', NULL, 2, NULL, 11, 0, 4, NULL, 'oijtes mi negdo', 1, 'SI', 38, NULL, '20150513_122812.jpg', 1, NULL, 1818, 66, 1),
 (75, NULL, NULL, 'slider3.jpg', '0.0000', '2017-02-16 16:25:53', '2017-02-16 16:25:53', '2017-02-16 16:25:53', NULL, 1, NULL, 11, 0, 1, NULL, 'testestsetset', 2, 'SI', 38, NULL, 'slider3.jpg', 0, NULL, 1818, 66, 1);
 
 -- --------------------------------------------------------
@@ -2615,8 +2681,8 @@ INSERT INTO `products` (`products_id`, `products_quantity`, `products_model`, `p
 -- Estructura de tabla para la tabla `products_attributes`
 --
 
-CREATE TABLE `products_attributes` (
-  `products_attributes_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `products_attributes` (
+  `products_attributes_id` int(11) NOT NULL AUTO_INCREMENT,
   `products_id` int(11) NOT NULL,
   `options_id` int(11) NOT NULL,
   `options_values_id` int(11) DEFAULT NULL,
@@ -2625,8 +2691,10 @@ CREATE TABLE `products_attributes` (
   `options_label` varchar(255) NOT NULL,
   `category_id` int(11) NOT NULL,
   `category_label` varchar(255) NOT NULL,
-  `option_status` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `option_status` tinyint(1) NOT NULL,
+  PRIMARY KEY (`products_attributes_id`),
+  KEY `idx_products_attributes_products_id` (`products_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=945 ;
 
 --
 -- Volcado de datos para la tabla `products_attributes`
@@ -3351,9 +3419,9 @@ INSERT INTO `products_attributes` (`products_attributes_id`, `products_id`, `opt
 (802, 66, 12, NULL, NULL, NULL, 'Candado', 3, 'Seguridad', 0),
 (803, 66, 13, NULL, NULL, NULL, 'Rastreo Satelital', 3, 'Seguridad', 0),
 (804, 66, 14, NULL, NULL, NULL, 'Inmovilizador', 3, 'Seguridad', 0),
-(805, 66, 15, NULL, NULL, NULL, 'Tranca Palanca', 3, 'Seguridad', 0),
-(806, 66, 16, NULL, NULL, NULL, 'Alforjas', 4, 'Accesorios Externos', 0);
+(805, 66, 15, NULL, NULL, NULL, 'Tranca Palanca', 3, 'Seguridad', 0);
 INSERT INTO `products_attributes` (`products_attributes_id`, `products_id`, `options_id`, `options_values_id`, `options_values_price`, `price_prefix`, `options_label`, `category_id`, `category_label`, `option_status`) VALUES
+(806, 66, 16, NULL, NULL, NULL, 'Alforjas', 4, 'Accesorios Externos', 0),
 (807, 66, 17, NULL, NULL, NULL, 'Casco', 4, 'Accesorios Externos', 0),
 (808, 66, 18, NULL, NULL, NULL, 'Casco Integrado', 4, 'Accesorios Externos', 0),
 (809, 66, 19, NULL, NULL, NULL, 'Cauchos nuevos', 4, 'Accesorios Externos', 0),
@@ -3468,12 +3536,13 @@ INSERT INTO `products_attributes` (`products_attributes_id`, `products_id`, `opt
 -- Estructura de tabla para la tabla `products_attributes_download`
 --
 
-CREATE TABLE `products_attributes_download` (
+CREATE TABLE IF NOT EXISTS `products_attributes_download` (
   `products_attributes_id` int(11) NOT NULL,
   `products_attributes_filename` varchar(255) NOT NULL DEFAULT '',
   `products_attributes_maxdays` int(2) DEFAULT '0',
-  `products_attributes_maxcount` int(2) DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `products_attributes_maxcount` int(2) DEFAULT '0',
+  PRIMARY KEY (`products_attributes_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `products_attributes_download`
@@ -3488,14 +3557,16 @@ INSERT INTO `products_attributes_download` (`products_attributes_id`, `products_
 -- Estructura de tabla para la tabla `products_description`
 --
 
-CREATE TABLE `products_description` (
-  `products_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `products_description` (
+  `products_id` int(11) NOT NULL AUTO_INCREMENT,
   `language_id` int(11) NOT NULL DEFAULT '1',
   `products_name` varchar(64) NOT NULL DEFAULT '',
   `products_description` text,
   `products_url` varchar(255) DEFAULT NULL,
-  `products_viewed` int(5) DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `products_viewed` int(5) DEFAULT '0',
+  PRIMARY KEY (`products_id`,`language_id`),
+  KEY `products_name` (`products_name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
 
 --
 -- Volcado de datos para la tabla `products_description`
@@ -3503,13 +3574,13 @@ CREATE TABLE `products_description` (
 
 INSERT INTO `products_description` (`products_id`, `language_id`, `products_name`, `products_description`, `products_url`, `products_viewed`) VALUES
 (1, 1, 'Matrox G200 MMS', 'Reinforcing its position as a multi-monitor trailblazer, Matrox Graphics Inc. has once again developed the most flexible and highly advanced solution in the industry. Introducing the new Matrox G200 Multi-Monitor Series; the first graphics card ever to support up to four DVI digital flat panel displays on a single 8&quot; PCI board.<br /><br />With continuing demand for digital flat panels in the financial workplace, the Matrox G200 MMS is the ultimate in flexible solutions. The Matrox G200 MMS also supports the new digital video interface (DVI) created by the Digital Display Working Group (DDWG) designed to ease the adoption of digital flat panels. Other configurations include composite video capture ability and onboard TV tuner, making the Matrox G200 MMS the complete solution for business needs.<br /><br />Based on the award-winning MGA-G200 graphics chip, the Matrox G200 Multi-Monitor Series provides superior 2D/3D graphics acceleration to meet the demanding needs of business applications such as real-time stock quotes (Versus), live video feeds (Reuters &amp; Bloombergs), multiple windows applications, word processing, spreadsheets and CAD.', 'www.matrox.com/mga/products/g200_mms/home.cfm', 0),
-(2, 1, 'Matrox G400 32MB', '<strong>Dramatically Different High Performance Graphics</strong><br /><br />Introducing the Millennium G400 Series - a dramatically different, high performance graphics experience. Armed with the industry\'s fastest graphics chip, the Millennium G400 Series takes explosive acceleration two steps further by adding unprecedented image quality, along with the most versatile display options for all your 3D, 2D and DVD applications. As the most powerful and innovative tools in your PC\'s arsenal, the Millennium G400 Series will not only change the way you see graphics, but will revolutionize the way you use your computer.<br /><br /><strong>Key features:</strong><ul><li>New Matrox G400 256-bit DualBus graphics chip</li><li>Explosive 3D, 2D and DVD performance</li><li>DualHead Display</li><li>Superior DVD and TV output</li><li>3D Environment-Mapped Bump Mapping</li><li>Vibrant Color Quality rendering </li><li>UltraSharp DAC of up to 360 MHz</li><li>3D Rendering Array Processor</li><li>Support for 16 or 32 MB of memory</li></ul>', 'www.matrox.com/mga/products/mill_g400/home.htm', 0),
-(3, 1, 'Microsoft IntelliMouse Pro', 'Every element of IntelliMouse Pro - from its unique arched shape to the texture of the rubber grip around its base - is the product of extensive customer and ergonomic research. Microsoft\'s popular wheel control, which now allows zooming and universal scrolling functions, gives IntelliMouse Pro outstanding comfort and efficiency.', 'www.microsoft.com/hardware/mouse/intellimouse.asp', 1),
+(2, 1, 'Matrox G400 32MB', '<strong>Dramatically Different High Performance Graphics</strong><br /><br />Introducing the Millennium G400 Series - a dramatically different, high performance graphics experience. Armed with the industry''s fastest graphics chip, the Millennium G400 Series takes explosive acceleration two steps further by adding unprecedented image quality, along with the most versatile display options for all your 3D, 2D and DVD applications. As the most powerful and innovative tools in your PC''s arsenal, the Millennium G400 Series will not only change the way you see graphics, but will revolutionize the way you use your computer.<br /><br /><strong>Key features:</strong><ul><li>New Matrox G400 256-bit DualBus graphics chip</li><li>Explosive 3D, 2D and DVD performance</li><li>DualHead Display</li><li>Superior DVD and TV output</li><li>3D Environment-Mapped Bump Mapping</li><li>Vibrant Color Quality rendering </li><li>UltraSharp DAC of up to 360 MHz</li><li>3D Rendering Array Processor</li><li>Support for 16 or 32 MB of memory</li></ul>', 'www.matrox.com/mga/products/mill_g400/home.htm', 0),
+(3, 1, 'Microsoft IntelliMouse Pro', 'Every element of IntelliMouse Pro - from its unique arched shape to the texture of the rubber grip around its base - is the product of extensive customer and ergonomic research. Microsoft''s popular wheel control, which now allows zooming and universal scrolling functions, gives IntelliMouse Pro outstanding comfort and efficiency.', 'www.microsoft.com/hardware/mouse/intellimouse.asp', 1),
 (4, 1, 'The Replacement Killers', 'Regional Code: 2 (Japan, Europe, Middle East, South Africa).<br />Languages: English, Deutsch.<br />Subtitles: English, Deutsch, Spanish.<br />Audio: Dolby Surround 5.1.<br />Picture Format: 16:9 Wide-Screen.<br />Length: (approx) 80 minutes.<br />Other: Interactive Menus, Chapter Selection, Subtitles (more languages).', 'www.replacement-killers.com', 0),
-(5, 1, 'Blade Runner - Director\'s Cut', 'Regional Code: 2 (Japan, Europe, Middle East, South Africa).<br />Languages: English, Deutsch.<br />Subtitles: English, Deutsch, Spanish.<br />Audio: Dolby Surround 5.1.<br />Picture Format: 16:9 Wide-Screen.<br />Length: (approx) 112 minutes.<br />Other: Interactive Menus, Chapter Selection, Subtitles (more languages).', 'www.bladerunner.com', 0),
+(5, 1, 'Blade Runner - Director''s Cut', 'Regional Code: 2 (Japan, Europe, Middle East, South Africa).<br />Languages: English, Deutsch.<br />Subtitles: English, Deutsch, Spanish.<br />Audio: Dolby Surround 5.1.<br />Picture Format: 16:9 Wide-Screen.<br />Length: (approx) 112 minutes.<br />Other: Interactive Menus, Chapter Selection, Subtitles (more languages).', 'www.bladerunner.com', 0),
 (6, 1, 'The Matrix', 'Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch.\r<br />\nAudio: Dolby Surround.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 131 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Making Of.', 'www.thematrix.com', 0),
-(7, 1, 'You\'ve Got Mail', 'Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch, Spanish.\r<br />\nSubtitles: English, Deutsch, Spanish, French, Nordic, Polish.\r<br />\nAudio: Dolby Digital 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 115 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).', 'www.youvegotmail.com', 0),
-(8, 1, 'A Bug\'s Life', 'Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Digital 5.1 / Dobly Surround Stereo.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 91 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).', 'www.abugslife.com', 0),
+(7, 1, 'You''ve Got Mail', 'Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch, Spanish.\r<br />\nSubtitles: English, Deutsch, Spanish, French, Nordic, Polish.\r<br />\nAudio: Dolby Digital 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 115 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).', 'www.youvegotmail.com', 0),
+(8, 1, 'A Bug''s Life', 'Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Digital 5.1 / Dobly Surround Stereo.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 91 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).', 'www.abugslife.com', 0),
 (9, 1, 'Under Siege', 'Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 98 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).', '', 0),
 (10, 1, 'Under Siege 2 - Dark Territory', 'Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 98 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).', '', 0),
 (11, 1, 'Fire Down Below', 'Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 100 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).', '', 0),
@@ -3520,16 +3591,16 @@ INSERT INTO `products_description` (`products_id`, `language_id`, `products_name
 (16, 1, 'Courage Under Fire', 'Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 112 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).', '', 0),
 (17, 1, 'Speed', 'Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 112 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).', '', 0),
 (18, 1, 'Speed 2: Cruise Control', 'Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 120 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).', '', 0),
-(19, 1, 'There\'s Something About Mary', 'Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 114 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).', '', 1),
+(19, 1, 'There''s Something About Mary', 'Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 114 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).', '', 1),
 (20, 1, 'Beloved', 'Regional Code: 2 (Japan, Europe, Middle East, South Africa).\r<br />\nLanguages: English, Deutsch.\r<br />\nSubtitles: English, Deutsch, Spanish.\r<br />\nAudio: Dolby Surround 5.1.\r<br />\nPicture Format: 16:9 Wide-Screen.\r<br />\nLength: (approx) 164 minutes.\r<br />\nOther: Interactive Menus, Chapter Selection, Subtitles (more languages).', '', 0),
 (21, 1, 'SWAT 3: Close Quarters Battle', '<strong>Windows 95/98</strong><br /><br />211 in progress with shots fired. Officer down. Armed suspects with hostages. Respond Code 3! Los Angles, 2005, In the next seven days, representatives from every nation around the world will converge on Las Angles to witness the signing of the United Nations Nuclear Abolishment Treaty. The protection of these dignitaries falls on the shoulders of one organization, LAPD SWAT. As part of this elite tactical organization, you and your team have the weapons and all the training necessary to protect, to serve, and "When needed" to use deadly force to keep the peace. It takes more than weapons to make it through each mission. Your arsenal includes C2 charges, flashbangs, tactical grenades. opti-Wand mini-video cameras, and other devices critical to meeting your objectives and keeping your men free of injury. Uncompromised Duty, Honor and Valor!', 'www.swat3.com', 0),
-(22, 1, 'Unreal Tournament', 'From the creators of the best-selling Unreal, comes Unreal Tournament. A new kind of single player experience. A ruthless multiplayer revolution.<br /><br />This stand-alone game showcases completely new team-based gameplay, groundbreaking multi-faceted single player action or dynamic multi-player mayhem. It\'s a fight to the finish for the title of Unreal Grand Master in the gladiatorial arena. A single player experience like no other! Guide your team of \'bots\' (virtual teamates) against the hardest criminals in the galaxy for the ultimate title - the Unreal Grand Master.', 'www.unrealtournament.net', 0),
-(23, 1, 'The Wheel Of Time', 'The world in which The Wheel of Time takes place is lifted directly out of Jordan\'s pages; it\'s huge and consists of many different environments. How you navigate the world will depend largely on which game - single player or multipayer - you\'re playing. The single player experience, with a few exceptions, will see Elayna traversing the world mainly by foot (with a couple notable exceptions). In the multiplayer experience, your character will have more access to travel via Ter\'angreal, Portal Stones, and the Ways. However you move around, though, you\'ll quickly discover that means of locomotion can easily become the least of the your worries...<br /><br />During your travels, you quickly discover that four locations are crucial to your success in the game. Not surprisingly, these locations are the homes of The Wheel of Time\'s main characters. Some of these places are ripped directly from the pages of Jordan\'s books, made flesh with Legend\'s unparalleled pixel-pushing ways. Other places are specific to the game, conceived and executed with the intent of expanding this game world even further. Either way, they provide a backdrop for some of the most intense first person action and strategy you\'ll have this year.', 'www.wheeloftime.com', 0),
+(22, 1, 'Unreal Tournament', 'From the creators of the best-selling Unreal, comes Unreal Tournament. A new kind of single player experience. A ruthless multiplayer revolution.<br /><br />This stand-alone game showcases completely new team-based gameplay, groundbreaking multi-faceted single player action or dynamic multi-player mayhem. It''s a fight to the finish for the title of Unreal Grand Master in the gladiatorial arena. A single player experience like no other! Guide your team of ''bots'' (virtual teamates) against the hardest criminals in the galaxy for the ultimate title - the Unreal Grand Master.', 'www.unrealtournament.net', 0),
+(23, 1, 'The Wheel Of Time', 'The world in which The Wheel of Time takes place is lifted directly out of Jordan''s pages; it''s huge and consists of many different environments. How you navigate the world will depend largely on which game - single player or multipayer - you''re playing. The single player experience, with a few exceptions, will see Elayna traversing the world mainly by foot (with a couple notable exceptions). In the multiplayer experience, your character will have more access to travel via Ter''angreal, Portal Stones, and the Ways. However you move around, though, you''ll quickly discover that means of locomotion can easily become the least of the your worries...<br /><br />During your travels, you quickly discover that four locations are crucial to your success in the game. Not surprisingly, these locations are the homes of The Wheel of Time''s main characters. Some of these places are ripped directly from the pages of Jordan''s books, made flesh with Legend''s unparalleled pixel-pushing ways. Other places are specific to the game, conceived and executed with the intent of expanding this game world even further. Either way, they provide a backdrop for some of the most intense first person action and strategy you''ll have this year.', 'www.wheeloftime.com', 0),
 (24, 1, 'Disciples: Sacred Lands', 'A new age is dawning...<br /><br />Enter the realm of the Sacred Lands, where the dawn of a New Age has set in motion the most momentous of wars. As the prophecies long foretold, four races now clash with swords and sorcery in a desperate bid to control the destiny of their gods. Take on the quest as a champion of the Empire, the Mountain Clans, the Legions of the Damned, or the Undead Hordes and test your faith in battles of brute force, spellbinding magic and acts of guile. Slay demons, vanquish giants and combat merciless forces of the dead and undead. But to ensure the salvation of your god, the hero within must evolve.<br /><br />The day of reckoning has come... and only the chosen will survive.', '', 1),
 (25, 1, 'Microsoft Internet Keyboard PS/2', 'The Internet Keyboard has 10 Hot Keys on a comfortable standard keyboard design that also includes a detachable palm rest. The Hot Keys allow you to browse the web, or check e-mail directly from your keyboard. The IntelliType Pro software also allows you to customize your hot keys - make the Internet Keyboard work the way you want it to!', '', 1),
 (26, 1, 'Microsoft IntelliMouse Explorer', 'Microsoft introduces its most advanced mouse, the IntelliMouse Explorer! IntelliMouse Explorer features a sleek design, an industrial-silver finish, a glowing red underside and taillight, creating a style and look unlike any other mouse. IntelliMouse Explorer combines the accuracy and reliability of Microsoft IntelliEye optical tracking technology, the convenience of two new customizable function buttons, the efficiency of the scrolling wheel and the comfort of expert ergonomic design. All these great features make this the best mouse for the PC!', 'www.microsoft.com/hardware/mouse/explorer.asp', 0),
-(27, 1, 'Hewlett Packard LaserJet 1100Xi', 'HP has always set the pace in laser printing technology. The new generation HP LaserJet 1100 series sets another impressive pace, delivering a stunning 8 pages per minute print speed. The 600 dpi print resolution with HP\'s Resolution Enhancement technology (REt) makes every document more professional.<br /><br />Enhanced print speed and laser quality results are just the beginning. With 2MB standard memory, HP LaserJet 1100xi users will be able to print increasingly complex pages. Memory can be increased to 18MB to tackle even more complex documents with ease. The HP LaserJet 1100xi supports key operating systems including Windows 3.1, 3.11, 95, 98, NT 4.0, OS/2 and DOS. Network compatibility available via the optional HP JetDirect External Print Servers.<br /><br />HP LaserJet 1100xi also features The Document Builder for the Web Era from Trellix Corp. (featuring software to create Web documents).', 'www.pandi.hp.com/pandi-db/prodinfo.main?product=laserjet1100', 0),
-(28, 1, 'Samsung Galaxy Tab', '<p>Powered by a Cortex A8 1.0GHz application processor, the Samsung GALAXY Tab is designed to deliver high performance whenever and wherever you are. At the same time, HD video contents are supported by a wide range of multimedia formats (DivX, XviD, MPEG4, H.263, H.264 and more), which maximizes the joy of entertainment.</p><p>With 3G HSPA connectivity, 802.11n Wi-Fi, and Bluetooth 3.0, the Samsung GALAXY Tab enhances users\' mobile communication on a whole new level. Video conferencing and push email on the large 7-inch display make communication more smooth and efficient. For voice telephony, the Samsung GALAXY Tab turns out to be a perfect speakerphone on the desk, or a mobile phone on the move via Bluetooth headset.</p>', 'http://galaxytab.samsungmobile.com', 1);
+(27, 1, 'Hewlett Packard LaserJet 1100Xi', 'HP has always set the pace in laser printing technology. The new generation HP LaserJet 1100 series sets another impressive pace, delivering a stunning 8 pages per minute print speed. The 600 dpi print resolution with HP''s Resolution Enhancement technology (REt) makes every document more professional.<br /><br />Enhanced print speed and laser quality results are just the beginning. With 2MB standard memory, HP LaserJet 1100xi users will be able to print increasingly complex pages. Memory can be increased to 18MB to tackle even more complex documents with ease. The HP LaserJet 1100xi supports key operating systems including Windows 3.1, 3.11, 95, 98, NT 4.0, OS/2 and DOS. Network compatibility available via the optional HP JetDirect External Print Servers.<br /><br />HP LaserJet 1100xi also features The Document Builder for the Web Era from Trellix Corp. (featuring software to create Web documents).', 'www.pandi.hp.com/pandi-db/prodinfo.main?product=laserjet1100', 0),
+(28, 1, 'Samsung Galaxy Tab', '<p>Powered by a Cortex A8 1.0GHz application processor, the Samsung GALAXY Tab is designed to deliver high performance whenever and wherever you are. At the same time, HD video contents are supported by a wide range of multimedia formats (DivX, XviD, MPEG4, H.263, H.264 and more), which maximizes the joy of entertainment.</p><p>With 3G HSPA connectivity, 802.11n Wi-Fi, and Bluetooth 3.0, the Samsung GALAXY Tab enhances users'' mobile communication on a whole new level. Video conferencing and push email on the large 7-inch display make communication more smooth and efficient. For voice telephony, the Samsung GALAXY Tab turns out to be a perfect speakerphone on the desk, or a mobile phone on the move via Bluetooth headset.</p>', 'http://galaxytab.samsungmobile.com', 1);
 
 -- --------------------------------------------------------
 
@@ -3537,15 +3608,17 @@ INSERT INTO `products_description` (`products_id`, `language_id`, `products_name
 -- Estructura de tabla para la tabla `products_images`
 --
 
-CREATE TABLE `products_images` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `products_images` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `products_id` int(11) NOT NULL,
   `image` varchar(64) DEFAULT NULL,
   `htmlcontent` text,
   `sort_order` int(11) NOT NULL,
   `path` varchar(255) DEFAULT NULL,
-  `file_image` blob
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `file_image` blob,
+  PRIMARY KEY (`id`),
+  KEY `products_images_prodid` (`products_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=142 ;
 
 --
 -- Volcado de datos para la tabla `products_images`
@@ -3700,11 +3773,12 @@ INSERT INTO `products_images` (`id`, `products_id`, `image`, `htmlcontent`, `sor
 -- Estructura de tabla para la tabla `products_notifications`
 --
 
-CREATE TABLE `products_notifications` (
+CREATE TABLE IF NOT EXISTS `products_notifications` (
   `products_id` int(11) NOT NULL,
   `customers_id` int(11) NOT NULL,
-  `date_added` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`products_id`,`customers_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -3712,13 +3786,14 @@ CREATE TABLE `products_notifications` (
 -- Estructura de tabla para la tabla `products_options`
 --
 
-CREATE TABLE `products_options` (
+CREATE TABLE IF NOT EXISTS `products_options` (
   `products_options_id` int(11) NOT NULL DEFAULT '0',
   `language_id` int(11) NOT NULL DEFAULT '1',
   `products_options_name` varchar(32) NOT NULL DEFAULT '',
   `category_id` int(11) NOT NULL,
-  `estado` varchar(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `estado` varchar(1) NOT NULL,
+  PRIMARY KEY (`products_options_id`,`language_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `products_options`
@@ -3761,11 +3836,12 @@ INSERT INTO `products_options` (`products_options_id`, `language_id`, `products_
 -- Estructura de tabla para la tabla `products_options_values`
 --
 
-CREATE TABLE `products_options_values` (
+CREATE TABLE IF NOT EXISTS `products_options_values` (
   `products_options_values_id` int(11) NOT NULL DEFAULT '0',
   `language_id` int(11) NOT NULL DEFAULT '1',
-  `products_options_values_name` varchar(64) NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `products_options_values_name` varchar(64) NOT NULL DEFAULT '',
+  PRIMARY KEY (`products_options_values_id`,`language_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `products_options_values`
@@ -3790,11 +3866,12 @@ INSERT INTO `products_options_values` (`products_options_values_id`, `language_i
 -- Estructura de tabla para la tabla `products_options_values_to_products_options`
 --
 
-CREATE TABLE `products_options_values_to_products_options` (
-  `products_options_values_to_products_options_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `products_options_values_to_products_options` (
+  `products_options_values_to_products_options_id` int(11) NOT NULL AUTO_INCREMENT,
   `products_options_id` int(11) NOT NULL,
-  `products_options_values_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `products_options_values_id` int(11) NOT NULL,
+  PRIMARY KEY (`products_options_values_to_products_options_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
 --
 -- Volcado de datos para la tabla `products_options_values_to_products_options`
@@ -3819,8 +3896,8 @@ INSERT INTO `products_options_values_to_products_options` (`products_options_val
 -- Estructura de tabla para la tabla `products_tipo_publicacion`
 --
 
-CREATE TABLE `products_tipo_publicacion` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `products_tipo_publicacion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `products_id` int(11) NOT NULL,
   `tipo_publicacion_id` int(11) NOT NULL,
   `descripcion` varchar(255) NOT NULL,
@@ -3828,8 +3905,9 @@ CREATE TABLE `products_tipo_publicacion` (
   `ubicacion` varchar(255) NOT NULL,
   `precio` decimal(15,0) NOT NULL,
   `estado` varchar(1) NOT NULL,
-  `tipo` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `tipo` varchar(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=38 ;
 
 --
 -- Volcado de datos para la tabla `products_tipo_publicacion`
@@ -3877,10 +3955,11 @@ INSERT INTO `products_tipo_publicacion` (`id`, `products_id`, `tipo_publicacion_
 -- Estructura de tabla para la tabla `products_to_categories`
 --
 
-CREATE TABLE `products_to_categories` (
+CREATE TABLE IF NOT EXISTS `products_to_categories` (
   `products_id` int(11) NOT NULL,
-  `categories_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `categories_id` int(11) NOT NULL,
+  PRIMARY KEY (`products_id`,`categories_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `products_to_categories`
@@ -3922,8 +4001,8 @@ INSERT INTO `products_to_categories` (`products_id`, `categories_id`) VALUES
 -- Estructura de tabla para la tabla `reviews`
 --
 
-CREATE TABLE `reviews` (
-  `reviews_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `reviews` (
+  `reviews_id` int(11) NOT NULL AUTO_INCREMENT,
   `products_id` int(11) NOT NULL,
   `customers_id` int(11) DEFAULT NULL,
   `customers_name` varchar(255) NOT NULL,
@@ -3931,8 +4010,11 @@ CREATE TABLE `reviews` (
   `date_added` datetime DEFAULT NULL,
   `last_modified` datetime DEFAULT NULL,
   `reviews_status` tinyint(1) NOT NULL DEFAULT '0',
-  `reviews_read` int(5) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `reviews_read` int(5) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`reviews_id`),
+  KEY `idx_reviews_products_id` (`products_id`),
+  KEY `idx_reviews_customers_id` (`customers_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `reviews`
@@ -3947,11 +4029,12 @@ INSERT INTO `reviews` (`reviews_id`, `products_id`, `customers_id`, `customers_n
 -- Estructura de tabla para la tabla `reviews_description`
 --
 
-CREATE TABLE `reviews_description` (
+CREATE TABLE IF NOT EXISTS `reviews_description` (
   `reviews_id` int(11) NOT NULL,
   `languages_id` int(11) NOT NULL,
-  `reviews_text` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `reviews_text` text NOT NULL,
+  PRIMARY KEY (`reviews_id`,`languages_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `reviews_description`
@@ -3966,10 +4049,11 @@ INSERT INTO `reviews_description` (`reviews_id`, `languages_id`, `reviews_text`)
 -- Estructura de tabla para la tabla `sec_directory_whitelist`
 --
 
-CREATE TABLE `sec_directory_whitelist` (
-  `id` int(11) NOT NULL,
-  `directory` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE IF NOT EXISTS `sec_directory_whitelist` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `directory` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
 --
 -- Volcado de datos para la tabla `sec_directory_whitelist`
@@ -3996,11 +4080,12 @@ INSERT INTO `sec_directory_whitelist` (`id`, `directory`) VALUES
 -- Estructura de tabla para la tabla `sessions`
 --
 
-CREATE TABLE `sessions` (
+CREATE TABLE IF NOT EXISTS `sessions` (
   `sesskey` varchar(32) NOT NULL,
-  `expiry` int(11) UNSIGNED NOT NULL,
-  `value` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `expiry` int(11) unsigned NOT NULL,
+  `value` text NOT NULL,
+  PRIMARY KEY (`sesskey`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -4008,16 +4093,18 @@ CREATE TABLE `sessions` (
 -- Estructura de tabla para la tabla `specials`
 --
 
-CREATE TABLE `specials` (
-  `specials_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `specials` (
+  `specials_id` int(11) NOT NULL AUTO_INCREMENT,
   `products_id` int(11) NOT NULL,
   `specials_new_products_price` decimal(15,4) NOT NULL,
   `specials_date_added` datetime DEFAULT NULL,
   `specials_last_modified` datetime DEFAULT NULL,
   `expires_date` datetime DEFAULT NULL,
   `date_status_change` datetime DEFAULT NULL,
-  `status` int(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `status` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`specials_id`),
+  KEY `idx_specials_products_id` (`products_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Volcado de datos para la tabla `specials`
@@ -4035,13 +4122,14 @@ INSERT INTO `specials` (`specials_id`, `products_id`, `specials_new_products_pri
 -- Estructura de tabla para la tabla `tax_class`
 --
 
-CREATE TABLE `tax_class` (
-  `tax_class_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `tax_class` (
+  `tax_class_id` int(11) NOT NULL AUTO_INCREMENT,
   `tax_class_title` varchar(32) NOT NULL,
   `tax_class_description` varchar(255) NOT NULL,
   `last_modified` datetime DEFAULT NULL,
-  `date_added` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`tax_class_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `tax_class`
@@ -4056,16 +4144,17 @@ INSERT INTO `tax_class` (`tax_class_id`, `tax_class_title`, `tax_class_descripti
 -- Estructura de tabla para la tabla `tax_rates`
 --
 
-CREATE TABLE `tax_rates` (
-  `tax_rates_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `tax_rates` (
+  `tax_rates_id` int(11) NOT NULL AUTO_INCREMENT,
   `tax_zone_id` int(11) NOT NULL,
   `tax_class_id` int(11) NOT NULL,
   `tax_priority` int(5) DEFAULT '1',
   `tax_rate` decimal(7,4) NOT NULL,
   `tax_description` varchar(255) NOT NULL,
   `last_modified` datetime DEFAULT NULL,
-  `date_added` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`tax_rates_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `tax_rates`
@@ -4080,10 +4169,11 @@ INSERT INTO `tax_rates` (`tax_rates_id`, `tax_zone_id`, `tax_class_id`, `tax_pri
 -- Estructura de tabla para la tabla `tipo_producto`
 --
 
-CREATE TABLE `tipo_producto` (
+CREATE TABLE IF NOT EXISTS `tipo_producto` (
   `id` int(11) NOT NULL,
-  `descripcion` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `descripcion` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `tipo_producto`
@@ -4106,15 +4196,16 @@ INSERT INTO `tipo_producto` (`id`, `descripcion`) VALUES
 -- Estructura de tabla para la tabla `tipo_publicacion`
 --
 
-CREATE TABLE `tipo_publicacion` (
+CREATE TABLE IF NOT EXISTS `tipo_publicacion` (
   `id` int(11) NOT NULL,
   `descripcion` varchar(255) NOT NULL,
   `cantidad_fotos` int(11) NOT NULL,
   `ubicacion` varchar(255) NOT NULL,
   `precio` decimal(15,0) NOT NULL,
   `estado` varchar(1) NOT NULL,
-  `tipo` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `tipo` varchar(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `tipo_publicacion`
@@ -4131,8 +4222,8 @@ INSERT INTO `tipo_publicacion` (`id`, `descripcion`, `cantidad_fotos`, `ubicacio
 -- Estructura de tabla para la tabla `Usuario`
 --
 
-CREATE TABLE `Usuario` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `Usuario` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL,
   `apellido` varchar(100) NOT NULL,
   `correo` varchar(80) NOT NULL,
@@ -4145,8 +4236,9 @@ CREATE TABLE `Usuario` (
   `direccion` varchar(255) NOT NULL,
   `identificacion` varchar(20) NOT NULL,
   `tipo_identificacion` varchar(10) NOT NULL,
-  `pais` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `pais` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=39 ;
 
 --
 -- Volcado de datos para la tabla `Usuario`
@@ -4185,7 +4277,7 @@ INSERT INTO `Usuario` (`id`, `nombre`, `apellido`, `correo`, `password`, `salt`,
 (30, 'david', 'zapata', 'david12@kpizk.com', 'kpizk', NULL, '123465', '123465', 1, 5, 'kpizk', '123456897', 'CC', 1),
 (33, 'Cesar Augusto', 'Tabares Cardona', 'ankpi@hotmail.com', 'kpizk', NULL, '3148155078', '3184246820', 1818, 66, 'Los alpes dosquebradas', '10882585071', 'CC', 1),
 (34, 'Sandro enano', 'Salazar', 'elnano@kpizk.com', 'kpizk', NULL, '321654', '132987', 0, 0, 'brazil', '123456', 'CC', 0),
-(38, 'Sandrinio', 'Elenaninio', 'elenaninio@enaninio.com', 'kpizk', NULL, '3184246820', NULL, 1818, 66, 'brazileirao', '12345', 'CC', 1);
+(38, 'Sandrinio', 'Elenaninio', 'elenaninio@enaninio.com', 'perro', NULL, '3184246820', NULL, 1818, 66, 'brazileirao', '12345', 'CC', 1);
 
 -- --------------------------------------------------------
 
@@ -4193,7 +4285,7 @@ INSERT INTO `Usuario` (`id`, `nombre`, `apellido`, `correo`, `password`, `salt`,
 -- Estructura de tabla para la tabla `whos_online`
 --
 
-CREATE TABLE `whos_online` (
+CREATE TABLE IF NOT EXISTS `whos_online` (
   `customer_id` int(11) DEFAULT NULL,
   `full_name` varchar(255) NOT NULL,
   `session_id` varchar(128) NOT NULL,
@@ -4201,8 +4293,9 @@ CREATE TABLE `whos_online` (
   `time_entry` varchar(14) NOT NULL,
   `time_last_click` varchar(14) NOT NULL,
   `last_page_url` text NOT NULL,
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `whos_online`
@@ -4217,12 +4310,14 @@ INSERT INTO `whos_online` (`customer_id`, `full_name`, `session_id`, `ip_address
 -- Estructura de tabla para la tabla `zones`
 --
 
-CREATE TABLE `zones` (
-  `zone_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `zones` (
+  `zone_id` int(11) NOT NULL AUTO_INCREMENT,
   `zone_country_id` int(11) NOT NULL,
   `zone_code` varchar(32) NOT NULL,
-  `zone_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `zone_name` varchar(255) NOT NULL,
+  PRIMARY KEY (`zone_id`),
+  KEY `idx_zones_country_id` (`zone_country_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=182 ;
 
 --
 -- Volcado de datos para la tabla `zones`
@@ -4417,14 +4512,16 @@ INSERT INTO `zones` (`zone_id`, `zone_country_id`, `zone_code`, `zone_name`) VAL
 -- Estructura de tabla para la tabla `zones_to_geo_zones`
 --
 
-CREATE TABLE `zones_to_geo_zones` (
-  `association_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `zones_to_geo_zones` (
+  `association_id` int(11) NOT NULL AUTO_INCREMENT,
   `zone_country_id` int(11) NOT NULL,
   `zone_id` int(11) DEFAULT NULL,
   `geo_zone_id` int(11) DEFAULT NULL,
   `last_modified` datetime DEFAULT NULL,
-  `date_added` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`association_id`),
+  KEY `idx_zones_to_geo_zones_country_id` (`zone_country_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `zones_to_geo_zones`
@@ -4433,663 +4530,6 @@ CREATE TABLE `zones_to_geo_zones` (
 INSERT INTO `zones_to_geo_zones` (`association_id`, `zone_country_id`, `zone_id`, `geo_zone_id`, `last_modified`, `date_added`) VALUES
 (1, 223, 18, 1, NULL, '2014-04-16 16:35:10');
 
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `action_recorder`
---
-ALTER TABLE `action_recorder`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_action_recorder_module` (`module`),
-  ADD KEY `idx_action_recorder_user_id` (`user_id`),
-  ADD KEY `idx_action_recorder_identifier` (`identifier`),
-  ADD KEY `idx_action_recorder_date_added` (`date_added`);
-
---
--- Indices de la tabla `address_book`
---
-ALTER TABLE `address_book`
-  ADD PRIMARY KEY (`address_book_id`),
-  ADD KEY `idx_address_book_customers_id` (`customers_id`);
-
---
--- Indices de la tabla `address_format`
---
-ALTER TABLE `address_format`
-  ADD PRIMARY KEY (`address_format_id`);
-
---
--- Indices de la tabla `admin`
---
-ALTER TABLE `admin`
-  ADD PRIMARY KEY (`admin_id`),
-  ADD UNIQUE KEY `admin_email_address` (`admin_email_address`);
-
---
--- Indices de la tabla `administrators`
---
-ALTER TABLE `administrators`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `admin_files`
---
-ALTER TABLE `admin_files`
-  ADD PRIMARY KEY (`admin_files_id`);
-
---
--- Indices de la tabla `admin_groups`
---
-ALTER TABLE `admin_groups`
-  ADD PRIMARY KEY (`admin_groups_id`),
-  ADD UNIQUE KEY `admin_groups_name` (`admin_groups_name`);
-
---
--- Indices de la tabla `banners`
---
-ALTER TABLE `banners`
-  ADD PRIMARY KEY (`banners_id`),
-  ADD KEY `idx_banners_group` (`banners_group`);
-
---
--- Indices de la tabla `banners_history`
---
-ALTER TABLE `banners_history`
-  ADD PRIMARY KEY (`banners_history_id`),
-  ADD KEY `idx_banners_history_banners_id` (`banners_id`);
-
---
--- Indices de la tabla `categories`
---
-ALTER TABLE `categories`
-  ADD PRIMARY KEY (`categories_id`),
-  ADD KEY `idx_categories_parent_id` (`parent_id`);
-
---
--- Indices de la tabla `categories_description`
---
-ALTER TABLE `categories_description`
-  ADD PRIMARY KEY (`categories_id`,`language_id`),
-  ADD KEY `idx_categories_name` (`categories_name`);
-
---
--- Indices de la tabla `category`
---
-ALTER TABLE `category`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `cilindraje`
---
-ALTER TABLE `cilindraje`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `ciudad`
---
-ALTER TABLE `ciudad`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `color`
---
-ALTER TABLE `color`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `configuration`
---
-ALTER TABLE `configuration`
-  ADD PRIMARY KEY (`configuration_id`);
-
---
--- Indices de la tabla `configuration_group`
---
-ALTER TABLE `configuration_group`
-  ADD PRIMARY KEY (`configuration_group_id`);
-
---
--- Indices de la tabla `counter`
---
-ALTER TABLE `counter`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `counter_history`
---
-ALTER TABLE `counter_history`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `countries`
---
-ALTER TABLE `countries`
-  ADD PRIMARY KEY (`countries_id`),
-  ADD KEY `IDX_COUNTRIES_NAME` (`countries_name`);
-
---
--- Indices de la tabla `currencies`
---
-ALTER TABLE `currencies`
-  ADD PRIMARY KEY (`currencies_id`),
-  ADD KEY `idx_currencies_code` (`code`);
-
---
--- Indices de la tabla `customers`
---
-ALTER TABLE `customers`
-  ADD PRIMARY KEY (`customers_id`),
-  ADD KEY `idx_customers_email_address` (`customers_email_address`);
-
---
--- Indices de la tabla `customers_basket`
---
-ALTER TABLE `customers_basket`
-  ADD PRIMARY KEY (`customers_basket_id`),
-  ADD KEY `idx_customers_basket_customers_id` (`customers_id`);
-
---
--- Indices de la tabla `customers_basket_attributes`
---
-ALTER TABLE `customers_basket_attributes`
-  ADD PRIMARY KEY (`customers_basket_attributes_id`),
-  ADD KEY `idx_customers_basket_att_customers_id` (`customers_id`);
-
---
--- Indices de la tabla `customers_info`
---
-ALTER TABLE `customers_info`
-  ADD PRIMARY KEY (`customers_info_id`);
-
---
--- Indices de la tabla `departamento`
---
-ALTER TABLE `departamento`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `geo_zones`
---
-ALTER TABLE `geo_zones`
-  ADD PRIMARY KEY (`geo_zone_id`);
-
---
--- Indices de la tabla `languages`
---
-ALTER TABLE `languages`
-  ADD PRIMARY KEY (`languages_id`),
-  ADD KEY `IDX_LANGUAGES_NAME` (`name`);
-
---
--- Indices de la tabla `manufacturers`
---
-ALTER TABLE `manufacturers`
-  ADD PRIMARY KEY (`manufacturers_id`),
-  ADD KEY `IDX_MANUFACTURERS_NAME` (`manufacturers_name`);
-
---
--- Indices de la tabla `manufacturers_info`
---
-ALTER TABLE `manufacturers_info`
-  ADD PRIMARY KEY (`manufacturers_id`,`languages_id`);
-
---
--- Indices de la tabla `newsletters`
---
-ALTER TABLE `newsletters`
-  ADD PRIMARY KEY (`newsletters_id`);
-
---
--- Indices de la tabla `orders`
---
-ALTER TABLE `orders`
-  ADD PRIMARY KEY (`orders_id`),
-  ADD KEY `idx_orders_customers_id` (`customers_id`);
-
---
--- Indices de la tabla `orders_products`
---
-ALTER TABLE `orders_products`
-  ADD PRIMARY KEY (`orders_products_id`),
-  ADD KEY `idx_orders_products_orders_id` (`orders_id`),
-  ADD KEY `idx_orders_products_products_id` (`products_id`);
-
---
--- Indices de la tabla `orders_products_attributes`
---
-ALTER TABLE `orders_products_attributes`
-  ADD PRIMARY KEY (`orders_products_attributes_id`),
-  ADD KEY `idx_orders_products_att_orders_id` (`orders_id`);
-
---
--- Indices de la tabla `orders_products_download`
---
-ALTER TABLE `orders_products_download`
-  ADD PRIMARY KEY (`orders_products_download_id`),
-  ADD KEY `idx_orders_products_download_orders_id` (`orders_id`);
-
---
--- Indices de la tabla `orders_status`
---
-ALTER TABLE `orders_status`
-  ADD PRIMARY KEY (`orders_status_id`,`language_id`),
-  ADD KEY `idx_orders_status_name` (`orders_status_name`);
-
---
--- Indices de la tabla `orders_status_history`
---
-ALTER TABLE `orders_status_history`
-  ADD PRIMARY KEY (`orders_status_history_id`),
-  ADD KEY `idx_orders_status_history_orders_id` (`orders_id`);
-
---
--- Indices de la tabla `orders_total`
---
-ALTER TABLE `orders_total`
-  ADD PRIMARY KEY (`orders_total_id`),
-  ADD KEY `idx_orders_total_orders_id` (`orders_id`);
-
---
--- Indices de la tabla `pais`
---
-ALTER TABLE `pais`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `products`
---
-ALTER TABLE `products`
-  ADD PRIMARY KEY (`products_id`),
-  ADD KEY `idx_products_model` (`products_model`),
-  ADD KEY `idx_products_date_added` (`products_date_added`);
-
---
--- Indices de la tabla `products_attributes`
---
-ALTER TABLE `products_attributes`
-  ADD PRIMARY KEY (`products_attributes_id`),
-  ADD KEY `idx_products_attributes_products_id` (`products_id`);
-
---
--- Indices de la tabla `products_attributes_download`
---
-ALTER TABLE `products_attributes_download`
-  ADD PRIMARY KEY (`products_attributes_id`);
-
---
--- Indices de la tabla `products_description`
---
-ALTER TABLE `products_description`
-  ADD PRIMARY KEY (`products_id`,`language_id`),
-  ADD KEY `products_name` (`products_name`);
-
---
--- Indices de la tabla `products_images`
---
-ALTER TABLE `products_images`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `products_images_prodid` (`products_id`);
-
---
--- Indices de la tabla `products_notifications`
---
-ALTER TABLE `products_notifications`
-  ADD PRIMARY KEY (`products_id`,`customers_id`);
-
---
--- Indices de la tabla `products_options`
---
-ALTER TABLE `products_options`
-  ADD PRIMARY KEY (`products_options_id`,`language_id`);
-
---
--- Indices de la tabla `products_options_values`
---
-ALTER TABLE `products_options_values`
-  ADD PRIMARY KEY (`products_options_values_id`,`language_id`);
-
---
--- Indices de la tabla `products_options_values_to_products_options`
---
-ALTER TABLE `products_options_values_to_products_options`
-  ADD PRIMARY KEY (`products_options_values_to_products_options_id`);
-
---
--- Indices de la tabla `products_tipo_publicacion`
---
-ALTER TABLE `products_tipo_publicacion`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `products_to_categories`
---
-ALTER TABLE `products_to_categories`
-  ADD PRIMARY KEY (`products_id`,`categories_id`);
-
---
--- Indices de la tabla `reviews`
---
-ALTER TABLE `reviews`
-  ADD PRIMARY KEY (`reviews_id`),
-  ADD KEY `idx_reviews_products_id` (`products_id`),
-  ADD KEY `idx_reviews_customers_id` (`customers_id`);
-
---
--- Indices de la tabla `reviews_description`
---
-ALTER TABLE `reviews_description`
-  ADD PRIMARY KEY (`reviews_id`,`languages_id`);
-
---
--- Indices de la tabla `sec_directory_whitelist`
---
-ALTER TABLE `sec_directory_whitelist`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `sessions`
---
-ALTER TABLE `sessions`
-  ADD PRIMARY KEY (`sesskey`);
-
---
--- Indices de la tabla `specials`
---
-ALTER TABLE `specials`
-  ADD PRIMARY KEY (`specials_id`),
-  ADD KEY `idx_specials_products_id` (`products_id`);
-
---
--- Indices de la tabla `tax_class`
---
-ALTER TABLE `tax_class`
-  ADD PRIMARY KEY (`tax_class_id`);
-
---
--- Indices de la tabla `tax_rates`
---
-ALTER TABLE `tax_rates`
-  ADD PRIMARY KEY (`tax_rates_id`);
-
---
--- Indices de la tabla `tipo_producto`
---
-ALTER TABLE `tipo_producto`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `tipo_publicacion`
---
-ALTER TABLE `tipo_publicacion`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `Usuario`
---
-ALTER TABLE `Usuario`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `whos_online`
---
-ALTER TABLE `whos_online`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `zones`
---
-ALTER TABLE `zones`
-  ADD PRIMARY KEY (`zone_id`),
-  ADD KEY `idx_zones_country_id` (`zone_country_id`);
-
---
--- Indices de la tabla `zones_to_geo_zones`
---
-ALTER TABLE `zones_to_geo_zones`
-  ADD PRIMARY KEY (`association_id`),
-  ADD KEY `idx_zones_to_geo_zones_country_id` (`zone_country_id`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `action_recorder`
---
-ALTER TABLE `action_recorder`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
---
--- AUTO_INCREMENT de la tabla `address_book`
---
-ALTER TABLE `address_book`
-  MODIFY `address_book_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `address_format`
---
-ALTER TABLE `address_format`
-  MODIFY `address_format_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT de la tabla `admin`
---
-ALTER TABLE `admin`
-  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT de la tabla `administrators`
---
-ALTER TABLE `administrators`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT de la tabla `admin_files`
---
-ALTER TABLE `admin_files`
-  MODIFY `admin_files_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
---
--- AUTO_INCREMENT de la tabla `admin_groups`
---
-ALTER TABLE `admin_groups`
-  MODIFY `admin_groups_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT de la tabla `banners`
---
-ALTER TABLE `banners`
-  MODIFY `banners_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT de la tabla `banners_history`
---
-ALTER TABLE `banners_history`
-  MODIFY `banners_history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT de la tabla `categories`
---
-ALTER TABLE `categories`
-  MODIFY `categories_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
---
--- AUTO_INCREMENT de la tabla `cilindraje`
---
-ALTER TABLE `cilindraje`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT de la tabla `ciudad`
---
-ALTER TABLE `ciudad`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2221;
---
--- AUTO_INCREMENT de la tabla `configuration`
---
-ALTER TABLE `configuration`
-  MODIFY `configuration_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=259;
---
--- AUTO_INCREMENT de la tabla `configuration_group`
---
-ALTER TABLE `configuration_group`
-  MODIFY `configuration_group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
---
--- AUTO_INCREMENT de la tabla `counter`
---
-ALTER TABLE `counter`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT de la tabla `counter_history`
---
-ALTER TABLE `counter_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `countries`
---
-ALTER TABLE `countries`
-  MODIFY `countries_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
---
--- AUTO_INCREMENT de la tabla `currencies`
---
-ALTER TABLE `currencies`
-  MODIFY `currencies_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT de la tabla `customers`
---
-ALTER TABLE `customers`
-  MODIFY `customers_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `customers_basket`
---
-ALTER TABLE `customers_basket`
-  MODIFY `customers_basket_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `customers_basket_attributes`
---
-ALTER TABLE `customers_basket_attributes`
-  MODIFY `customers_basket_attributes_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `departamento`
---
-ALTER TABLE `departamento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
---
--- AUTO_INCREMENT de la tabla `geo_zones`
---
-ALTER TABLE `geo_zones`
-  MODIFY `geo_zone_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT de la tabla `languages`
---
-ALTER TABLE `languages`
-  MODIFY `languages_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT de la tabla `manufacturers`
---
-ALTER TABLE `manufacturers`
-  MODIFY `manufacturers_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
---
--- AUTO_INCREMENT de la tabla `newsletters`
---
-ALTER TABLE `newsletters`
-  MODIFY `newsletters_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `orders`
---
-ALTER TABLE `orders`
-  MODIFY `orders_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `orders_products`
---
-ALTER TABLE `orders_products`
-  MODIFY `orders_products_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `orders_products_attributes`
---
-ALTER TABLE `orders_products_attributes`
-  MODIFY `orders_products_attributes_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `orders_products_download`
---
-ALTER TABLE `orders_products_download`
-  MODIFY `orders_products_download_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `orders_status_history`
---
-ALTER TABLE `orders_status_history`
-  MODIFY `orders_status_history_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `orders_total`
---
-ALTER TABLE `orders_total`
-  MODIFY `orders_total_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT de la tabla `products`
---
-ALTER TABLE `products`
-  MODIFY `products_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
---
--- AUTO_INCREMENT de la tabla `products_attributes`
---
-ALTER TABLE `products_attributes`
-  MODIFY `products_attributes_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=945;
---
--- AUTO_INCREMENT de la tabla `products_description`
---
-ALTER TABLE `products_description`
-  MODIFY `products_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
---
--- AUTO_INCREMENT de la tabla `products_images`
---
-ALTER TABLE `products_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
---
--- AUTO_INCREMENT de la tabla `products_options_values_to_products_options`
---
-ALTER TABLE `products_options_values_to_products_options`
-  MODIFY `products_options_values_to_products_options_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
---
--- AUTO_INCREMENT de la tabla `products_tipo_publicacion`
---
-ALTER TABLE `products_tipo_publicacion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
---
--- AUTO_INCREMENT de la tabla `reviews`
---
-ALTER TABLE `reviews`
-  MODIFY `reviews_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT de la tabla `sec_directory_whitelist`
---
-ALTER TABLE `sec_directory_whitelist`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
---
--- AUTO_INCREMENT de la tabla `specials`
---
-ALTER TABLE `specials`
-  MODIFY `specials_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT de la tabla `tax_class`
---
-ALTER TABLE `tax_class`
-  MODIFY `tax_class_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT de la tabla `tax_rates`
---
-ALTER TABLE `tax_rates`
-  MODIFY `tax_rates_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT de la tabla `Usuario`
---
-ALTER TABLE `Usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
---
--- AUTO_INCREMENT de la tabla `whos_online`
---
-ALTER TABLE `whos_online`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT de la tabla `zones`
---
-ALTER TABLE `zones`
-  MODIFY `zone_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=182;
---
--- AUTO_INCREMENT de la tabla `zones_to_geo_zones`
---
-ALTER TABLE `zones_to_geo_zones`
-  MODIFY `association_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

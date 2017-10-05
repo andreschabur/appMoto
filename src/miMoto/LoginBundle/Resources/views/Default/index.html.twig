@@ -11,12 +11,16 @@
 
 
 {% if is_granted('ROLE_USUARIO') %}
+<h1>Administración - Configuración</h1>
 <p>
+<a href="{{ path('inicio') }}">Volver inicio</a> | 
 <a href="{{ path('usuario_perfil') }}">Ver mi perfil</a> | 
-<a href="{{ path('producto_nuevo') }}">Nueva mascota</a> | <br/>
+<a href="{{ path('producto_nuevo') }}">Nueva mascota</a> | 
 <a href="{{ path('usuario_producto_ver') }}">Ver mi perfil y mi mascota</a> | 
 <a href="{{ path('cerrar_sesion') }}">Cerrar sesión</a> | 
-Bienvenido {{ usuario.nombre ~ ' ' ~ usuario.apellido }}
+<br/>
+<br/>
+Bienvenido {{ usuario.nombre ~ ' ' ~ usuario.apellido }} aquí podra configurar y administrar sus mascotas
 
 </p>
 {# el usuario todavía no ha hecho login #}
